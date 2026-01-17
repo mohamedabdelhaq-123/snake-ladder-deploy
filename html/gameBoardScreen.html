@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+
+</head>
+
+<body>
+
+    <div class="topnav">
+        <img src="../assets/images/game-icon-gameBoardScreen.jpg" alt="Snakes & Ladders Logo" height="30px">
+        <h1>Snakes & Ladders</h1>
+
+        <a href="homeScreen.html"> Back to Home</a>
+        <a href="leaderBoard.html"> Exit Game</a>
+    </div>
+
+    <div class="gameBoard">
+        <img src="../assets/images/9ed2d2966be0c2501bbf74c835e0757d.jpg" alt="Game Board Image" height="500px">
+    </div>
+
+    <div class="activeTurn">
+        <img id="activeTurnPlayerImg" src="../assets/images/Player1-Icon.jpg" alt="Player 1 Icon" height="50px">
+        <h2 id="activeTurnPlayerName">Player 1's Turn</h2>
+        <div class="diceRollSection">
+            <img src="../assets/images/dic-icon.jpg" alt="Dice Icon" height="30px">
+            <button id="rollDiceButton">Roll Dice</button>
+        </div>
+    </div>
+
+
+    <div class="playersLeaderboard">
+        <div class="playerInfo" id="player1Info">
+            <img src="../assets/images/Player1-Icon.jpg" alt="Player 1 Icon" height="50px">
+            <h5 id="player1Name">Player 1</h5>
+            <p>Position: <span id="player1Position">Square 12</span></p>
+        </div>
+        <div class="playerInfo" id="player2Info">
+            <img src="../assets/images/Player2-Icon.jpg" alt="Player 2 Icon" height="50px">
+            <h5 id="player2Name">Player 2</h5>
+            <p>Position: <span id="player2Position">Square 45</span></p>
+        </div>
+        <div class="playerInfo" id="player3Info">
+            <img src="../assets/images/Player3-Icon.jpg" alt="Player 3 Icon" height="50px">
+            <h5 id="player3Name">Player 3</h5>
+            <p>Position: <span id="player3Position">Square 7</span></p>
+        </div>
+
+    </div>
+
+
+    <div class="gameLog">
+        <h5>Game Log</h5>
+        <div class="logEntries" id="logEntries">
+            <p>Player 1 rolled a 5 and moved to Square 12.</p>
+            <p>Player 2 rolled a 3 and moved to Square 45.</p>
+            <p>Player 3 rolled a 6 and moved to Square 7.</p>
+        </div>
+    </div>
+</body>
+
+</html>
