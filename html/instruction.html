@@ -9,43 +9,45 @@
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-icon" aria-hidden="true">🎲</div>
-      <div class="brand-text">Snakes <span class="brand-accent">&</span> Ladders</div>
+  <!-- Top Header -->
+  <header class="top-bar" id="top">
+    <div class="logo">
+      <div class="logo-icon" aria-hidden="true">🎲</div>
+      <div class="logo-text">Snakes <span class="logo-accent">&</span> Ladders</div>
     </div>
 
-    <nav class="nav">
-      <a class="nav-link" href="../html/game.html">Play Game</a>
-      <a class="nav-link" href="../html/result.html">Leaderboard</a>
-      <a class="nav-link is-active" href="../html/instruction.html">How to Play</a>
+    <nav class="menu">
+      <a class="menu-link" href="../html/game.html">Play Game</a>
+      <a class="menu-link" href="../html/result.html">Leaderboard</a>
+      <a class="menu-link is-active" href="../html/instruction.html">How to Play</a>
     </nav>
 
     <a class="btn btn-ghost" href="../index.html">Back to Home</a>
   </header>
 
+  <!-- Page Content -->
   <main class="page">
-    <section class="page-head">
+    <section class="page-header">
       <h1 class="page-title">How to Play</h1>
       <p class="page-subtitle">Master the board and climb to victory with clear, simple steps.</p>
     </section>
 
-    <section class="card">
+    <section class="panel">
       <!-- Objective -->
-      <section class="section">
-        <div class="section-head">
-          <div class="section-icon" aria-hidden="true">🏆</div>
-          <h2 class="section-title">The Objective</h2>
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">🏆</div>
+          <h2 class="block-title">The Objective</h2>
         </div>
 
         <div class="objective">
-          <div class="objective-text">
-            <p class="muted">
+          <div class="objective-info">
+            <p class="text-muted">
               Be the first player to reach <strong>Square 100</strong>.
               Roll the dice, move forward, climb ladders to go up faster, and avoid snakes that pull you down.
             </p>
 
-            <ul class="bullets">
+            <ul class="list-bullets">
               <li>Start from <strong>Square 1</strong> (start position).</li>
               <li>Move exactly the number shown on the dice.</li>
               <li>If you reach <strong>100</strong>, you win.</li>
@@ -62,13 +64,13 @@
       <hr class="divider" />
 
       <!-- Quick Start -->
-      <section class="section">
-        <div class="section-head">
-          <div class="section-icon" aria-hidden="true">⚡</div>
-          <h2 class="section-title">Quick Start</h2>
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">⚡</div>
+          <h2 class="block-title">Quick Start</h2>
         </div>
 
-        <ol class="steps">
+        <ol class="list-steps">
           <li>Choose players (2 to 4) and set names.</li>
           <li>Press <strong>Start Game</strong> to load the board.</li>
           <li>On your turn, click <strong>Roll Dice</strong>.</li>
@@ -80,56 +82,56 @@
       <hr class="divider" />
 
       <!-- Rules -->
-      <section class="section">
-        <div class="section-head">
-          <div class="section-icon" aria-hidden="true">📜</div>
-          <h2 class="section-title">Game Rules</h2>
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">📜</div>
+          <h2 class="block-title">Game Rules</h2>
         </div>
 
         <div class="rules">
-          <div class="rule">
+          <div class="rule-card">
             <div class="rule-icon" aria-hidden="true">1</div>
-            <div class="rule-body">
+            <div class="rule-content">
               <h3 class="rule-title">Roll & Move</h3>
               <p class="rule-text">Roll the dice and move forward by the exact number shown.</p>
             </div>
           </div>
 
-          <div class="rule">
+          <div class="rule-card">
             <div class="rule-icon" aria-hidden="true">🪜</div>
-            <div class="rule-body">
+            <div class="rule-content">
               <h3 class="rule-title">Climb Ladders</h3>
               <p class="rule-text">Land on the bottom of a ladder to climb up to a higher square.</p>
             </div>
           </div>
 
-          <div class="rule">
+          <div class="rule-card">
             <div class="rule-icon is-danger" aria-hidden="true">🐍</div>
-            <div class="rule-body">
+            <div class="rule-content">
               <h3 class="rule-title">Avoid Snakes</h3>
               <p class="rule-text">Land on a snake’s head and you slide down to its tail.</p>
             </div>
           </div>
 
-          <div class="rule">
+          <div class="rule-card">
             <div class="rule-icon" aria-hidden="true">🔁</div>
-            <div class="rule-body">
+            <div class="rule-content">
               <h3 class="rule-title">Turns</h3>
               <p class="rule-text">Players take turns in order. One roll per turn.</p>
             </div>
           </div>
 
-          <div class="rule">
+          <div class="rule-card">
             <div class="rule-icon" aria-hidden="true">🏁</div>
-            <div class="rule-body">
+            <div class="rule-content">
               <h3 class="rule-title">Winning</h3>
               <p class="rule-text">The first player to reach Square 100 wins the game.</p>
             </div>
           </div>
 
-          <div class="rule">
+          <div class="rule-card">
             <div class="rule-icon" aria-hidden="true">⚠️</div>
-            <div class="rule-body">
+            <div class="rule-content">
               <h3 class="rule-title">Exact Finish (Optional)</h3>
               <p class="rule-text">If enabled, you must land exactly on 100. Extra steps do not move you.</p>
             </div>
@@ -140,31 +142,31 @@
       <hr class="divider" />
 
       <!-- Controls -->
-      <section class="section">
-        <div class="section-head">
-          <div class="section-icon" aria-hidden="true">🖱️</div>
-          <h2 class="section-title">Controls</h2>
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">🖱️</div>
+          <h2 class="block-title">Controls</h2>
         </div>
 
         <div class="controls">
-          <div class="control-row">
-            <div class="control-left">Roll Dice</div>
-            <div class="control-right">Roll the dice and move your token on your turn.</div>
+          <div class="controls-row">
+            <div class="controls-key">Roll Dice</div>
+            <div class="controls-desc">Roll the dice and move your token on your turn.</div>
           </div>
 
-          <div class="control-row">
-            <div class="control-left">Restart</div>
-            <div class="control-right">Start a new game anytime (resets positions).</div>
+          <div class="controls-row">
+            <div class="controls-key">Restart</div>
+            <div class="controls-desc">Start a new game anytime (resets positions).</div>
           </div>
 
-          <div class="control-row">
-            <div class="control-left">Leaderboard</div>
-            <div class="control-right">View top winners and best scores.</div>
+          <div class="controls-row">
+            <div class="controls-key">Leaderboard</div>
+            <div class="controls-desc">View top winners and best scores.</div>
           </div>
 
-          <div class="control-row">
-            <div class="control-left">How to Play</div>
-            <div class="control-right">Open this guide for help during gameplay.</div>
+          <div class="controls-row">
+            <div class="controls-key">How to Play</div>
+            <div class="controls-desc">Open this guide for help during gameplay.</div>
           </div>
         </div>
       </section>
@@ -172,13 +174,13 @@
       <hr class="divider" />
 
       <!-- Tips -->
-      <section class="section">
-        <div class="section-head">
-          <div class="section-icon" aria-hidden="true">💡</div>
-          <h2 class="section-title">Tips</h2>
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">💡</div>
+          <h2 class="block-title">Tips</h2>
         </div>
 
-        <ul class="bullets">
+        <ul class="list-bullets">
           <li>Snakes are risky near the end — play carefully when you’re close to 100.</li>
           <li>Ladders can change the game fast — try to land on their bottom squares.</li>
           <li>Don’t panic after a snake — one good ladder can bring you back.</li>
@@ -188,31 +190,31 @@
       <hr class="divider" />
 
       <!-- Optional Add-ons -->
-      <section class="section">
-        <div class="section-head">
-          <div class="section-icon" aria-hidden="true">✨</div>
-          <h2 class="section-title">Optional Add-ons</h2>
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">✨</div>
+          <h2 class="block-title">Optional Add-ons</h2>
         </div>
 
         <div class="addons">
-          <div class="addon">
+          <div class="addon-card">
             <h3 class="addon-title">Sound Effects</h3>
             <p class="addon-text">Dice roll, ladder climb, snake bite sounds.</p>
           </div>
 
-          <div class="addon">
+          <div class="addon-card">
             <h3 class="addon-title">2–4 Players</h3>
             <p class="addon-text">Multiple players with turn indicator and colors.</p>
           </div>
 
-          <div class="addon">
+          <div class="addon-card">
             <h3 class="addon-title">Animations</h3>
             <p class="addon-text">Smooth movement and dice animation.</p>
           </div>
         </div>
       </section>
 
-      <div class="card-footer">
+      <div class="panel-footer">
         <a class="btn btn-primary" href="../html/game.html">Got it, Let’s Play!</a>
         <a class="btn btn-ghost" href="#top">Back to Top</a>
       </div>

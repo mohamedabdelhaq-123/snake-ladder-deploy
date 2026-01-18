@@ -1,9 +1,11 @@
+/* ===== Reset ===== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ===== Base ===== */
 body {
   font-family: Arial, sans-serif;
   background: #f6f8f8;
@@ -15,7 +17,8 @@ a {
   color: inherit;
 }
 
-.topbar {
+/* ===== Top Bar ===== */
+.top-bar {
   position: sticky;
   top: 0;
   background: rgba(246, 248, 248, 0.9);
@@ -27,13 +30,14 @@ a {
   gap: 12px;
 }
 
-.brand {
+/* Logo / Game Title */
+.logo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.brand-icon {
+.logo-icon {
   width: 40px;
   height: 40px;
   background: #1dc9ba;
@@ -43,36 +47,38 @@ a {
   justify-content: center;
 }
 
-.brand-text {
+.logo-text {
   font-weight: bold;
   font-size: 18px;
 }
 
-.brand-accent {
+.logo-accent {
   color: #1dc9ba;
 }
 
-.nav {
+/* Navigation Menu */
+.menu {
   display: flex;
   gap: 16px;
   align-items: center;
 }
 
-.nav-link {
+.menu-link {
   font-size: 14px;
   font-weight: bold;
   padding: 8px 10px;
   border-radius: 10px;
 }
 
-.nav-link:hover {
+.menu-link:hover {
   background: #e8f3f2;
 }
 
-.nav-link.is-active {
+.menu-link.is-active {
   background: #e8f3f2;
 }
 
+/* ===== Buttons ===== */
 .btn {
   display: inline-block;
   padding: 10px 14px;
@@ -98,13 +104,14 @@ a {
   background: #18b5a8;
 }
 
+/* ===== Page Layout ===== */
 .page {
   max-width: 980px;
   margin: 0 auto;
   padding: 28px 18px;
 }
 
-.page-head {
+.page-header {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -119,25 +126,27 @@ a {
   font-weight: bold;
 }
 
-.card {
+/* ===== Main Panel (Card) ===== */
+.panel {
   background: white;
   border: 1px solid #e8f3f2;
   border-radius: 16px;
   padding: 22px;
 }
 
-.section {
+/* ===== Content Blocks (Sections) ===== */
+.block {
   padding: 8px 0;
 }
 
-.section-head {
+.block-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
 }
 
-.section-icon {
+.block-icon {
   width: 34px;
   height: 34px;
   border-radius: 10px;
@@ -147,21 +156,24 @@ a {
   justify-content: center;
 }
 
-.section-title {
+.block-title {
   font-size: 22px;
 }
 
-.muted {
+/* Text */
+.text-muted {
   color: #3a6e6a;
   line-height: 1.6;
 }
 
+/* Divider */
 .divider {
   border: none;
   border-top: 1px solid #e8f3f2;
   margin: 16px 0;
 }
 
+/* ===== Objective ===== */
 .objective {
   border: 1px solid #d1e6e4;
   background: #f8fbfb;
@@ -173,7 +185,7 @@ a {
   justify-content: space-between;
 }
 
-.objective-text {
+.objective-info {
   flex: 1;
 }
 
@@ -201,28 +213,30 @@ a {
   margin-top: 6px;
 }
 
-.bullets {
+/* ===== Lists ===== */
+.list-bullets {
   margin-top: 10px;
   padding-left: 18px;
 }
 
-.bullets li {
+.list-bullets li {
   margin: 6px 0;
   line-height: 1.5;
 }
 
-.steps {
+.list-steps {
   padding-left: 18px;
   line-height: 1.7;
 }
 
+/* ===== Rules ===== */
 .rules {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-.rule {
+.rule-card {
   width: calc(50% - 6px);
   border: 1px solid #d1e6e4;
   border-radius: 14px;
@@ -260,13 +274,14 @@ a {
   line-height: 1.4;
 }
 
+/* ===== Controls ===== */
 .controls {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.control-row {
+.controls-row {
   border: 1px solid #d1e6e4;
   border-radius: 12px;
   padding: 12px 14px;
@@ -275,24 +290,25 @@ a {
   gap: 10px;
 }
 
-.control-left {
+.controls-key {
   font-weight: bold;
 }
 
-.control-right {
+.controls-desc {
   color: #3a6e6a;
   font-weight: bold;
   font-size: 13px;
   text-align: right;
 }
 
+/* ===== Add-ons ===== */
 .addons {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.addon {
+.addon-card {
   flex: 1;
   min-width: 220px;
   border: 1px solid #d1e6e4;
@@ -312,7 +328,8 @@ a {
   line-height: 1.4;
 }
 
-.card-footer {
+/* ===== Panel Footer ===== */
+.panel-footer {
   margin-top: 18px;
   padding-top: 14px;
   border-top: 1px solid #e8f3f2;
@@ -322,6 +339,7 @@ a {
   gap: 12px;
 }
 
+/* ===== Page Footer ===== */
 .footer {
   text-align: center;
   color: #50958f;
@@ -329,8 +347,9 @@ a {
   font-size: 13px;
 }
 
+/* ===== Responsive ===== */
 @media (max-width: 720px) {
-  .rule {
+  .rule-card {
     width: 100%;
   }
 
@@ -342,7 +361,7 @@ a {
     width: 100%;
   }
 
-  .control-right {
+  .controls-desc {
     text-align: left;
   }
 
@@ -350,7 +369,7 @@ a {
     font-size: 34px;
   }
 
-  .nav {
+  .menu {
     display: none;
   }
 }
