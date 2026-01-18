@@ -1,5 +1,5 @@
 import { Game, Grid } from "./game.js";
-import { Portal } from "./tiles.js";
+import { PortalTile } from "./tiles.js";
 import { Point } from "./utils.js";
 
 let table = document.getElementById("table");
@@ -37,8 +37,8 @@ const HEIGHT= 4;
 let grid = new Grid(WIDTH,HEIGHT);
 
 //TODO: shouldstart and end be reversed to make start optional
-grid.addTile(new Portal(new Point(2,3),new Point(0,0)));
-grid.addTile(new Portal(new Point(1,3),new Point(0,0)));
+grid.addTile(new PortalTile(new Point(2,3),new Point(0,0)));
+grid.addTile(new PortalTile(new Point(1,3),new Point(0,0)));
 
 let game = new Game([0,1,2,3],grid);
 let round = 1;

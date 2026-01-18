@@ -24,10 +24,10 @@ export class Tile {
 	effect(_game,_player) {}
 
 	/**
-	 * returns description about tiles for displaying in game
+	 * returns name to identify for other interfaces
 	 */
-	static get description(){
-		return "This is a basic tile";
+	static get name(){
+		return "tile";
 	}
 	get position(){
 		return this.#position;
@@ -40,7 +40,7 @@ export class Tile {
  * such as snakes or ladders
  * @augments Tile
  */
-export class Portal extends Tile {
+export class PortalTile extends Tile {
 	#end;
 	/**
 	 * @param {Point} start
@@ -55,8 +55,8 @@ export class Portal extends Tile {
 	/**
 	 * @override
 	 */
-	static get description(){
-		return "This is a portal tile, sends player to another place";
+	get name(){
+		return "portal";
 	}
 
 	/**

@@ -40,7 +40,7 @@ export class Grid {
 		let newDistance = distance+amount;
 		// TODO: confirm how win logic applies
 		// for now assuming as long as the distance is passed in general
-		newDistance = Math.min(newDistance,this.#width*this.#height-1);
+		newDistance = Math.max(0,Math.min(newDistance,this.#width*this.#height-1));
 
 		let newX = newDistance%this.#width;
 		let newY = Math.floor(newDistance/this.#width);
@@ -97,11 +97,12 @@ export class Grid {
  * currently only contains position
  * @property {Number} playerId - the id for player for cross referencing with the gui and other interfaces
  * @property {Point} position - the starting position of the player
- *
+ * @property {Card} cards - the list of cards the player currently has
  */
 export class PlayerGameData {
 	#playerId;
 	#position;
+	#cards = [];
 
 	/**
 	 * @param {Point} initialPosition optionally specifies starting position
@@ -116,6 +117,10 @@ export class PlayerGameData {
 		else {
 			this.position = new Point(0,0);
 		}
+	}
+
+	get cards(){
+		return this.#cards;
 	}
 
 	get position(){
@@ -168,39 +173,86 @@ export class Game {
 	}
 
 	/**
-	 * Roll the dice and move forward to the next turn
+	 * consumes card from player's inventory and triggers its effect
+	 * @param {number} playerId id of Player playing the card
+	 * @param {number} cardId id of card being played
+	 * @param {*} params any other parameters the card requires
+	 */
+	playCard(playerId,cardId,params){
+		let player = this.#players.get(playerId);
+		let card = player.cards[cardId];
+		player.cards.splice(cardId,1);
+		card.effect(this,player,params);
+	}
+
+	/**
+	 * Processes the effects cause by a player's movement
+	 * @param {number} playerId
+	 * @param {*} effects
+	 */
+	processEffects(playerId,effects){
+		let player = this.#players.get(playerId);
+		// handle effects
+		if (effects instanceof Tile){
+			effects.effect(this,player);
+		}
+	}
+
+	/**
+	 * Adances the current player forward on the board
+	 * @param {number} result
+	 * @returns effects triggered due to advancement
+	 */
+	advancePlayer(playerId,result){
+		let player = this.#players.get(playerId);
+		return this.#grid.advance(player,result);
+	}
+
+	/**
+	 * updates the active and winning queue
+	 */
+	updateQueues(){
+		let anyWins = false;
+		this.#activeQueue.data.forEach((playerId)=>{
+			let player = this.#players.get(playerId);
+			let hasWon = this.checkWinCondition(player);
+			anyWins|=hasWon;
+			// process turn result
+			if (hasWon){
+				this.#activeQueue.remove(playerId);
+				this.#winQueue.push(playerId);
+			}
+		});
+
+		if (!anyWins) {
+			this.#activeQueue.next();
+		}
+	}
+
+	/**
+	 * Plays an entire turn from start to finish:
+	 * - rolls dice
+	 * - advances player
+	 * - process tile effects
+	 * - updates queues
+	 *
+	 * note: this doesn't include playing cards
 	 */
 	playTurn(){
 		// TODO: declare constant somewhere else (or make it dynamic)
 		const DICE_SIDE_COUNT = 6;
 
-		// setup scope
-		let playerId = this.#activeQueue.current;
-		let currentPlayer = this.#players.get(playerId);
-
 		// roll dice
 		let result = diceRoll(DICE_SIDE_COUNT);
 
+		// advance player
+		let effects = this.advancePlayer(this.current,result);
+
 		// process roll result
-		// TODO:named effects for now, maybe multiple will be sent later
-		let effects = this.#grid.advance(currentPlayer,result);
+		this.processEffects(this.current,effects);
 
-		// handle effects
-		if (effects instanceof Tile){
-			effects.effect(this,currentPlayer);
-		}
-
-		// check win condition
-		// TODO: maybe check conditions for all players in case effects made another player win
-		let hasWon = this.checkWinCondition(currentPlayer);
-
-		// process turn result
-		if (hasWon){
-			this.#activeQueue.remove(playerId);
-			this.#winQueue.push(playerId);
-		} else {
-			this.#activeQueue.next();
-		}
+		// check win condition & switch turns
+		this.updateQueues();
 
 	}
 
@@ -232,7 +284,7 @@ export class Game {
 		return this.#activeQueue.current;
 	}
 
-	//TODO: make more restrictive, usedd this way for debugging purposes
+	//TODO: make more restrictive, used this way for debugging purposes
 	get players(){
 		return this.#players;
 	}
