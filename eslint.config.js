@@ -12,6 +12,12 @@ module.exports = [
         document: 'readonly',
         console: 'readonly',
         fetch: 'readonly',
+          fetch: 'readonly',
+  setTimeout: 'readonly',
+  setInterval: 'readonly',
+  clearTimeout: 'readonly',
+  clearInterval: 'readonly'
+},
       },
     },
 

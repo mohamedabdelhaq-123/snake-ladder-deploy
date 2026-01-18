@@ -5,61 +5,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-    </style>
+    <link rel="stylesheet" href="../css/gameBoardScreen.css">
 
+
+    <script src="../js/utils/gameBoardScreen.js" defer></script>
 </head>
 
 <body>
 
+
     <div class="topnav">
-        <img src="../assets/images/game-icon-gameBoardScreen.jpg" alt="Snakes & Ladders Logo" height="30px">
-        <h1>Snakes & Ladders</h1>
 
-        <a href="homeScreen.html"> Back to Home</a>
-        <a href="leaderBoard.html"> Exit Game</a>
-    </div>
 
-    <div class="gameBoard">
-        <img src="../assets/images/9ed2d2966be0c2501bbf74c835e0757d.jpg" alt="Game Board Image" height="500px">
-    </div>
-
-    <div class="activeTurn">
-        <img id="activeTurnPlayerImg" src="../assets/images/Player1-Icon.jpg" alt="Player 1 Icon" height="50px">
-        <h2 id="activeTurnPlayerName">Player 1's Turn</h2>
-        <div class="diceRollSection">
-            <img src="../assets/images/dic-icon.jpg" alt="Dice Icon" height="30px">
-            <button id="rollDiceButton">Roll Dice</button>
+        <div class="logo-section">
+            <img src="../assets/images/game-icon-gameBoardScreen.jpg" alt="Snakes & Ladders Logo" height="30px">
+            <h1>Snakes & Ladders</h1>
         </div>
-    </div>
 
 
-    <div class="playersLeaderboard">
-        <div class="playerInfo" id="player1Info">
-            <img src="../assets/images/Player1-Icon.jpg" alt="Player 1 Icon" height="50px">
-            <h5 id="player1Name">Player 1</h5>
-            <p>Position: <span id="player1Position">Square 12</span></p>
+
+        <div class="nav-links">
+            <a id="backToHomeLink" href="../html/home.html">Back to Home</a>
+            <a id="exitGameLink" href="../html/leaderboard-page.html">Exit Game</a>
         </div>
-        <div class="playerInfo" id="player2Info">
-            <img src="../assets/images/Player2-Icon.jpg" alt="Player 2 Icon" height="50px">
-            <h5 id="player2Name">Player 2</h5>
-            <p>Position: <span id="player2Position">Square 45</span></p>
-        </div>
-        <div class="playerInfo" id="player3Info">
-            <img src="../assets/images/Player3-Icon.jpg" alt="Player 3 Icon" height="50px">
-            <h5 id="player3Name">Player 3</h5>
-            <p>Position: <span id="player3Position">Square 7</span></p>
-        </div>
+
 
     </div>
 
 
-    <div class="gameLog">
-        <h5>Game Log</h5>
-        <div class="logEntries" id="logEntries">
-            <p>Player 1 rolled a 5 and moved to Square 12.</p>
-            <p>Player 2 rolled a 3 and moved to Square 45.</p>
-            <p>Player 3 rolled a 6 and moved to Square 7.</p>
+
+
+
+
+    <div class="container">
+
+
+        <div class="left-side-bar">
+            <div class="gameBoard">
+                        <img src="../assets/images/9ed2d2966be0c2501bbf74c835e0757d.jpg" alt="Game Board Image">
+            </div>      
+        </div>
+
+
+
+        <div class="right-side-bar">
+
+
+            <div class="overall-right-side-bar-styling" id="upper-right-side-bar">
+
+                <div class="playerImgName">
+                    <img id="activeTurnPlayerImg" src="../assets/images/Player1-Icon.jpg" alt="Player 1 Icon">
+                    <div class="activeTurnTextBlock">
+                        <h3 id="activeTurnText">Active Turn:</h3>
+                        <h4 id="activeTurnPlayerName">Player 1's Turn</h4>
+                    </div>
+                </div>
+
+
+                <div class="diceRollSection">
+                        <img id="diceIcon" src="../assets/images/dice-1.png" alt="dice">
+                     <button id="rollDiceButton">&#9858; Roll Dice</button>
+                </div>
+            </div>
+
+
+            <div class="playersLeaderboard overall-right-side-bar-styling">
+                <h5>Players Leaderboard</h5>
+
+
+                <div class="playerInfo PickedPlayerTurn" id="player1Info">
+                    <h5 id="player1Name">Player 1</h5>
+                    <span class="playerPostionSquareNumber">
+                        <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
+                    </span>
+                </div>
+
+                <div class="playerInfo sampleClassToBeCloned">
+                    <h5 >Player 2</h5>
+                    <span class="playerPostionSquareNumber">
+                        <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
+                    </span>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="gameLog  overall-right-side-bar-styling">
+                <h5>Game Log</h5>
+                <ul class="gameLogPlayersList">
+                    <li class="gameLogPlayers">Player 1 rolled a 0 and moved to Square 0</li>
+                    <li class="gameLogPlayers">Player 2 rolled a 0 and moved to Square 0</li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>
