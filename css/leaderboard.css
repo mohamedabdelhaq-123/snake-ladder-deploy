@@ -135,6 +135,7 @@ main .play-again-button button {
   border-radius: 2rem;
   cursor: pointer;
   font-size: 1.25rem;
+  margin-bottom: 2rem;
  
 }
 main .play-again-button button:hover {
@@ -147,4 +148,5 @@ footer {
   color: #71a7a3;
   background-color: white;
   margin-top: auto;
+  
 }
