@@ -4,12 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Snake Game</title>
     <link rel="stylesheet" href="../css/gameBoardScreen.css">
 
+    <script type="module" src="../js/pages/game-board.js"></script>
 
-    <script src="../js/utils/gameBoardScreen.js" defer></script>
+    <!-- add templates -->
+    <template id="gameLogPlayers">
+        <li class="gameLogPlayers">Player 2 rolled a 0 and moved to Square 0</li>
+    </template>
+
+    <template id="playerInfo">
+        <div class="playerInfo sampleClassToBeCloned">
+            <h5 >Player i</h5>
+            <span class="playerPostionSquareNumber">
+                <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
+            </span>
+        </div>
+    </template>
+
 </head>
+
+
 
 <body>
 
@@ -69,7 +85,7 @@
             </div>
 
 
-            <div class="playersLeaderboard overall-right-side-bar-styling">
+            <div id = "playersLeaderboard" class="playersLeaderboard overall-right-side-bar-styling">
                 <h5>Players Leaderboard</h5>
 
 
@@ -80,12 +96,6 @@
                     </span>
                 </div>
 
-                <div class="playerInfo sampleClassToBeCloned">
-                    <h5 >Player 2</h5>
-                    <span class="playerPostionSquareNumber">
-                        <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
-                    </span>
-                </div>
 
 
             </div>
@@ -95,9 +105,7 @@
 
             <div class="gameLog  overall-right-side-bar-styling">
                 <h5>Game Log</h5>
-                <ul class="gameLogPlayersList">
-                    <li class="gameLogPlayers">Player 1 rolled a 0 and moved to Square 0</li>
-                    <li class="gameLogPlayers">Player 2 rolled a 0 and moved to Square 0</li>
+                <ul id="gameLogPlayersList" class="gameLogPlayersList">
                 </ul>
             </div>
         </div>

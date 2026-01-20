@@ -1,25 +1,24 @@
 // eslint.config.js
-// eslint-disable-next-line no-undef
+ 
 module.exports = [
 	{
 		files: ["**/*.js"],
 		ignores: ["node_modules/**", "dist/**", "build/**"],
 
-    languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'module',
-      globals: {
-        window: 'readonly',
-        document: 'readonly',
-        console: 'readonly',
-        fetch: 'readonly',
-        setTimeout: 'readonly',
-        setInterval: 'readonly',
-        clearTimeout: 'readonly',
-        clearInterval: 'readonly'
-        },
-      },
-    },
+    	languageOptions: {
+		ecmaVersion: 2022,
+		sourceType: 'module',
+		globals: {
+			window: 'readonly',
+			document: 'readonly',
+			console: 'readonly',
+			fetch: 'readonly',
+			setTimeout: 'readonly',
+			setInterval: 'readonly',
+			clearTimeout: 'readonly',
+			clearInterval: 'readonly'
+        	},
+    	},
 
 		rules: {
 			// Prevent bugs
