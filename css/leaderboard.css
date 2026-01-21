@@ -1,52 +1,11 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f2f7f7;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: white;
-}
-nav .logo-section {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-nav img {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 30%;
-}
-nav .highlight {
-  color: #1cc8b9;
-}
-nav .nav-buttons {
-  display: flex;
-  gap: 1rem;
-}
-nav .nav-buttons button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background-color: #1cc8b9;
-  color: white;
-  border-radius: 2rem;
-  cursor: pointer;
-  font-size: 1rem;
-  
-}
-nav .nav-buttons button:hover {
-  box-shadow: 0px 2px 5px 1px #84f9ef;
-}
+
+/* Small header pill */
 main .small-header {
   text-align: center;
   width: 10rem;
@@ -57,21 +16,26 @@ main .small-header {
   background-color: #dcf1f0;
   border-radius: 2rem;
 }
+
 main .small-header img {
   width: 1rem;
   height: 1rem;
   vertical-align: middle;
   margin-right: 0.5rem;
 }
+
 main h1 {
   text-align: center;
   margin: 1rem 0;
 }
+
 main p {
   text-align: center;
   margin-bottom: 2rem;
   color: #71a7a3;
 }
+
+/* Table card */
 main table {
   width: 80%;
   margin: 0 auto;
@@ -79,37 +43,48 @@ main table {
   border-radius: 1rem;
   text-align: center;
   padding: 1rem;
+  background: white;
 }
+
 th#rank,
 th#score {
   width: 20%;
 }
+
 th {
   padding-bottom: 1rem;
 }
+
 td {
   padding: 1rem 0;
   border-top: 1px solid #e2e8f0;
 }
+
+/* Rank colors */
 tbody tr:nth-child(1) td:nth-child(1) {
   background-color: #facc14;
   color: white;
   border-radius: 5rem;
   width: fit-content;
 }
+
 tbody tr:nth-child(2) td:nth-child(1) {
   background-color: #e2e8f0;
   color: #6b798a;
   border-radius: 5rem;
 }
+
 tbody tr:nth-child(3) td:nth-child(1) {
   background-color: #fed8aa;
   color: #ce602e;
   border-radius: 5rem;
 }
+
 tbody td:nth-child(1) {
   color: #96a2b8;
 }
+
+/* Player cell */
 td.player-info {
   display: flex;
   align-items: center;
@@ -117,30 +92,27 @@ td.player-info {
   margin-left: 1rem;
   gap: 0.5rem;
 }
+
 td.player-info img {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+/* Play again button area */
 main .play-again-button {
   text-align: center;
   margin-top: 2rem;
 }
+
 main .play-again-button button {
   padding: 0.75rem 2rem;
-  border: none;
-  background-color: #1cc8b9;
-  color: white;
-  border-radius: 2rem;
-  cursor: pointer;
   font-size: 1.25rem;
   margin-bottom: 2rem;
- 
 }
-main .play-again-button button:hover {
-  box-shadow: 0px 4px 10px 2px #84f9ef;
-}
+
+/* Footer */
 footer {
   text-align: center;
   padding: 1rem;
@@ -148,5 +120,4 @@ footer {
   color: #71a7a3;
   background-color: white;
   margin-top: auto;
-  
 }
