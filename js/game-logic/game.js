@@ -114,7 +114,7 @@ export class PlayerGameData {
 	 */
 	constructor(playerId,initialPosition) {
 		// TODO: player id not validated
-		this.#playerId = playerId;
+		this.#playerId = Number(playerId);
 		if (initialPosition !== undefined){
 			// using this.position instead of this.#position to trigger validation
 			this.position = initialPosition;
@@ -122,6 +122,48 @@ export class PlayerGameData {
 		else {
 			this.position = new Point(0,0);
 		}
+	}
+
+	toJson(){
+		// initialize object to start saving data
+		let playerData = new Object();
+
+		// save ID
+		playerData.playerId = this.playerId;
+
+		// save Position
+		let pos = this.position;
+		playerData.position = {x:pos.x, y:pos.y};
+
+		// save cards
+		playerData.cards = [];
+		this.cards.forEach((card)=>{
+			// save card names instead of card object
+			// TODO: move this to cards instead of being nested here
+			playerData.cards.push(card.name);
+		});
+		return playerData;
+	}
+
+	static fromJson(playerData){
+
+		let playerId = Number(playerData.playerId);
+		// initialize object to start loading data
+		let player = new PlayerGameData(playerId);
+
+		// load Position
+		let pos = playerData.position;
+		player.position = new Point(Number(pos.x), Number(pos.y));
+
+		// load cards
+		player.cards.clear;
+		playerData.cards.forEach((_card_name)=>{
+			// TODO, load correct card type based on card name
+			// card names are saved instead of card object
+			// TODO: move this to cards instead of being nested here
+			// code to implement that (it's almost 8, I need to be done)
+		});
+		return player;
 	}
 
 	get cards(){
@@ -175,6 +217,55 @@ export class Game {
 		});
 
 		this.#grid = grid;
+	}
+
+	/**
+	 * used to store object in json format
+	 * note this is different to toJSON (capital JSON)
+	 * @returns Json object
+	 */
+	toJson(){
+		let gameState = new Object();
+
+		//save win queue
+		gameState.winQueue = this.winQueue; // save array data
+
+		// save active queue
+		gameState.activeQueue = this.activeQueue; // save array data
+		gameState.activeIndex = this.#activeQueue.id; // save array index
+
+		// save nested data
+		gameState.players = [];
+		this.players.forEach((player)=>{
+			// return saved object (push to array)
+			gameState.players.push(player.toJson());
+		});
+
+		return JSON.stringify(gameState);
+	}
+
+	/**
+	 * used to initialize state from json
+	 * note this is different to fromJSON (capital JSON)
+	 * @param {Object} json
+	 */
+	fromJson(json){
+		let gameState = JSON.parse(json);
+
+		this.#winQueue = gameState.winQueue;
+
+		// fill active queue
+		this.#activeQueue.data.clear;
+		this.#activeQueue.data.push(...gameState.activeQueue);
+		this.#activeQueue.id = gameState.activeIndex;
+
+		// load nested data
+		this.#players.clear();
+		gameState.players.forEach((playerData)=>{
+			// return saved object (push to array)
+			let player = PlayerGameData.fromJson(playerData);
+			this.#players.set(Number(player.playerId),player);
+		});
 	}
 
 	/**
