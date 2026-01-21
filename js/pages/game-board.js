@@ -7,11 +7,14 @@ import { diceRoll, Point } from "../game-logic/utils.js";
 const ROLL_SIZE = 6;
 const GRID_W = 10;
 const GRID_H = 10;
+const markerOffset=10;   // 10 comes from: (80px Square - 60px Icon) / 2 to center it
+const cellSize = 80;     // 80 comes from: 800px Board Width / 10 Columns
 
 /**
- * Received Data
+ * Received Data HomePage
  */
 const players = ["Momo", "ZoZ", "Andrew", "Haneen"];
+const playerIcons = [1,2,4,3];
 
 // Build game
 const playerIds = [];
@@ -38,7 +41,7 @@ const logContainer = document.getElementById("gameLogPlayersList");
 const playerMarkerContainer = document.getElementById("playerMarkerContainer");
 
 // Templates
-const cardTemplate = document.getElementById("playerInfo");
+const playerTemplate = document.getElementById("playerInfo");
 const logTemplate = document.getElementById("gameLogPlayers");
 const playerMarkerTemplate = document.getElementById("playerMarker");
 
@@ -51,52 +54,58 @@ const uiCardContainers = [];
 const uiLogs = [];
 const uiPlayerMarkers = [];
 
+console.log(playerTemplate);
 /**
  * INITIALIZATION: setUpPlayers
  */
 function setUpPlayers() {
-	// Clear containers in case of a game reset
+	// Clear containers in case of a game reset TODO: Reset Button
 	leaderboardContainer.innerHTML = "";
 	logContainer.innerHTML = "";
 
 	players.forEach((name, index) => {
 		// 1. Create Leaderboard Card
-		const cardFragment = cardTemplate.content.cloneNode(true);
+		const clonedPlayerTemplate = playerTemplate.content.cloneNode(true);
 
-		const cardContainer = cardFragment.firstElementChild;
-		const nameHeading = cardFragment.querySelector("h5");
-		const positionSpan = cardFragment.querySelector(".currentPlayerSquareNumber");
+		const clonedPlayerContainer = clonedPlayerTemplate.firstElementChild; 	/* <div class="playerInfo"> */
+		const clonedPlayerName = clonedPlayerTemplate.querySelector("h5");      /* <h5>Player i</h5> */
+		const clonedPlayerPosition = clonedPlayerTemplate.querySelector(".currentPlayerSquareNumber");  /* <span class="currentPlayerSquareNumber">Square 1</span>< */
+		let clonedPlayerIcon = clonedPlayerTemplate.querySelector("img");
 
-		nameHeading.textContent = name;
-		positionSpan.textContent = "0";
+		clonedPlayerIcon.src=`../assets/images/Player${playerIcons[index]}-Icon.jpg`;
+		clonedPlayerName.textContent = name;
+		clonedPlayerPosition.textContent = "Square 1";  /* all characters start from square 1 */
+
 		if (index === 0) {
-			cardContainer.classList.add("PickedPlayerTurn");
+			clonedPlayerContainer.classList.add("PickedPlayerTurn");  /* at start highlight first indexed player (his turn) */
 		}
 
 		// Store reference so we can update it later by index
-		uiCardContainers.push(cardContainer);
-		uiSquareValues.push(positionSpan);
-		leaderboardContainer.appendChild(cardFragment);
+		uiCardContainers.push(clonedPlayerContainer);
+		uiSquareValues.push(clonedPlayerPosition);
+		leaderboardContainer.appendChild(clonedPlayerContainer);
 
 		// 2. Create Player Markers
-		const markerFragment = playerMarkerTemplate.content.cloneNode(true);
-		const markerItem = markerFragment.firstElementChild;
+		const clonedMarkerTemplate = playerMarkerTemplate.content.cloneNode(true);
+		let clonedPlayerMarker = clonedMarkerTemplate.firstElementChild;
+		clonedPlayerMarker.src=`../assets/images/Player${playerIcons[index]}-Icon.jpg`;
+
 
 		// marker.style.color = playerColors[index];
 
 		// Store reference to the log item
-		uiPlayerMarkers.push(markerItem);
-		playerMarkerContainer.appendChild(markerFragment);
+		uiPlayerMarkers.push(clonedPlayerMarker);
+		playerMarkerContainer.appendChild(clonedPlayerMarker);
 
 		// 3. Create Game Log Entry
-		const logFragment = logTemplate.content.cloneNode(true);
-		const logItem = logFragment.firstElementChild;
+		const clonedLogTempalte = logTemplate.content.cloneNode(true);
+		const clonedPlayerLog = clonedLogTempalte.firstElementChild;
 
-		logItem.textContent = `${name} rolled a 0 and moved to Square 0`;
+		clonedPlayerLog.textContent = `${name} rolled a 0 and moved to Square 1`;
 
 		// Store reference to the log item
-		uiLogs.push(logItem);
-		logContainer.appendChild(logFragment);
+		uiLogs.push(clonedPlayerLog);
+		logContainer.appendChild(clonedPlayerLog);
 	});
 
 	players.forEach((_,index)=>{
@@ -105,7 +114,7 @@ function setUpPlayers() {
 
 
 	// Set initial turn text
-	updateTurnDisplay();
+	updateTurnDisplay();  /* Make first player active turn */
 }
 
 function updateMarkerPosition(index,instant=false){
@@ -114,17 +123,22 @@ function updateMarkerPosition(index,instant=false){
 
 		// currently alternating left position visually
 		// and flipping y direction (advance up)
-		const pos = game.players.get(game.current).position;
-		const yIndex = (GRID_H-pos.y-1);
-		let xIndex = pos.x;
+		const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
+		const yIndex = (GRID_H-pos.y-1); /* flip y to start from the bottom of the board */
+		let xIndex = pos.x; /* x is same the issue is in y, but */
+
 		if (pos.y%2!==0){
-			xIndex = (GRID_W-pos.x-1);
+			xIndex = (GRID_W-pos.x-1);   /*  flip the x also if row is odd (our board is zigzag)*/
 		}
 
-		const xPx = xIndex*80+10;
-		const yPx = yIndex*80+10;
+
+		const xPx = xIndex*cellSize+markerOffset;
+		const yPx = yIndex*cellSize+markerOffset;
+
 		uiPlayerMarkers[index].style.left = `${xPx}px`;
 		uiPlayerMarkers[index].style.top = `${yPx}px`;
+
+		// animations ==> loop move
 	}
 }
 
@@ -134,6 +148,11 @@ function updateTurnDisplay() {
 
 // Execute setup on script load
 setUpPlayers();
+
+
+
+
+
 
 /**
  * advances player and displays the changes along the way

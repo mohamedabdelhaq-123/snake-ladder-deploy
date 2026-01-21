@@ -13,18 +13,19 @@
 
     <!-- add templates -->
     <template id="playerMarker">
-        <img src="../assets/images/game-icon-gameBoardScreen.jpg" alt="" style="position: absolute; width: 60px; height: 60px;">
+        <img src="../assets/images/Player1-Icon.jpg" alt="" style="position: absolute; width: 60px; height: 60px;">
     </template>
 
     <template id="gameLogPlayers">
-        <li class="gameLogPlayers">Player 2 rolled a 0 and moved to Square 0</li>
+        <li class="gameLogPlayers">Player 2 rolled a 0 and moved to Square 1</li>
     </template>
 
     <template id="playerInfo">
-        <div class="playerInfo sampleClassToBeCloned">
-            <h5 >Player i</h5>
+        <div class="playerInfo" >
+                    <img src="../assets/images/Player1-Icon.jpg" alt="" style="position: absolute; border-radius: 50% ; width: 40px; height: 40px;">
+            <h5 style="margin-left: 45px;">Player i</h5>
             <span class="playerPostionSquareNumber">
-                <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
+                <p> <span class="currentPlayerSquareNumber">Square 1 </span></p>
             </span>
         </div>
     </template>
@@ -48,7 +49,7 @@
 
         <div class="nav-links">
             <a id="backToHomeLink" href="../html/home.html">Back to Home</a>
-            <a id="exitGameLink" href="../html/leaderboard-page.html">Exit Game</a>
+            <a id="exitGameLink" href="../html/leaderboard.html">Exit Game</a>
         </div>
 
 
@@ -69,7 +70,7 @@
             </div>      
         </div>
 
-
+ 
 
         <div class="right-side-bar">
 
@@ -114,6 +115,7 @@
                 <h5>Game Log</h5>
                 <ul id="gameLogPlayersList" class="gameLogPlayersList">
                 </ul>
+                
             </div>
         </div>
     </div>
