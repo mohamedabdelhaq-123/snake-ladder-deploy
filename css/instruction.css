@@ -1,110 +1,5 @@
-/* ===== Reset ===== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
-/* ===== Base ===== */
-body {
-  font-family: Arial, sans-serif;
-  background: #f6f8f8;
-  color: #0e1b19;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* ===== Top Bar ===== */
-.top-bar {
-  position: sticky;
-  top: 0;
-  background: rgba(246, 248, 248, 0.9);
-  border-bottom: 1px solid #e8f3f2;
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-/* Logo / Game Title */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  background: #1dc9ba;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.logo-accent {
-  color: #1dc9ba;
-}
-
-/* Navigation Menu */
-.menu {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-
-.menu-link {
-  font-size: 14px;
-  font-weight: bold;
-  padding: 8px 10px;
-  border-radius: 10px;
-}
-
-.menu-link:hover {
-  background: #e8f3f2;
-}
-
-.menu-link.is-active {
-  background: #e8f3f2;
-}
-
-/* ===== Buttons ===== */
-.btn {
-  display: inline-block;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.btn-ghost {
-  background: #e8f3f2;
-}
-
-.btn-ghost:hover {
-  background: #d9eeec;
-}
-
-.btn-primary {
-  background: #1dc9ba;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #18b5a8;
-}
-
-/* ===== Page Layout ===== */
+/* Base page spacing */
 .page {
   max-width: 980px;
   margin: 0 auto;
@@ -126,7 +21,7 @@ a {
   font-weight: bold;
 }
 
-/* ===== Main Panel (Card) ===== */
+/* Main card panel */
 .panel {
   background: white;
   border: 1px solid #e8f3f2;
@@ -134,7 +29,7 @@ a {
   padding: 22px;
 }
 
-/* ===== Content Blocks (Sections) ===== */
+/* Sections */
 .block {
   padding: 8px 0;
 }
@@ -160,20 +55,18 @@ a {
   font-size: 22px;
 }
 
-/* Text */
 .text-muted {
   color: #3a6e6a;
   line-height: 1.6;
 }
 
-/* Divider */
 .divider {
   border: none;
   border-top: 1px solid #e8f3f2;
   margin: 16px 0;
 }
 
-/* ===== Objective ===== */
+/* Objective card */
 .objective {
   border: 1px solid #d1e6e4;
   background: #f8fbfb;
@@ -213,7 +106,7 @@ a {
   margin-top: 6px;
 }
 
-/* ===== Lists ===== */
+/* Lists */
 .list-bullets {
   margin-top: 10px;
   padding-left: 18px;
@@ -229,7 +122,7 @@ a {
   line-height: 1.7;
 }
 
-/* ===== Rules ===== */
+/* Rules grid */
 .rules {
   display: flex;
   flex-wrap: wrap;
@@ -274,7 +167,7 @@ a {
   line-height: 1.4;
 }
 
-/* ===== Controls ===== */
+/* Controls list */
 .controls {
   display: flex;
   flex-direction: column;
@@ -301,7 +194,7 @@ a {
   text-align: right;
 }
 
-/* ===== Add-ons ===== */
+/* Add-ons */
 .addons {
   display: flex;
   gap: 12px;
@@ -328,7 +221,7 @@ a {
   line-height: 1.4;
 }
 
-/* ===== Panel Footer ===== */
+/* Panel footer inside card */
 .panel-footer {
   margin-top: 18px;
   padding-top: 14px;
@@ -339,7 +232,7 @@ a {
   gap: 12px;
 }
 
-/* ===== Page Footer ===== */
+/* Page footer */
 .footer {
   text-align: center;
   color: #50958f;
@@ -347,7 +240,7 @@ a {
   font-size: 13px;
 }
 
-/* ===== Responsive ===== */
+/* Responsive */
 @media (max-width: 720px) {
   .rule-card {
     width: 100%;
@@ -369,6 +262,7 @@ a {
     font-size: 34px;
   }
 
+  /* If instruction menu exists in HTML, hide it on mobile */
   .menu {
     display: none;
   }
