@@ -1,6 +1,7 @@
-import { Game, Grid } from "./game.js";
-import { PortalTile } from "./tiles.js";
-import { Point } from "./utils.js";
+import Game from "./game.js";
+import Grid from "./grid.js";
+import PortalTile from "./tiles/portalTile.js";
+import Point from "../utils/point.js";
 
 let table = document.getElementById("table");
 

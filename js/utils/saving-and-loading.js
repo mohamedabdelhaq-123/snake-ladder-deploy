@@ -1,4 +1,4 @@
-import { Game } from "../game-logic/game.js";
+import Game from "../game-logic/game.js";
 
 /**
  * Saves game logic data such as position and cards held by each player, the active queue,etc ....

@@ -27,7 +27,6 @@
 
 /* Game board area */
 .gameBoard {
-  padding-left: 20px;
   display: grid;
   grid-template-columns: auto auto auto;
 

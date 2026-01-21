@@ -1,7 +1,7 @@
-import { Game, Grid } from "../game-logic/game.js";
-import { PortalTile } from "../game-logic/tiles.js";
-import { diceRoll, Point } from "../game-logic/utils.js";
-import { loadGameState, saveGameState } from "./saving-and-loading.js";
+import Game from "../game-logic/game.js";
+import { diceRoll } from "../utils/utils.js";
+import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
+import Grid from "../game-logic/grid.js";
 /**
  * Constants
  */
