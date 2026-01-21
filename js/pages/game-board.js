@@ -1,5 +1,5 @@
 import Game from "../game-logic/game.js";
-import { diceRoll } from "../utils/utils.js";
+import { delay, diceRoll } from "../utils/utils.js";
 import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
 import Grid from "../game-logic/grid.js";
 import PortalTile from "../game-logic/tiles/portalTile.js";
@@ -148,33 +148,38 @@ function setUpPlayers() {
 	updateTurnDisplay();  /* Make first player active turn */
 }
 
-function updateMarkerPosition(index,instant=false){
-	//TODO:implement animations
-	if (instant||true/*currently defaults to instant */){
+async function updateMarkerPosition(index,instant=false){
 
-		// currently alternating left position visually
-		// and flipping y direction (advance up)
-		const pos = game.players.get(index).position;  /* (x,y) ==> in css (x,y) but from up*/
-		const yIndex = (GRID_H-pos.y-1); /* flip y to start from the bottom of the board */
-		let xIndex = pos.x; /* x is same the issue is in y, but */
+	// currently alternating left position visually
+	// and flipping y direction (advance up)
+	const pos = game.players.get(index).position;  /* (x,y) ==> in css (x,y) but from up*/
+	const yIndex = (GRID_H-pos.y-1); /* flip y to start from the bottom of the board */
+	let xIndex = pos.x; /* x is same the issue is in y, but */
 
-		if (pos.y%2!==0){
-			xIndex = (GRID_W-pos.x-1);   /*  flip the x also if row is odd (our board is zigzag)*/
-		}
-
-
-		const xPx = xIndex*cellSize+markerOffset;
-		const yPx = yIndex*cellSize+markerOffset;
-
-		uiPlayerMarkers[index].style.left = `${xPx}px`;
-		uiPlayerMarkers[index].style.top = `${yPx}px`;
-
-		// Update visual square number using our array reference
-		let distance = pos.y*GRID_W+pos.x+1;
-		uiSquareValues[index].textContent = `Square ${distance}`;
-
-		// animations ==> loop move
+	if (pos.y%2!==0){
+		xIndex = (GRID_W-pos.x-1);   /*  flip the x also if row is odd (our board is zigzag)*/
 	}
+
+	const xPx = xIndex*cellSize+markerOffset;
+	const yPx = yIndex*cellSize+markerOffset;
+
+	//TODO: replace with animations
+	if (!instant){
+		// let i = 0;
+		// let interval = setInterval(() => {
+		// 	i+=1/10;
+		// 	// find intermidiate values and update them
+		// }, 200/10);
+		await delay(200);
+		// clearInterval(interval);
+	}
+
+	uiPlayerMarkers[index].style.left = `${xPx}px`;
+	uiPlayerMarkers[index].style.top = `${yPx}px`;
+
+	// Update visual square number using our array reference
+	let distance = pos.y*GRID_W+pos.x+1;
+	uiSquareValues[index].textContent = `Square ${distance}`;
 }
 
 function updateTurnDisplay() {
@@ -188,24 +193,27 @@ setUpPlayers();
  * advances player and displays the changes along the way
  * @param {number} result
  */
-function updatePositionsUI(result) {
+async function updatePositionsUI(result) {
 	// TODO: currently a player wins even if they roll too high
 	// if that needs to change update the advance function in grid
 
 	// advance player
 	let effects = game.advancePlayer(game.current,result);
 
-	updateMarkerPosition(game.current);
+	await updateMarkerPosition(game.current);
 
 	// process roll result
 	game.processEffects(game.current,effects);
 
-	updateMarkerPosition(game.current);
+	await updateMarkerPosition(game.current);
 
 	// Update the game log text using our array reference
 	const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
 	let distance = pos.y*GRID_W+pos.x+1;
 	uiLogs[game.current].textContent = `${players[game.current]} rolled a ${result} and moved to Square ${distance}`;
+
+	// Note: button becomes enabled after all visual effects and animations are done
+	rollButton.disabled = false;
 }
 
 /**
@@ -242,11 +250,13 @@ rollButton.addEventListener("click", () => {
 		diceImage.src = `../assets/images/dice-${result}.png`;
 
 		updatePositionsUI(result);
+		//Note: button becomes enabled after update updatePositionUI is called
+
 		activePlayerLeaderboardHighlight();
 
 		// Saving
 		saveGameState(game);
 
-		rollButton.disabled = false;
+
 	}, 1000);
 });

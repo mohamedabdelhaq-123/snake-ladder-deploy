@@ -22,3 +22,7 @@ export function diceRoll(max){
 	// written to guarantee numbers end up in the range [1,max]
 	return Math.floor(Math.random()*max)%max+1;
 }
+
+export function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
