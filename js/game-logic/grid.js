@@ -56,6 +56,18 @@ export default class Grid {
 		return this.getTile(player.position);  /* to check if player landed on (snake/ladder/undefined) */
 	}
 
+	distToPoint(dist){
+		let newX = dist%this.#width;
+		let newY = Math.floor(dist/this.#width);
+		return new Point(newX,newY);
+	}
+
+	pointToDist(point){
+		let x = point.x;
+		let y = point.y;
+		return x+y*this.#width;
+	}
+
 	/**
 	 * Adds a tile to the tiles map and returns other tiles placed there if they exist
 	 * @param {Tile} tile the Tile object carrying the effect

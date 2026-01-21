@@ -5,7 +5,7 @@ import Tile from "../tiles.js";
  * such as snakes or ladders
  * @augments Tile
  */
-export class PortalTile extends Tile {
+export default class PortalTile extends Tile {
 	#end;
 	/**
 	 * @param {Point} start

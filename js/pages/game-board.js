@@ -2,6 +2,7 @@ import Game from "../game-logic/game.js";
 import { diceRoll } from "../utils/utils.js";
 import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
 import Grid from "../game-logic/grid.js";
+import PortalTile from "../game-logic/tiles/portalTile.js";
 /**
  * Constants
  */
@@ -24,9 +25,38 @@ for (let i in players){ // NOTE!!!: js for ... in returns index only i.e [0,1,2,
 }
 let grid = new Grid(GRID_W,GRID_H);
 
-// grid.addTile(new PortalTile(new Point(2,3),new Point(0,0)));
-// grid.addTile(new PortalTile(new Point(1,3),new Point(0,0)));
+// TODO create a function to intialize position from distance
 
+[
+	// Snakes
+	[40,2],
+	[43,17],
+	[27,5],
+
+	[54,31],
+	[66,45],
+	[89,53],
+
+	[99,41],
+	[95,76],
+
+	// Ladders
+	[4,23],
+	[13,46],
+	[33,52],
+
+	[50,69],
+	[42,63],
+	[62,81],
+
+	[74,93],
+].forEach(([start,end]) => {
+	// add tiles after transforming 1d to 2d space
+	grid.addTile(new PortalTile(
+		grid.distToPoint(start-1),
+		grid.distToPoint(end-1)
+	));
+});
 let game = new Game(playerIds,grid);
 loadGameState(game);
 
