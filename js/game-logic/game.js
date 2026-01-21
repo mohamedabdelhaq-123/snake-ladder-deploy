@@ -40,6 +40,11 @@ export class Grid {
 		let newDistance = distance+amount;
 		// TODO: confirm how win logic applies
 		// for now assuming as long as the distance is passed in general
+
+		if (newDistance>99) // testcase TODO
+		{
+			newDistance=distance;
+		}
 		newDistance = Math.max(0,Math.min(newDistance,this.#width*this.#height-1));
 
 		let newX = newDistance%this.#width;
@@ -49,7 +54,7 @@ export class Grid {
 		// TODO: we could make it so effects are triggered on advancement
 		// for now, the effects are sent after everything is calculated
 
-		return this.getTile(player.position);
+		return this.getTile(player.position);  /* to check if player landed on (snake/ladder/undefined) */
 	}
 
 	/**
@@ -57,7 +62,7 @@ export class Grid {
 	 * @param {Tile} tile the Tile object carrying the effect
 	 * @param {Point} position optionally alter position of tile before adding it
 	 */
-	addTile(tile,position) {
+	addTile(tile,position) {                 /* add a special tile (Snake/ladder) */
 		if (!(tile instanceof Tile)){
 			throw new Error("Only tiles are accepted!");
 		}
@@ -67,12 +72,12 @@ export class Grid {
 			if (!(position instanceof Point)){
 				throw new Error("Only points are accepted!");
 			}
-			Tile.position = position;
+			Tile.position = position;          /* check if point (x,y) */
 		}
-
-		let temp = this.#tiles.get(tile.position.key());
-		this.#tiles.set(tile.position.key(),tile);
-		return temp;
+															 /* to check if there is snake/ladder in this position */
+		let temp = this.#tiles.get(tile.position.key());   /*key (x,y)==> "x,y" to use it in map */
+		this.#tiles.set(tile.position.key(),tile); /* set new snake/ladder to this postion */
+		return temp;  /* if was undefined (no tile) else to know the replaced snake/ladder  (undo/warn/swapping)*/
 	}
 
 	/**
@@ -81,7 +86,7 @@ export class Grid {
 	 * @returns Returns tile at place in the map
 	 */
 	getTile(position) {
-		return this.#tiles.get(position.key());
+		return this.#tiles.get(position.key()); // as string
 	}
 
 	get goal(){
@@ -151,21 +156,21 @@ export class Game {
 	#players = new Map();
 
 	/**@type {Grid} */
-	#grid;
+	#grid;            /* game board */
 
 	/**@type {CyclicQueue<number>} */
-	#activeQueue = new CyclicQueue();
+	#activeQueue = new CyclicQueue();  /* track whose turn it is 1,2,3,1,2,3,.... */
 
 	/**@type {Array<number>} */
-	#winQueue = [];
+	#winQueue = [];               /* 3,1,2 ==> player 3 reached 100 then player 1,... */
 
 	constructor(playerIds,grid) {
 		// TODO: add validation for parameters
 
-		let queueData = this.#activeQueue.data;
+		let queueData = this.#activeQueue.data;  /* take direct access to turn order (to add player simply)*/
 
 		playerIds.forEach((playerId)=>{
-			this.#players.set(playerId,new PlayerGameData(playerId));
+			this.#players.set(playerId,new PlayerGameData(playerId)); /* key(id),,value(obj(id,position [will be undef==>(0,0)] ) */
 			queueData.push(playerId);
 		});
 
@@ -218,14 +223,14 @@ export class Game {
 			let hasWon = this.checkWinCondition(player);
 			anyWins|=hasWon;
 			// process turn result
-			if (hasWon){
+			if (hasWon){ /* if was true */
 				this.#activeQueue.remove(playerId);
 				this.#winQueue.push(playerId);
 			}
 		});
 
 		if (!anyWins) {
-			this.#activeQueue.next();
+			this.#activeQueue.next(); /* if no one won so go to the second turn */
 		}
 	}
 
@@ -246,7 +251,7 @@ export class Game {
 		let result = diceRoll(DICE_SIDE_COUNT);
 
 		// advance player
-		let effects = this.advancePlayer(this.current,result);
+		let effects = this.advancePlayer(this.current,result); /* this.current = this.#activeQueue.current; */
 
 		// process roll result
 		this.processEffects(this.current,effects);

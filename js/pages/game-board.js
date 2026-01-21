@@ -1,134 +1,222 @@
-
-
-let numberOfPlayers = 4; // Total count of participants
-let namesOfPlayers = ["Momo", "ZoZ", "Andrew", "Haneen"]; // Display names array
-let playersSummedPosition = Array(numberOfPlayers).fill(0); // Tracks current square (0-100) for each player
-let result = 0; // Stores the latest dice roll result
-let indexCurrentPlayer = 0; // Tracks whose turn it is (0 to numberOfPlayers - 1)
+import { Game, Grid } from "../game-logic/game.js";
+import { PortalTile } from "../game-logic/tiles.js";
+import { diceRoll, Point } from "../game-logic/utils.js";
+/**
+ * Constants
+ */
+const ROLL_SIZE = 6;
+const GRID_W = 10;
+const GRID_H = 10;
+const markerOffset=10;   // 10 comes from: (80px Square - 60px Icon) / 2 to center it
+const cellSize = 80;     // 80 comes from: 800px Board Width / 10 Columns
 
 /**
- * DOM ELEMENT SELECTORS
- * Grabbing references to UI containers and interactive elements.
+ * Received Data HomePage
  */
-// Containers for dynamic content
-let parentOfPlayersLeaderboard = document.querySelector('.playersLeaderboard');
-let parentOfplayersGameLog = document.querySelector('.gameLogPlayersList');
+const players = ["Momo", "ZoZ", "Andrew", "Haneen"];
+const playerIcons = [1,2,4,3];
 
-// Lists of elements that update during the game
-let playersLeaderboard = document.querySelectorAll('.currentPlayerSquareNumber');
-let playersGameLog = document.querySelectorAll('.gameLogPlayers');
-let activePlayerLeaderboard = document.getElementsByClassName('playerInfo');
-let gameLogList = document.querySelectorAll('.gameLogPlayers');
+// Build game
+const playerIds = [];
+for (let i in players){ // NOTE!!!: js for ... in returns index only i.e [0,1,2,3]
+	playerIds.push(i);
+}
+let grid = new Grid(GRID_W,GRID_H);
 
-// Controls and visual indicators
-let rollButton = document.getElementById('rollDiceButton');
-let diceImage = document.getElementById('diceIcon');
-let activeTurnPlayerName = document.getElementById('activeTurnPlayerName');
+// grid.addTile(new PortalTile(new Point(2,3),new Point(0,0)));
+// grid.addTile(new PortalTile(new Point(1,3),new Point(0,0)));
 
-// Templates used for cloning additional players
-let samplePlayerInLeaderBoard = document.querySelector('.sampleClassToBeCloned');
-let samplePlayerInGameLog = document.querySelector('.gameLogPlayers');
+let game = new Game(playerIds,grid);
 
+/**
+ * DOM REFERENCES (Static Elements)
+ */
+const rollButton = document.getElementById("rollDiceButton");
+const diceImage = document.getElementById("diceIcon");
+const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
+
+// Containers
+const leaderboardContainer = document.getElementById("playersLeaderboard");
+const logContainer = document.getElementById("gameLogPlayersList");
+const playerMarkerContainer = document.getElementById("playerMarkerContainer");
+
+// Templates
+const playerTemplate = document.getElementById("playerInfo");
+const logTemplate = document.getElementById("gameLogPlayers");
+const playerMarkerTemplate = document.getElementById("playerMarker");
+
+/**
+ * UI REFERENCES (Dynamic Elements)
+ * stored in arrays so we never have to use querySelector again
+ */
+const uiSquareValues = [];
+const uiCardContainers = [];
+const uiLogs = [];
+const uiPlayerMarkers = [];
+
+console.log(playerTemplate);
 /**
  * INITIALIZATION: setUpPlayers
- * This function prepares the board by naming existing HTML elements 
- * and cloning new ones if the player count exceeds the initial HTML structure.
  */
 function setUpPlayers() {
-  // Update the first 2 players who are already hardcoded in the HTML
-  for (let i = 0; i < 2; i++) {
-    activePlayerLeaderboard[i].querySelector('h5').innerHTML = namesOfPlayers[i];
-    gameLogList[i].innerHTML = `${namesOfPlayers[i]} rolled a 0 and moved to Square 0`;
-  }
+	// Clear containers in case of a game reset TODO: Reset Button
+	leaderboardContainer.innerHTML = "";
+	logContainer.innerHTML = "";
 
-  // Generate additional UI entries for players 3 through N
-  for (let i = 2; i < numberOfPlayers; i++) {
-    // Clone the leaderboard card (deep clone including children)
-    let clonedElement = samplePlayerInLeaderBoard.cloneNode(true);
-    clonedElement.querySelector('h5').innerHTML = `${namesOfPlayers[i]}`;
-    parentOfPlayersLeaderboard.appendChild(clonedElement);
+	players.forEach((name, index) => {
+		// 1. Create Leaderboard Card
+		const clonedPlayerTemplate = playerTemplate.content.cloneNode(true);
 
-    // Clone the game log entry
-    let clonedLog = samplePlayerInGameLog.cloneNode(true);
-    clonedLog.innerHTML = `${namesOfPlayers[i]} rolled a 0 and moved to Square 0`;
-    parentOfplayersGameLog.appendChild(clonedLog);
-  }
+		const clonedPlayerContainer = clonedPlayerTemplate.firstElementChild; 	/* <div class="playerInfo"> */
+		const clonedPlayerName = clonedPlayerTemplate.querySelector("h5");      /* <h5>Player i</h5> */
+		const clonedPlayerPosition = clonedPlayerTemplate.querySelector(".currentPlayerSquareNumber");  /* <span class="currentPlayerSquareNumber">Square 1</span>< */
+		let clonedPlayerIcon = clonedPlayerTemplate.querySelector("img");
 
-  /**
-   * IMPORTANT: We must re-query the DOM after cloning so that the 
-   * global arrays include the newly created elements.
-   */
-  playersLeaderboard = document.querySelectorAll('.currentPlayerSquareNumber');
-  playersGameLog = document.querySelectorAll('.gameLogPlayers');
-  activePlayerLeaderboard = document.getElementsByClassName('playerInfo');
+		clonedPlayerIcon.src=`../assets/images/Player${playerIcons[index]}-Icon.jpg`;
+		clonedPlayerName.textContent = name;
+		clonedPlayerPosition.textContent = "Square 1";  /* all characters start from square 1 */
 
-  // Display the first player's name in the "Current Turn" UI
-  activeTurnPlayerName.innerHTML = `${namesOfPlayers[indexCurrentPlayer]}'s Turn`;
+		if (index === 0) {
+			clonedPlayerContainer.classList.add("PickedPlayerTurn");  /* at start highlight first indexed player (his turn) */
+		}
+
+		// Store reference so we can update it later by index
+		uiCardContainers.push(clonedPlayerContainer);
+		uiSquareValues.push(clonedPlayerPosition);
+		leaderboardContainer.appendChild(clonedPlayerContainer);
+
+		// 2. Create Player Markers
+		const clonedMarkerTemplate = playerMarkerTemplate.content.cloneNode(true);
+		let clonedPlayerMarker = clonedMarkerTemplate.firstElementChild;
+		clonedPlayerMarker.src=`../assets/images/Player${playerIcons[index]}-Icon.jpg`;
+
+
+		// marker.style.color = playerColors[index];
+
+		// Store reference to the log item
+		uiPlayerMarkers.push(clonedPlayerMarker);
+		playerMarkerContainer.appendChild(clonedPlayerMarker);
+
+		// 3. Create Game Log Entry
+		const clonedLogTempalte = logTemplate.content.cloneNode(true);
+		const clonedPlayerLog = clonedLogTempalte.firstElementChild;
+
+		clonedPlayerLog.textContent = `${name} rolled a 0 and moved to Square 1`;
+
+		// Store reference to the log item
+		uiLogs.push(clonedPlayerLog);
+		logContainer.appendChild(clonedPlayerLog);
+	});
+
+	players.forEach((_,index)=>{
+		updateMarkerPosition(index,true);
+	});
+
+
+	// Set initial turn text
+	updateTurnDisplay();  /* Make first player active turn */
+}
+
+function updateMarkerPosition(index,instant=false){
+	//TODO:implement animations
+	if (instant||true/*currently defaults to instant */){
+
+		// currently alternating left position visually
+		// and flipping y direction (advance up)
+		const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
+		const yIndex = (GRID_H-pos.y-1); /* flip y to start from the bottom of the board */
+		let xIndex = pos.x; /* x is same the issue is in y, but */
+
+		if (pos.y%2!==0){
+			xIndex = (GRID_W-pos.x-1);   /*  flip the x also if row is odd (our board is zigzag)*/
+		}
+
+
+		const xPx = xIndex*cellSize+markerOffset;
+		const yPx = yIndex*cellSize+markerOffset;
+
+		uiPlayerMarkers[index].style.left = `${xPx}px`;
+		uiPlayerMarkers[index].style.top = `${yPx}px`;
+
+		// animations ==> loop move
+	}
+}
+
+function updateTurnDisplay() {
+	activeTurnDisplay.textContent = `${players[game.current]}'s Turn`;
 }
 
 // Execute setup on script load
 setUpPlayers();
 
+
+
+
+
+
 /**
- * UI UPDATES: updatePositionsUI
- * Handles the mathematical movement logic and updates the player's status labels.
+ * advances player and displays the changes along the way
+ * @param {number} result
  */
-function updatePositionsUI(indexCurrentPlayer) {
-  playersSummedPosition[indexCurrentPlayer] += result;
+function updatePositionsUI(result) {
+	// TODO: currently a player wins even if they roll too high
+	// if that needs to change update the advance function in grid
 
-  // Overflow Logic: If a player rolls past 100, the move is invalidated (stays in place)
-  if (playersSummedPosition[indexCurrentPlayer] > 100) {
-    playersSummedPosition[indexCurrentPlayer] -= result;
-  }
+	// advance player
+	let effects = game.advancePlayer(game.current,result);
 
-  // Update visual square number and the game log text
-  playersLeaderboard[indexCurrentPlayer].innerHTML = `Square ${playersSummedPosition[indexCurrentPlayer]}`;
-  playersGameLog[indexCurrentPlayer].innerHTML = `${namesOfPlayers[indexCurrentPlayer]} rolled a ${result} and moved to Square ${playersSummedPosition[indexCurrentPlayer]}`;
+	updateMarkerPosition(game.current);
+
+	// process roll result
+	game.processEffects(game.current,effects);
+
+	updateMarkerPosition(game.current);
+
+	// Update visual square number using our array reference
+	let pos = game.players.get(game.current).position;
+	let distance = pos.y*GRID_W+pos.x+1;
+	uiSquareValues[game.current].textContent = `Square ${distance}`;
+
+	// Update the game log text using our array reference
+	uiLogs[game.current].textContent = `${players[game.current]} rolled a ${result} and moved to Square ${distance}`;
 }
 
 /**
  * TURN MANAGEMENT: activePlayerLeaderboardHighlight
- * Removes visual focus from current player, increments the turn, and highlights the next player.
+ * Manages the CSS classes on the player card containers.
  */
 function activePlayerLeaderboardHighlight() {
-  // Remove the CSS highlight class from the player who just finished
-  activePlayerLeaderboard[indexCurrentPlayer].classList.remove('PickedPlayerTurn');
+	// 1. Target the .playerInfo container of the player who just moved
+	uiCardContainers[game.current].classList.remove("PickedPlayerTurn");
 
-  // Cycle the index (wraps back to 0 when it reaches numberOfPlayers)
-  indexCurrentPlayer = (indexCurrentPlayer + 1) % numberOfPlayers;
+	// 2. Increment index
+	game.updateQueues();
 
-  // Apply highlight and update the "Current Turn" text for the new player
-  activePlayerLeaderboard[indexCurrentPlayer].classList.add('PickedPlayerTurn');
-  activeTurnPlayerName.innerHTML = `${namesOfPlayers[indexCurrentPlayer]}'s Turn`;
+	// 3. Highlight the new player
+	uiCardContainers[game.current].classList.add("PickedPlayerTurn");
+
+	updateTurnDisplay();
 }
 
 /**
  * EVENT LISTENERS
- * Handling the core game interaction: The Dice Roll.
  */
-rollButton.addEventListener('click', () => {
-  // Prevent interaction if the current player has already reached the finish line
-  if (playersSummedPosition[indexCurrentPlayer] === 100) {
-    return; // TODO: Implement game-over or "Skip Winner" logic here
-  }
+rollButton.addEventListener("click", () => {
+	// Check win condition
+	if (game.winQueue.length > 0) {return;}
 
-  // Disable button to prevent "double-clicking" while the animation runs
-  rollButton.disabled = true;
-  diceImage.src = '../assets/images/dice-animation.gif'; 
+	rollButton.disabled = true;
+	diceImage.src = "../assets/images/dice-animation.gif";
 
-  // Generate random number between 1 and 6
-  result = Math.floor(Math.random() * 6) + 1;
 
-  // Delayed execution to allow the 1-second animation to finish visually
-  setTimeout(() => {
-    // Show the static image of the rolled number
-    diceImage.src = `../assets/images/dice-${result}.png`;
+	let result = diceRoll(ROLL_SIZE);
 
-    // Process player movement and shift turns
-    updatePositionsUI(indexCurrentPlayer);
-    activePlayerLeaderboardHighlight();
+	setTimeout(() => {
+		diceImage.src = `../assets/images/dice-${result}.png`;
 
-    // Re-enable button for the next player's turn
-    rollButton.disabled = false;
-  }, 1000);
+		updatePositionsUI(result);
+		activePlayerLeaderboardHighlight();
+
+		rollButton.disabled = false;
+	}, 1000);
 });
