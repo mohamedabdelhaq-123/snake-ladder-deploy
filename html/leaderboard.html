@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+     <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/leaderboard.css" />
+     <script type="module" src="../js/pages/leaderboard.js"></script>
+     <template id="player-row">
+        <tr >
+              <td><span>1</span></td>
+              <td class="player-info">
+                <img src="../assets/images/Player1-Icon.jpg" alt="player1">
+                <span>andrew</span>
+              </td>
+              <td>100</td>
+        </tr>
+    </template>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo-section">
+        
+        <img  src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
+        <h2> Snake <span class="highlight">&</span> Ladders</h2>
+        </a>
+      </div>
+      <div class="nav-buttons">
+        <a id="home-button" href="home.html">Home</a>
+        <a id="instruction-link" href="instructions.html">Instructions</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <div class="small-header">
+        <img src="../assets/images/trophy-icon.png" alt="trophy icon" />
+        <span>Hall of fame</span>
+    
+      </div>
+      <h1>Champions</h1>
+      <p>The runner ups</p>
+      
+       <div class="leaderboard-container">
+         <table>
+          <thead>
+            <tr>
+              <th id="rank">Rank</th>
+              <th>Player</th>
+              <th id="score">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+           
+          </tbody>
+        </table>
+
+       </div>
+        <div class="play-again-button">
+           <button id="play-button">Play again</button>
+        </div>
+       
+    </main>
+    <footer>
+      <p>
+        Made with ❤️ by Mohamed Abdel-haq , Haneen Elasawy, Zeiad Hesham
+        ,Andrew Emad,and Hashim Abdelaziz
+      </p>
+    </footer>
+   
+  </body>
+</html>

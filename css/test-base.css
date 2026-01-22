@@ -1,0 +1,60 @@
+table {
+  /* Collapse borders into a single, clean line */
+  border-collapse: collapse;
+  /* Ensure the table uses the available width */
+  width: 50%;
+  /* Optional: Add some margin below the table */
+  margin-bottom: 1rem;
+}
+
+/* Style for all table cells (header and data) */
+th,
+td {
+  /* Add consistent spacing within cells */
+  padding: 0.75rem;
+  /* Subtle light grey border for internal separation */
+  border-bottom: 1px solid #ddd;
+  /* Default text alignment */
+  text-align: left;
+}
+
+/* Style the table header */
+thead th {
+  /* Slightly different background for visual hierarchy */
+  background-color: #68a;
+  /* A slightly heavier border for structure */
+  border-bottom: 2px solid #ddd;
+
+  color: white;
+  /* Ensure text is aligned to the start (left in LTR languages) */
+  text-align: start;
+  /* Optional: Add font weight for emphasis, though default is usually bold */
+  font-weight: bold;
+}
+
+/* Add zebra striping to the table body for better readability */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+td.current{
+	background-color: #fe8;
+}
+
+td:nth-child(3){
+	border-right: 1px solid #ddd;
+}
+
+/* Optional: Add a subtle hover effect for interactivity */
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Style for the table caption */
+caption {
+  padding: 0.5rem;
+  caption-side: top;
+  text-align: left;
+  font-style: italic;
+  color: #555;
+}

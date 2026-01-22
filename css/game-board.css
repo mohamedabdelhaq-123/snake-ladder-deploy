@@ -1,0 +1,211 @@
+
+
+
+/* Page layout container */
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 50px 20px; /* space under navbar */
+  border-radius: 8px;
+  background-color: #f0f9f8;
+  margin-bottom: 20px;
+
+  gap: 200px; /* spacing between left and right */
+}
+
+.gameBoard .player-marker {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}
+
+.right-side-bar .player-name-indicator{
+  margin-left: 45px;
+}
+
+.game-board-image{
+  position: absolute;
+  border-radius: 50% ;
+  width: 40px;
+  height: 40px;
+}
+
+.left-side-bar {
+  width: 65%;
+}
+
+.right-side-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Game board area */
+.gameBoard {
+  position: absolute;
+  display: grid;
+  grid-template-columns: auto auto auto;
+
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+
+.gameBoard img {
+  width: 800px;
+  height: 800px;
+  border-radius: 8px;
+}
+
+/* Right side blocks */
+.overall-right-side-bar-styling {
+  width: 100%;
+  padding: 15px;
+
+  background-color: #ffffff;
+  border-radius: 8px;
+
+  box-shadow: 0 4px 10px rgba(108, 117, 116, 0.3);
+}
+
+/* Active turn block */
+#upper-right-side-bar {
+  border-left: 5px solid #1dc9ba;
+}
+
+.playerImgName {
+  display: flex;
+  align-items: center;
+}
+
+.activeTurnTextBlock {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  gap: 10px;
+}
+
+.playerImgName img {
+  border-radius: 50%;
+  margin-left: 10px;
+  width: 50px;
+  border: 2px solid #1dc9ba;
+}
+
+#activeTurnText {
+  margin: 0;
+  color: #1dc9ba;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#activeTurnPlayerName {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Dice section */
+.diceRollSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: dashed 1px #1dc9ba;
+  border-radius: 8px;
+
+  margin-top: 20px;
+  margin-bottom: 10px;
+
+  background-color: #f0f9f8;
+}
+
+.diceRollSection img {
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  object-fit: contain;
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 20%;
+}
+
+/* Roll dice button:
+   - global.css already gives 3D + animation
+   - keep ONLY sizing/typography specific to this big button */
+#rollDiceButton {
+  width: 70%;
+  padding: 16px 0;
+  font-size: 28px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+/* Players leaderboard block */
+.playersLeaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.playerPostionSquareNumber p {
+  font-size: 15px;
+  margin: 5px;
+  padding: 5px;
+  background-color: #1dc9ba;
+  color: white;
+  border-radius: 8px;
+}
+
+.playersLeaderboard h5 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.playerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.PickedPlayerTurn {
+  background-color: #e6f7f5;
+  border: 1px solid #1dc9ba;
+  border-radius: 12px;
+  border-left: 5px solid #1dc9ba;
+  padding-left: 20px;
+}
+
+/* Game log block */
+.gameLog {
+  margin-bottom: 50px;
+  background-color: #f0f9f8;
+}
+
+.gameLog h5 {
+  text-align: left;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #50958f;
+}
+
+.gameLog ul {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+  list-style-type: disc;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  color: #50958f;
+  white-space: nowrap;
+}

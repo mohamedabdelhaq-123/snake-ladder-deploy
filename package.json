@@ -1,7 +1,6 @@
 {
   "name": "snake-ladder",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "eslint": "^9.39.2"
   },
@@ -82,5 +81,6 @@
     "which": "^2.0.2",
     "word-wrap": "^1.2.5",
     "yocto-queue": "^0.1.0"
-  }
+  },
+  "description": ""
 }
