@@ -27,7 +27,7 @@ module.exports = [
 			"no-extra-semi": "error",
 			"no-unreachable": "error",
 			"no-unused-vars": ["error", {
-				varsIgnorePattern: "^[A-Z][a-z]",
+				varsIgnorePattern: "^(([A-Z][a-z])|(^_))",
 				argsIgnorePattern: "^_"
 			}],
 			"no-undef": "error",

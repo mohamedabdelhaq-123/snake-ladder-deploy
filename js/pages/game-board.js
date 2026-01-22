@@ -4,6 +4,7 @@ import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
 import Grid from "../game-logic/grid.js";
 import PortalTile from "../game-logic/tiles/portalTile.js";
 import PlayerAccountData from "../utils/PlayerAccountData.js";
+import Point from "../utils/point.js";
 /**
  * Constants
  */
@@ -22,9 +23,9 @@ const playerAccountData = JSON.parse(gameData);
 const players = [];
 const playerIcons = [];
 playerAccountData.forEach((player)=>{
-	players.push(player.name)
+	players.push(player.name);
 	playerIcons.push(parseInt(player.imgNumber));
-	
+
 });
 
 
@@ -48,8 +49,9 @@ let grid = new Grid(GRID_W,GRID_H);
 	[66,45],
 	[89,53],
 
-	[99,41],
-	[95,76],
+	// for faster winning
+	// [99,41],
+	// [95,76],
 
 	// Ladders
 	[4,23],
@@ -69,7 +71,23 @@ let grid = new Grid(GRID_W,GRID_H);
 	));
 });
 let game = new Game(playerIds,grid);
-loadGameState(game);
+// check if starting a new game
+let startNew = JSON.parse(window.localStorage.getItem("startNewGame"));
+if (!startNew){
+	let shouldLoad = window.confirm("valid save data found, load game?");
+	if (shouldLoad){
+		loadGameState(game);
+	}
+}
+window.localStorage.setItem("startNewGame",JSON.stringify(false));
+
+// SKIP cheat
+window.skip = function(n){
+	game.players.forEach((player,index)=>{
+		game.advancePlayer(player.playerId,n);
+		updateMarkerPosition(index);
+	});
+};
 
 /**
  * DOM REFERENCES (Static Elements)
@@ -77,6 +95,7 @@ loadGameState(game);
 const rollButton = document.getElementById("rollDiceButton");
 const diceImage = document.getElementById("diceIcon");
 const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
+const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
 
 // Containers
 const leaderboardContainer = document.getElementById("playersLeaderboard");
@@ -96,6 +115,10 @@ const uiSquareValues = [];
 const uiCardContainers = [];
 const uiLogs = [];
 const uiPlayerMarkers = [];
+
+
+
+
 
 /**
  * INITIALIZATION: setUpPlayers
@@ -159,6 +182,13 @@ function setUpPlayers() {
 	updateTurnDisplay();  /* Make first player active turn */
 }
 
+
+
+
+
+
+
+
 async function updateMarkerPosition(index,instant=false){
 
 	// currently alternating left position visually
@@ -193,12 +223,27 @@ async function updateMarkerPosition(index,instant=false){
 	uiSquareValues[index].textContent = `Square ${distance}`;
 }
 
+
+
+
+
 function updateTurnDisplay() {
 	activeTurnDisplay.textContent = `${players[game.current]}'s Turn`;
+	activeTurnPlayerImg.src=`../assets/images/Player${playerIcons[game.current]}-Icon.jpg`;
 }
+
+
+
 
 // Execute setup on script load
 setUpPlayers();
+
+
+
+
+
+
+
 
 /**
  * advances player and displays the changes along the way
@@ -225,6 +270,32 @@ async function updatePositionsUI(result) {
 
 }
 
+
+
+function goToLeaderBoard() {
+	// 1. Loop through all players in the Game Logic to get their actual positions
+	game.players.forEach((playerData, id) => {
+		// Calculate the linear score (Square 1 to 100)
+		// logic: y * 10 + x + 1
+		const pos = playerData.position;
+		const finalScore = pos.y * GRID_W + pos.x + 1;
+
+		// 2. Update the shared "playerAccountData" object
+		if (playerAccountData[id]) {
+			playerAccountData[id].score = finalScore;
+		}
+	});
+
+	// 3. Save the UPDATED data back to the browser's memory
+	window.localStorage.setItem("playerAccountData", JSON.stringify(playerAccountData));
+	window.localStorage.setItem("startNewGame", JSON.stringify(true));
+
+	// 4. Redirect to the Leaderboard Page
+	// This path matches the 'href' seen in your HTML source code
+	window.location.href = "../html/leaderboard.html";
+}
+
+
 /**
  * TURN MANAGEMENT: activePlayerLeaderboardHighlight
  * Manages the CSS classes on the player card containers.
@@ -236,18 +307,31 @@ function activePlayerLeaderboardHighlight() {
 	// 2. Increment index
 	game.updateQueues();
 
-	// 3. Highlight the new player
-	uiCardContainers[game.current].classList.add("PickedPlayerTurn");
 
+	// 3.check if game ended
+	if (game.winQueue.length > 0)
+	{
+		goToLeaderBoard(); // player won
+		return; // Stop the function here so we don't switch turns
+	}
+
+	// 4. Highlight the new player
+	uiCardContainers[game.current].classList.add("PickedPlayerTurn");
 	updateTurnDisplay();
+
+
+
 }
+
+
+
 
 /**
  * EVENT LISTENERS
  */
 rollButton.addEventListener("click", () => {
 	// Check win condition
-	if (game.winQueue.length > 0) {return;}
+	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
 
 	rollButton.disabled = true;
 	diceImage.src = "../assets/images/dice-animation.gif";
