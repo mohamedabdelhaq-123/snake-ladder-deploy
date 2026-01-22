@@ -14,6 +14,23 @@
   gap: 200px; /* spacing between left and right */
 }
 
+.gameBoard .player-marker {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}
+
+.right-side-bar .player-name-indicator{
+  margin-left: 45px;
+}
+
+.game-board-image{
+  position: absolute;
+  border-radius: 50% ;
+  width: 40px;
+  height: 40px;
+}
+
 .left-side-bar {
   width: 65%;
 }
@@ -27,6 +44,7 @@
 
 /* Game board area */
 .gameBoard {
+  position: absolute;
   display: grid;
   grid-template-columns: auto auto auto;
 
@@ -35,8 +53,8 @@
 }
 
 .gameBoard img {
-  width: 90%;
-  height: auto;
+  width: 800px;
+  height: 800px;
   border-radius: 8px;
 }
 

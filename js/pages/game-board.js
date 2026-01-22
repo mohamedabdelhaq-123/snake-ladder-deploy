@@ -82,9 +82,9 @@ if (!startNew){
 window.localStorage.setItem("startNewGame",JSON.stringify(false));
 
 // SKIP cheat
-window.skip = function(){
+window.skip = function(n){
 	game.players.forEach((player,index)=>{
-		player.position = new Point(5,5);
+		game.advancePlayer(player.playerId,n);
 		updateMarkerPosition(index);
 	});
 };
