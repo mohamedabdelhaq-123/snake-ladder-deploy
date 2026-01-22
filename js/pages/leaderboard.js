@@ -1,6 +1,40 @@
-let homeBtn = document.getElementById("home-button");
-let instructionBtn = document.getElementById("instruction-button");
-let playAgainBtn = document.getElementById("play-again-button");
-homeBtn.addEventListener("click",()=>window.location.assign("../html/home.html"));
-instructionBtn.addEventListener("click",()=>window.location.assign("../html/instruction.html"));
-playAgainBtn.addEventListener("click",()=>window.location.assign("../html/gameBoardScreen.html"));
+
+import PlayerAccountData from "../utils/PlayerAccountData.js";
+const gameData = window.localStorage.getItem("playerAccountData");
+const tableBody = document.querySelector("tbody");
+const playerAccountData = JSON.parse(gameData);
+const playerRowTemplate = document.getElementById("player-row")
+console.log(playerAccountData);
+playerAccountData.sort((a,b)=>b.score-a.score);
+
+
+function addPlayerToTable(player,index){
+  console.log(player.name,player.imgNumber)
+   const clonedPlayerTemplate = playerRowTemplate.content.cloneNode(true);
+
+  const clonedPlayerRow = clonedPlayerTemplate.firstElementChild;
+
+  const clonedPlayerTableData = clonedPlayerRow.querySelectorAll("td");
+
+  const playerNameSpan = clonedPlayerTableData.item(0).firstElementChild;
+
+  playerNameSpan.textContent = index+1;
+  
+  const playerCardContainer = clonedPlayerTableData.item(1);
+
+  const playerImage = playerCardContainer.firstElementChild
+  playerImage.src = `../assets/images/Player${player.imgNumber}-Icon.jpg`;
+
+  const playerName = playerCardContainer.querySelector("span");
+  playerName.textContent = `${player.name}`
+
+  const scoreCell = clonedPlayerTableData.item(2);
+  scoreCell.textContent = player.score; 
+
+  tableBody.appendChild(clonedPlayerRow);
+}
+
+
+playerAccountData.forEach((element,index) => {
+  addPlayerToTable(element,index)
+});

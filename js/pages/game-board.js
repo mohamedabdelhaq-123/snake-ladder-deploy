@@ -3,6 +3,7 @@ import { delay, diceRoll } from "../utils/utils.js";
 import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
 import Grid from "../game-logic/grid.js";
 import PortalTile from "../game-logic/tiles/portalTile.js";
+import PlayerAccountData from "../utils/PlayerAccountData.js";
 /**
  * Constants
  */
@@ -15,8 +16,18 @@ const cellSize = 80;     // 80 comes from: 800px Board Width / 10 Columns
 /**
  * Received Data HomePage
  */
-const players = ["Momo", "ZoZ", "Andrew", "Haneen"];
-const playerIcons = [1,2,4,3];
+const gameData = window.localStorage.getItem("playerAccountData");
+console.log(gameData);
+const playerAccountData = JSON.parse(gameData);
+const players = [];
+const playerIcons = [];
+playerAccountData.forEach((player)=>{
+	players.push(player.name)
+	playerIcons.push(parseInt(player.imgNumber));
+	
+});
+
+
 
 // Build game
 const playerIds = [];

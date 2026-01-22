@@ -61,27 +61,45 @@ td {
 }
 
 /* Rank colors */
-tbody tr:nth-child(1) td:nth-child(1) {
+tbody tr:nth-child(1) td:nth-child(1) span {
   background-color: #facc14;
   color: white;
-  border-radius: 5rem;
-  width: fit-content;
+  border-radius: var(--radius-pill);
+  width : 5rem;
+  height : 4rem;
+  display : inline-flex;
+  align-items : center;
+  justify-content : center;
+
 }
 
-tbody tr:nth-child(2) td:nth-child(1) {
+tbody tr:nth-child(2) td:nth-child(1) span{
   background-color: #e2e8f0;
+  border-radius: var(--radius-pill);
+  width : 5rem;
+  height : 4rem;
   color: #6b798a;
   border-radius: 5rem;
+  display : inline-flex;
+  align-items : center;
+  justify-content : center;
 }
 
-tbody tr:nth-child(3) td:nth-child(1) {
+tbody tr:nth-child(3) td:nth-child(1) span{
   background-color: #fed8aa;
+  border-radius: var(--radius-pill);
+  width : 5rem;
+  height : 4rem;
   color: #ce602e;
   border-radius: 5rem;
+  display : inline-flex;
+  align-items : center;
+  justify-content : center;
 }
 
 tbody td:nth-child(1) {
   color: #96a2b8;
+  
 }
 
 /* Player cell */
@@ -89,14 +107,14 @@ td.player-info {
   display: flex;
   align-items: center;
   min-width: 150px;
-  margin-left: 1rem;
   gap: 0.5rem;
 }
 
 td.player-info img {
-  width: 2rem;
-  height: 2rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
+  margin-right: 2rem;
   flex-shrink: 0;
 }
 
@@ -112,12 +130,9 @@ main .play-again-button button {
   margin-bottom: 2rem;
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: small;
-  color: #71a7a3;
-  background-color: white;
-  margin-top: auto;
+
+
+.leaderboard-container{
+  overflow: auto;
+  height: 35rem;
 }

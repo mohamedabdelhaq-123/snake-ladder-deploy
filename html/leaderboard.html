@@ -6,17 +6,30 @@
     <title>Leaderboard</title>
      <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/leaderboard.css" />
+     <script type="module" src="../js/pages/leaderboard.js"></script>
+     <template id="player-row">
+        <tr >
+              <td><span>1</span></td>
+              <td class="player-info">
+                <img src="../assets/images/Player1-Icon.jpg" alt="player1">
+                <span>andrew</span>
+              </td>
+              <td>100</td>
+        </tr>
+    </template>
   </head>
   <body>
     <!-- Navigation Bar -->
     <nav>
       <div class="logo-section">
+        
         <img  src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
         <h2> Snake <span class="highlight">&</span> Ladders</h2>
+        </a>
       </div>
       <div class="nav-buttons">
-        <button id="home-button">Home</button>
-        <button id="instruction-button">Instructions</button>
+        <a id="home-button" href="home.html">Home</a>
+        <a id="instruction-link" href="instructions.html">Instructions</a>
       </div>
     </nav>
 
@@ -30,7 +43,8 @@
       <h1>Champions</h1>
       <p>The runner ups</p>
       
-        <table>
+       <div class="leaderboard-container">
+         <table>
           <thead>
             <tr>
               <th id="rank">Rank</th>
@@ -39,42 +53,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr >
-              <td>1</td>
-              <td class="player-info">
-                <img src="../assets/images/Player1-Icon.jpg" alt="player1">
-                andrew
-              </td>
-              <td>100</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td class="player-info">
-                <img src="../assets/images/Player1-Icon.jpg" alt="player1">
-                zeyad
-              </td>
-              <td>100</td>
-            </tr>
-            <tr>
-              <td>3</td>
-             <td class="player-info">
-                <img src="../assets/images/Player1-Icon.jpg" alt="player1">
-                abdelhaq
-              </td>
-              <td>100</td>
-            </tr>
-             <tr>
-              <td>4</td>
-              <td class="player-info">
-                <img src="../assets/images/Player1-Icon.jpg" alt="player1">
-                Hanin
-              </td>
-              <td>100</td>
-            </tr>
+           
           </tbody>
         </table>
+
+       </div>
         <div class="play-again-button">
-           <button id="play-again-button">Play again</button>
+           <button id="play-button">Play again</button>
         </div>
        
     </main>
@@ -84,6 +69,6 @@
         ,Andrew Emad,hashim abdelaziz
       </p>
     </footer>
-    <script src="../js/pages/leaderboard.js"></script>
+   
   </body>
 </html>
