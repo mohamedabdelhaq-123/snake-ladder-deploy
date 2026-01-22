@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Snakes and Ladders</title>
+	<title>home</title>
 	 <link rel="stylesheet" href="../css/global.css">
 	<link rel="stylesheet" href="../css/home.css">
+	<script type="module" src="../js/pages/home.js"></script>
 </head>
 <body>
 <!-- Navigation Bar -->
@@ -13,13 +14,14 @@
       <div class="logo-section">
         <img  src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
         <h2> Snake <span class="highlight">&</span> Ladders</h2>
+        </a>
       </div>
       <div class="nav-buttons">
-        <button id="home-button">Home</button>
-        <button id="instruction-button">Instructions</button>
+        <a id="leaderboard-link" href="leaderboard.html">Leaderboard</a>
+        <a id="instruction-link" href="instructions.html">Instructions</a>
       </div>
     </nav>
-	<div id="main">
+	<main>
 		<div id="header">
 			<img src="assets/logo.png" alt="Snakes& Ladders Logo">
 			<h1>Let's Roll!</h1>
@@ -32,35 +34,56 @@
 			</div>
 			<div id="players">
 				<div class="user-entry">
-					<span class="color-picker-container">
-						<input type="color" name="clr1" id="clr1">
-					</span>
+					
 					<input type="text" name="player1" id="player1" placeholder="Player1 Name">
+					<select name="profile-picture" id="player1-picture">
+						<option value="">Pick an image</option>
+						<option value="1">option1</option>
+						<option value="2">option2</option>
+						<option value="3">option3</option>
+						<option value="4">option4</option>
+					</select>
+					<img src="../assets/images/Player0-icon.png" alt="">
 				</div>
 				<div class="user-entry">
-					<span class="color-picker-container">
-						<input type="color" name="clr2" id="clr2">
-					</span>
+					
 					<input type="text" name="player2" id="player2" placeholder="Player2 Name">
+					<select name="profile-picture" id="player2-picture">
+						<option value="">Pick an image</option>
+						<option value="1">option1</option>
+						<option value="2">option2</option>
+						<option value="3">option3</option>
+						<option value="4">option4</option>
+					</select>
+						<img src="../assets/images/Player0-icon.png" alt="">
 				</div>
 				<div class="user-entry">
-					<span class="color-picker-container">
-						<input type="color" name="clr3" id="clr3">
-					</span>
+					
 					<input type="text" name="player3" id="player3" placeholder="Player3 Name (Optional)">
+					<select name="profile-picture" id="player3-picture">
+						<option value="">Pick an image</option>
+						<option value="1">option1</option>
+						<option value="2">option2</option>
+						<option value="3">option3</option>
+						<option value="4">option4</option>
+					</select>
+						<img src="../assets/images/Player0-icon.png" alt="">
 				</div>
 				<div class="user-entry">
-					<span class="color-picker-container">
-						<input type="color" name="clr4" id="clr4">
-					</span>
+					
 					<input type="text" name="player4" id="player4" placeholder="Player4 Name (Optional)">
+					<select name="profile-picture" id="player4-picture">
+						<option value="">Pick an image</option>
+						<option value="1">option1</option>
+						<option value="2">option2</option>
+						<option value="3">option3</option>
+						<option value="4">option4</option>
+					</select>
+						<img src="../assets/images/Player0-icon.png" alt="">
 				</div>
 			</div>
 			
-			<button type="button" id="play-btn">
-				<span>PLAY NOW</span>
-				
-			</button>
+			<a href="game-board.html" id="play-button">PLAY NOW</a>
 			<!-- don't know how to make it that small -->
 			<p class="font-small">By clicking play you agree to the game rules</p>
 			
@@ -74,6 +97,6 @@
         ,Andrew Emad,hashim abdelaziz
       </p>
     </footer>
-		<script src="../js/pages/home.js"></script>
+
 </body>
 </html>

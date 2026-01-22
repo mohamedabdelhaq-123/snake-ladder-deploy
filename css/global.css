@@ -132,7 +132,7 @@ button,
 .nav-links a,
 #backToHomeLink,
 #exitGameLink,
-.btn {
+.btn ,a{
   appearance: none;
   border: none;
   cursor: pointer;
@@ -159,7 +159,7 @@ button:hover,
 .nav-links a:hover,
 #backToHomeLink:hover,
 #exitGameLink:hover,
-.btn:hover {
+.btn:hover,a:hover {
   filter: brightness(1.02);
   box-shadow: 0px 4px 10px 2px #84f9ef;
 }
@@ -170,7 +170,7 @@ button:active,
 .nav-links a:active,
 #backToHomeLink:active,
 #exitGameLink:active,
-.btn:active {
+.btn:active,a:active {
   transform: translateY(5px);
   box-shadow: none;
 }
@@ -208,4 +208,13 @@ main table {
 /* Utility spacing */
 .container {
   width: 100%;
+}
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: small;
+  color: #71a7a3;
+  background-color: white;
+  margin-top: auto;
 }
