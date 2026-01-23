@@ -124,7 +124,7 @@ button,
 .nav-links a,
 #backToHomeLink,
 #exitGameLink,
-.btn ,a.btn{
+.btn ,a{
   appearance: none;
   border: none;
   cursor: pointer;
