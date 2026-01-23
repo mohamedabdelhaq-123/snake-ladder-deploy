@@ -48,10 +48,9 @@ let grid = new Grid(GRID_W,GRID_H);
 	[54,31],
 	[66,45],
 	[89,53],
-
-	// for faster winning
-	// [99,41],
-	// [95,76],
+	
+	[99,41],
+	[95,76],
 
 	// Ladders
 	[4,23],
