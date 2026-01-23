@@ -18,6 +18,7 @@
   position: absolute;
   width: 60px;
   height: 60px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .right-side-bar .player-name-indicator{

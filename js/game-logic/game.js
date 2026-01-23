@@ -181,13 +181,8 @@ export default class Game {
 		// if index got smaller then new round started
 		// TODO: check if logic holds up
 		if (this.#shufflOnRoundEnd && this.#activeQueue.id<last_index){
-			console.log("shuffled");
 			// simple (but biased) shuffle
 			this.#activeQueue.data.sort(() => Math.random() - 0.5);
-		} else {
-			console.log(this.#shufflOnRoundEnd);
-			console.log(this.#activeQueue.id);
-			console.log(last_index);
 		}
 	}
 
