@@ -134,7 +134,7 @@ export default class Game {
 			if (
 				player!==otherPlayer&&
 				player.position.key()===otherPlayer.position.key()&&
-				player.position.key()!==new Point(0,0).key()
+				player.position.key()!==(new Point(0,0)).key()
 			){
 				// send to checkpoint (currentl 0,0)
 				otherPlayer.position = new Point(0,0);
@@ -181,13 +181,8 @@ export default class Game {
 		// if index got smaller then new round started
 		// TODO: check if logic holds up
 		if (this.#shufflOnRoundEnd && this.#activeQueue.id<last_index){
-			console.log("shuffled");
 			// simple (but biased) shuffle
 			this.#activeQueue.data.sort(() => Math.random() - 0.5);
-		} else {
-			console.log(this.#shufflOnRoundEnd);
-			console.log(this.#activeQueue.id);
-			console.log(last_index);
 		}
 	}
 
