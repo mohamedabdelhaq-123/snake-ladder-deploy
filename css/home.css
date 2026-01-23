@@ -174,7 +174,7 @@ a {
   flex-grow: 1;
   border-radius: 0;
   margin-bottom: 5px;
-  color: var(--primary);
+  background-color: #c33;
 }
 
 #challenges button:first-child {
@@ -188,7 +188,7 @@ a {
 #challenges button.active {
   transform: translateY(5px);
   box-shadow: none;
-  background-color: var(--primary);
+  background-color: #f33;
 }
 
 #challenges button img{
