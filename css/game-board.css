@@ -189,9 +189,14 @@
   height: 80px;
   width: 100%;
   border-style: solid;
-  border-width: 5px;
+  border-width: 0;
+  border-right-width: 5px;
+  border-bottom-width: 10px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 0px;
   border-color: #aa3333;
   background-color: #aa333333;
+  transition: transform 0.5s ease-in-out;
 }
 
 #flagMarker img{

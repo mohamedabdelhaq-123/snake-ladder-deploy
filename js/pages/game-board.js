@@ -201,7 +201,7 @@ function setUpPlayers() {
 
 
 async function updateMarkerPosition(index,instant=false){
-
+	console.log("update");
 	// currently alternating left position visually
 	// and flipping y direction (advance up)
 	const pos = game.players.get(index).position;  /* (x,y) ==> in css (x,y) but from up*/
@@ -277,6 +277,11 @@ async function updatePositionsUI(result) {
 	// process roll result
 	game.processEffects(game.current,effects);
 
+	// updates other players, no need to await? not sure
+	players.forEach((_,index)=>{
+		updateMarkerPosition(index,false);
+	});
+
 	await updateMarkerPosition(game.current);
 
 	// Update the game log text using our array reference
@@ -326,7 +331,8 @@ function refreshActiveLeaderBoard(){
 }
 
 function updateEliminationFlagPosition(){
-	uiFlagMarker.style.top=`${80*(GRID_H-currentEliminationRow-1)}px`;
+	uiFlagMarker.style.transform= `translateY(${80*(GRID_H-currentEliminationRow-1)}px)`;
+	// uiFlagMarker.style.top=`${80*(GRID_H-currentEliminationRow-1)}px`;
 }
 
 /**
