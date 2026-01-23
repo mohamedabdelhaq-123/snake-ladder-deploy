@@ -2,6 +2,7 @@ import PlayerGameData from "./player.js";
 import Tile from "./tiles.js";
 import CyclicQueue from "../utils/cyclicQueue.js";
 import { diceRoll } from "../utils/utils.js";
+import Point from "../utils/point.js";
 
 /**
  * Class containing the game state as well as game logic
@@ -18,13 +19,19 @@ export default class Game {
 	#grid;            /* game board */
 
 	/**@type {CyclicQueue<number>} */
-	#activeQueue = new CyclicQueue();  /* track whose turn it is 1,2,3,1,2,3,.... */
+	#activeQueue;  /* track whose turn it is 1,2,3,1,2,3,.... */
 
 	/**@type {Array<number>} */
 	#winQueue = [];               /* 3,1,2 ==> player 3 reached 100 then player 1,... */
 
-	constructor(playerIds,grid) {
+	//Challenges
+	#shufflOnRoundEnd;
+	#noOverlap;
+
+	constructor(playerIds,grid,shufflOnRoundEnd,noOverlap) {
 		// TODO: add validation for parameters
+		this.shufflOnRoundEnd = shufflOnRoundEnd;
+		this.#noOverlap= noOverlap;
 
 		let queueData = this.#activeQueue.data;  /* take direct access to turn order (to add player simply)*/
 
@@ -109,6 +116,30 @@ export default class Game {
 		if (effects instanceof Tile){
 			effects.effect(this,player);
 		}
+
+		// enforce no overlap if applicable
+		if (this.#noOverlap){
+			this.enforceNoOverlap(player);
+		}
+
+	}
+
+	/**
+	 * sends all but the last player to a checkpoint (currenly 0,0)
+	 * @param {PlayerGameData} player
+	 */
+	enforceNoOverlap(player){
+		this.#players.forEach(otherPlayer => {
+			// if players are overlapping anywhere but the start
+			if (
+				player!==otherPlayer&&
+				player.position.key()===otherPlayer.position.key()&&
+				player.position.key()!==new Point(0,0).key()
+			){
+				// send to checkpoint (currentl 0,0)
+				player.position = new Point(0,0);
+			}
+		});
 	}
 
 	/**
@@ -125,6 +156,7 @@ export default class Game {
 	 * updates the active and winning queue
 	 */
 	updateQueues(){
+		let last_index = this.#activeQueue.id;
 		let anyWins = false;
 		this.#activeQueue.data.forEach((playerId)=>{
 			let player = this.#players.get(playerId);
@@ -137,8 +169,16 @@ export default class Game {
 			}
 		});
 
+		//TODO the logic here is faulty, revise it
 		if (!anyWins) {
 			this.#activeQueue.next(); /* if no one won so go to the second turn */
+		}
+
+		// if index got smaller then new round started
+		// TODO: check if logic holds up
+		if (this.#shufflOnRoundEnd && this.#activeQueue.id<last_index){
+			// simple (but biased) shuffle
+			this.#activeQueue.data.sort(() => Math.random() - 0.5);
 		}
 	}
 
