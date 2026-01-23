@@ -118,21 +118,13 @@ nav .nav-buttons,
   background: var(--primary-soft);
 }
 
-/* -----------------------------
-   Unified BUTTONS (3D press effect like Roll Dice)
-   Works with:
-   - <button> (leaderboard + home)
-   - <a> styled as buttons (gameboard back/exit links)
-   - instruction .btn classes
------------------------------- */
-
 /* Base button style */
 button,
 .nav-buttons button,
 .nav-links a,
 #backToHomeLink,
 #exitGameLink,
-.btn ,a{
+.btn ,a.btn{
   appearance: none;
   border: none;
   cursor: pointer;
