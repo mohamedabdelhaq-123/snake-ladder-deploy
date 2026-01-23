@@ -17,6 +17,8 @@ const cellSize = 80;     // 80 comes from: 800px Board Width / 10 Columns
 /**
  * Received Data HomePage
  */
+const challengesToggled = JSON.parse(window.localStorage.getItem("challengesToggled"));
+
 const gameData = window.localStorage.getItem("playerAccountData");
 console.log(gameData);
 const playerAccountData = JSON.parse(gameData);
@@ -70,7 +72,16 @@ let grid = new Grid(GRID_W,GRID_H);
 		grid.distToPoint(end-1)
 	));
 });
-let game = new Game(playerIds,grid);
+
+
+const challengeNoOverlap = challengesToggled[0];
+const challengeShuffle = challengesToggled[1];
+const challengeCards = challengesToggled[2];
+const challengeElimination = challengesToggled[3];
+let currentEliminationRow = 0;
+
+let game = new Game(playerIds,grid,challengeShuffle,challengeNoOverlap);
+
 // check if starting a new game
 let startNew = JSON.parse(window.localStorage.getItem("startNewGame"));
 if (!startNew){
@@ -106,6 +117,7 @@ const playerMarkerContainer = document.getElementById("playerMarkerContainer");
 const playerTemplate = document.getElementById("playerInfo");
 const logTemplate = document.getElementById("gameLogPlayers");
 const playerMarkerTemplate = document.getElementById("playerMarker");
+const uiFlagMarker = document.getElementById("flagMarker");
 
 /**
  * UI REFERENCES (Dynamic Elements)
@@ -115,7 +127,6 @@ const uiSquareValues = [];
 const uiCardContainers = [];
 const uiLogs = [];
 const uiPlayerMarkers = [];
-
 
 
 
@@ -237,7 +248,12 @@ function updateTurnDisplay() {
 
 // Execute setup on script load
 setUpPlayers();
+refreshActiveLeaderBoard();
 
+if (challengeElimination){
+	updateEliminationFlagPosition();
+	uiFlagMarker.hidden=false;
+}
 
 
 
@@ -295,6 +311,23 @@ function goToLeaderBoard() {
 	window.location.href = "../html/leaderboard.html";
 }
 
+function refreshActiveLeaderBoard(){
+	// clear out old children
+	game.players.forEach(player => {
+		let playerId = player.playerId;
+		uiCardContainers[playerId].classList.add("disabled");
+	});
+
+	// add children that are in the active queue
+	game.activeQueue.forEach(playerId => {
+		leaderboardContainer.append(uiCardContainers[playerId]);
+		uiCardContainers[playerId].classList.remove("disabled");
+	});
+}
+
+function updateEliminationFlagPosition(){
+	uiFlagMarker.style.top=`${80*(GRID_H-currentEliminationRow-1)}px`;
+}
 
 /**
  * TURN MANAGEMENT: activePlayerLeaderboardHighlight
@@ -303,9 +336,30 @@ function goToLeaderBoard() {
 function activePlayerLeaderboardHighlight() {
 	// 1. Target the .playerInfo container of the player who just moved
 	uiCardContainers[game.current].classList.remove("PickedPlayerTurn");
-
 	// 2. Increment index
 	game.updateQueues();
+
+	if (challengeElimination){
+
+		// eliminate bad players
+		game.activeQueue.forEach(playerId => {
+			let player = game.players.get(playerId);
+
+			if (player.position.y<currentEliminationRow){
+				game.removePlayerFromActiveQueue(playerId);
+			}
+		});
+
+		// add player from above
+		let activeRows = game.activeQueue.map((id)=>game.players.get(id).position.y);
+		let worstRow = Math.min(...activeRows);
+		currentEliminationRow = worstRow;
+
+		// TODO update visual indicator
+		updateEliminationFlagPosition();
+	}
+
+	refreshActiveLeaderBoard();
 
 
 	// 3.check if game ended
@@ -357,3 +411,30 @@ rollButton.addEventListener("click", () => {
 
 	}, 1000);
 });
+
+window.weightedRoll = function(n) {
+	// Check win condition
+	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
+
+	rollButton.disabled = true;
+	diceImage.src = "../assets/images/dice-animation.gif";
+
+
+	let result = n;
+
+	setTimeout(() => {
+		diceImage.src = `../assets/images/dice-${result}.png`;
+
+		updatePositionsUI(result).then(()=>{
+			//Note: button becomes enabled after update updatePositionUI is called
+
+			activePlayerLeaderboardHighlight();
+
+			// Saving
+			saveGameState(game);
+
+			// Note: button becomes enabled after all visual effects and animations are done
+			rollButton.disabled = false;
+		});
+	});
+};

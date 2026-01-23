@@ -138,3 +138,65 @@ a {
   box-shadow: 0px 0px 10px 0px rgba(113, 167, 163, 0.4);
   border-radius: 2rem;
 }
+
+#challenge-panel {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content:center;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  border-width: 2px;
+  border-bottom: 5px ;
+  border-color: var(--primary);
+  border-style: solid;
+  border-radius: 10px;
+}
+
+#challenges {
+  display: flex;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+#challenge-panel summary {
+  text-align: start;
+  font-weight: bold;
+}
+
+#challenge-panel hr {
+  color: var(--primary);
+}
+
+#challenges button {
+  box-shadow: 0;
+  flex-grow: 1;
+  border-radius: 0;
+  margin-bottom: 5px;
+  background-color: #c33;
+}
+
+#challenges button:first-child {
+  border-radius: 20px 0 0 20px;
+}
+
+#challenges button:last-child {
+  border-radius: 0 20px 20px 0;
+}
+
+#challenges button.active {
+  transform: translateY(5px);
+  box-shadow: none;
+  background-color: #f33;
+}
+
+#challenges button img{
+  width: 80%;
+  filter: invert();
+}
+
+#challenges button.active img{
+  width: 80%;
+  filter: none;
+}

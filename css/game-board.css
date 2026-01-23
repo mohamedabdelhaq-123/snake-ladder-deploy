@@ -177,6 +177,33 @@
   border-bottom: 1px solid #ccc;
 }
 
+.playerInfo.disabled {
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#flagMarker{
+  position: absolute;
+  border-radius: 10px;
+  height: 80px;
+  width: 100%;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #aa3333;
+  background-color: #aa333333;
+}
+
+#flagMarker img{
+  position: absolute;
+  border-radius: 50%;
+  margin-top: 15px;
+  width: 40px;
+  height: 40px;
+  left:775px;
+  background-color: #aa3333;
+}
+
 .PickedPlayerTurn {
   background-color: #e6f7f5;
   border: 1px solid #1dc9ba;

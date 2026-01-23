@@ -73,8 +73,39 @@ playButton.addEventListener("click", (event) => {
 	console.log( JSON.stringify(playerAccountDataList));
 	window.localStorage.setItem("playerAccountData", JSON.stringify(playerAccountDataList));
 	window.localStorage.setItem("startNewGame", JSON.stringify(true));
+	window.localStorage.setItem("challengesToggled",JSON.stringify(challengesToggled));
 	window.location.href = "game-board.html";
 });
 
+let challengesToggled = JSON.parse(window.localStorage.getItem("challengesToggled"));
+if (!challengesToggled){
+	challengesToggled = [false,false,false,false];
+}
+
+let toggleButtons = Array.from(document.getElementsByClassName("toggle-button"));
+function updateChallengeButtons(){
+	toggleButtons.forEach((button,index) => {
+		if (challengesToggled[index]){
+			button.classList.add("active");
+		} else {
+			button.classList.remove("active");
+		}
+	});
+}
+
+
+toggleButtons.forEach((toggleButton,index)=>{
+	toggleButton.addEventListener("click", function() {
+
+		// Toggle the value
+		challengesToggled[index] = !challengesToggled[index];
+
+		// update the 'active' class
+		updateChallengeButtons();
+	});
+});
+
+
+updateChallengeButtons();
 clearInputFields();
 clearSelectFields(allSelects);
