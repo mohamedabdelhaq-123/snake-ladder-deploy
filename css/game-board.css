@@ -1,4 +1,15 @@
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  flex:1
+}
+
 
 
 /* Page layout container */
@@ -10,10 +21,15 @@
   border-radius: 8px;
   background-color: #f0f9f8;
   margin-bottom: 20px;
-
+  
   gap: 200px; /* spacing between left and right */
 }
 
+.gameBoard img {
+  width: 800px;
+  height: 800px;
+  border-radius: 8px;
+}
 .gameBoard .player-marker {
   position: absolute;
   width: 60px;
@@ -21,9 +37,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.right-side-bar .player-name-indicator{
-  margin-left: 45px;
-}
+
 
 .game-board-image{
   position: absolute;
@@ -40,9 +54,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  width: 25rem;
+  gap: 1.2rem;
 }
 
+.right-side-bar .player-name-indicator{
+  margin-left: 45px;
+}
 /* Game board area */
 .gameBoard {
   position: absolute;
@@ -53,11 +71,7 @@
   border-radius: 15px;
 }
 
-.gameBoard img {
-  width: 800px;
-  height: 800px;
-  border-radius: 8px;
-}
+
 
 /* Right side blocks */
 .overall-right-side-bar-styling {
@@ -115,27 +129,39 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   border: dashed 1px #1dc9ba;
   border-radius: 8px;
-
-  margin-top: 20px;
-  margin-bottom: 10px;
-
+  height: 20rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   background-color: #f0f9f8;
 }
 
-.diceRollSection img {
-  margin-top: 30px;
-  margin-bottom: 30px;
-
+#outcome img {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   object-fit: contain;
   display: block;
-  width: 100px;
-  height: 100px;
-  border-radius: 20%;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 10%;
 }
-
+/* this will be the description div for the card  */
+#outcome.active{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background-color: var(--primary);
+  box-shadow: inset -.2rem .1rem .2rem .1rem var(--primary-dark);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+  font-weight: bolder;
+  width: 20rem;
+  height: 10rem;
+  border-radius: 10%;
+}
 /* Roll dice button:
    - global.css already gives 3D + animation
    - keep ONLY sizing/typography specific to this big button */
@@ -146,12 +172,21 @@
   border-radius: 20px;
   margin-bottom: 20px;
 }
-
+/* this will be the next button that appears after the rolldice button */
+#rollDiceButton.end-turn{
+  background-color: #c33;
+  box-shadow: 0 5px 0px rgb(168, 7, 7); 
+}
+#rollDiceButton.end-turn:hover{
+    filter: brightness(1.02);
+  box-shadow: 0 4px 10px rgba(236, 8, 8, 0.767);
+}
 /* Players leaderboard block */
 .playersLeaderboard {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
   gap: 10px;
 }
 
@@ -219,8 +254,50 @@
   padding-left: 20px;
 }
 
+/* card- block */
+
+#card-container{
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 12px;
+  width: 100%;
+  gap: 10px;
+}
+.card{
+  background-color: var(--bg);
+  height: 5rem;
+  width:5rem;
+  margin: 1rem 1rem;
+  border-radius: 1rem;
+  box-shadow: inset -.2rem .1rem .2rem .1rem var(--primary-dark);
+}
+/* this will be the css for the card  when there is one */
+.card.fill{
+  background-color: #4FC3F7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  width:5rem;
+  margin: 1rem 1rem;
+  border-radius: 1rem;
+  box-shadow:  0.1rem .2rem .3rem 0rem #499ae7;
+}
+
+
+.card img{
+  width: 3rem;
+  height: 3rem;
+}
+.card:hover{
+  filter: brightness(1.02);
+  box-shadow: 0px 4px 10px 2px #6bb5f0;
+}
+
+
 /* Game log block */
-.gameLog {
+/* .gameLog {
   margin-bottom: 50px;
   background-color: #f0f9f8;
 }
@@ -242,4 +319,4 @@
   margin-bottom: 35px;
   color: #50958f;
   white-space: nowrap;
-}
+} */

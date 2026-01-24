@@ -1,5 +1,5 @@
 import Point from "../utils/point.js";
-
+import Card from "./cards.js";
 /**
  * Includes the data for a player's instance during gameplay
  * Separately from the GUI and other interfaces and uses the playerId
@@ -61,14 +61,14 @@ export default class PlayerGameData {
 		let pos = playerData.position;
 		player.position = new Point(Number(pos.x), Number(pos.y));
 
-		// load cards
-		player.cards.clear;
-		playerData.cards.forEach((_card_name)=>{
-			// TODO, load correct card type based on card name
-			// card names are saved instead of card object
-			// TODO: move this to cards instead of being nested here
-			// code to implement that (it's almost 8, I need to be done)
-		});
+		// // load cards
+		// player.cards.clear;
+		// playerData.cards.forEach((_card_name)=>{
+		// 	// TODO, load correct card type based on card name
+		// 	// card names are saved instead of card object
+		// 	// TODO: move this to cards instead of being nested here
+		// 	// code to implement that (it's almost 8, I need to be done)
+		// });
 		return player;
 	}
 
@@ -85,6 +85,9 @@ export default class PlayerGameData {
 			throw new Error("Only accepts points!");
 		}
 		this.#position = val;
+	}
+	pushCard(card){
+		this.#cards.push(card);
 	}
 
 	get playerId(){
