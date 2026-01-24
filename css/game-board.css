@@ -69,11 +69,14 @@ body {
   grid-template-columns: auto auto auto;
 
   background-color: #ffffff;
-  border-radius: 15px;
+  width: 800px;
 }
 
-#gameBoardPadding {
+#boardPadding {
   padding: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  width: fit-content;
 }
 
 #playerMarkerContainer {
