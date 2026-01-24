@@ -123,7 +123,13 @@ playButton.addEventListener("click", (event) => {
 });
 
 
-
+const challengesDiv = document.getElementById("challenge-panel");
+const challengesUnlocked = JSON.parse(window.localStorage.getItem("challengesUnlocked"));
+if (!challengesUnlocked){
+	console.log("uh?");
+	console.log(challengesDiv);
+	challengesDiv.style.display="none";
+}
 
 
 let challengesToggled = JSON.parse(window.localStorage.getItem("challengesToggled"));
