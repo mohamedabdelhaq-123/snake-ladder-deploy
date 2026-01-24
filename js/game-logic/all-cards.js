@@ -1,10 +1,14 @@
 
 import JumpCard from "../game-logic/cards/jumpCard.js";
 
-// saves cards asa pair [className,parameters]
+// saves cards as a pair [className,parameters] as well as some extra info
 export const allCards = [
-	[JumpCard,[5]],
-	[JumpCard,[3]]
+	[JumpCard,[1],"../assets/images/dice-1.png","Jumps 1 steps forward"],
+	[JumpCard,[2],"../assets/images/dice-2.png","Jumps 2 steps forward"],
+	[JumpCard,[3],"../assets/images/dice-3.png","Jumps 3 steps forward"],
+	[JumpCard,[4],"../assets/images/dice-4.png","Jumps 4 steps forward"],
+	[JumpCard,[5],"../assets/images/dice-5.png","Jumps 5 steps forward"],
+	[JumpCard,[6],"../assets/images/dice-6.png","Jumps 6 steps forward"],
 ];
 
 // picks a card from allCards
@@ -20,6 +24,16 @@ export function nameToCard(name) {
 		let card = numberToCard(i);
 		if (card.name===name){
 			return card;
+		}
+		console.log(card.name,name);
+	}
+}
+
+export function nameToCardIndex(name) {
+	for (let i=0; i < allCards.length; i++){
+		let card = numberToCard(i);
+		if (card.name===name){
+			return i;
 		}
 		console.log(card.name,name);
 	}

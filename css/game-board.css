@@ -308,6 +308,42 @@ body {
   box-shadow: 0px 4px 10px 2px #6bb5f0;
 }
 
+.tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color:var(--primary-dark);
+  color:  #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 15px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 10;
+  top: 100px;
+  left: -100px; 
+
+
+  /* Smooth fade-in */
+  opacity: 0;
+  transition: opacity 1.5s;
+}
+
+button:hover~.tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  
+}
+
+.card-tile-marker {
+  position: absolute;
+  border-radius: 10px;
+  background-color: #aa333333;
+  width: 70px;
+  height: 70px;
+  margin: 5px;
+  border: solid 5px #c33;
+}
 
 /* Game log block */
 /* .gameLog {

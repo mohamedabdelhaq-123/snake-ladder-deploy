@@ -6,6 +6,7 @@ import PortalTile from "../game-logic/tiles/portalTile.js";
 import PlayerAccountData from "../utils/PlayerAccountData.js";
 import Point from "../utils/point.js";
 import CardTile from "../game-logic/tiles/cardTile.js";
+import { allCards, nameToCardIndex } from "../game-logic/all-cards.js";
 
 /**
  * Constants
@@ -16,6 +17,36 @@ const GRID_H = 10;
 const MARKER_OFFSET =10;   // 10 comes from: (80px Square - 60px Icon) / 2 to center it
 const CELL_SIZE = 80;     // 80 comes from: 800px Board Width / 10 Columns
 
+
+/**
+ * DOM REFERENCES (Static Elements)
+ */
+const rollButton = document.getElementById("rollDiceButton");
+const diceImage = document.getElementById("diceIcon");
+const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
+const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
+const outcomeSection = document.getElementById("outcome");
+
+// Containers
+const leaderboardContainer = document.getElementById("playersLeaderboard");
+const playerMarkerContainer = document.getElementById("playerMarkerContainer");
+const cardContainer = document.getElementById("card-container");
+
+// Templates
+const playerTemplate = document.getElementById("playerInfo");
+const playerMarkerTemplate = document.getElementById("playerMarker");
+const uiFlagMarker = document.getElementById("flagMarker");
+
+/**
+ * UI REFERENCES (Dynamic Elements)
+ * stored in arrays so we never have to use querySelector again
+ */
+const uiSquareValues = [];
+const uiQueueContainers = [];
+const uiPlayerMarkers = [];
+const uiCardContainers = [];
+const uiCardImages = [];
+const uiCardTooltips = [];
 
 /**
  * Received Data HomePage
@@ -82,11 +113,32 @@ const challengeElimination = challengesToggled[3];
 let currentEliminationRow = 0;
 
 if (challengeCards){
-	[1,2,3,6,7,8,10].forEach((target) => {
+	[
+		3,7,10,
+		11,12,
+		25,29,30,
+		36,37,
+		44,
+		57,
+		64,67,
+		75,
+		91,92,97,
+	].forEach((target) => {
 		// add tiles after transforming 1d to 2d space
+		let pos = grid.distToPoint(target-1);
 		grid.addTile(new CardTile(
-			grid.distToPoint(target-1),
+			pos,
 		));
+
+		let marker = document.createElement("div");
+		marker.className="card-tile-marker";
+		//TODO add general function to translatefrom logicspace to boardspace
+		marker.style.top= `${80*(GRID_H-pos.y-1)}px`;
+		let xIndex = pos.x;
+		if (pos.y%2===1) {xIndex = (GRID_W-pos.x-1);}
+		marker.style.left= `${80*xIndex}px`;
+		playerMarkerContainer.prepend(marker);
+
 	});
 }
 
@@ -103,38 +155,6 @@ if (!startNew){
 }
 window.localStorage.setItem("startNewGame",JSON.stringify(false));
 saveGameState(game);
-
-
-
-
-/**
- * DOM REFERENCES (Static Elements)
- */
-const rollButton = document.getElementById("rollDiceButton");
-const diceImage = document.getElementById("diceIcon");
-const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
-const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
-const outcomeSection = document.getElementById("outcome");
-
-// Containers
-const leaderboardContainer = document.getElementById("playersLeaderboard");
-const playerMarkerContainer = document.getElementById("playerMarkerContainer");
-const cardContainer = document.getElementById("card-container");
-
-// Templates
-const playerTemplate = document.getElementById("playerInfo");
-const playerMarkerTemplate = document.getElementById("playerMarker");
-const uiFlagMarker = document.getElementById("flagMarker");
-
-/**
- * UI REFERENCES (Dynamic Elements)
- * stored in arrays so we never have to use querySelector again
- */
-const uiSquareValues = [];
-const uiQueueContainers = [];
-const uiPlayerMarkers = [];
-const uiCardContainers = [];
-const uiCardImages = [];
 
 
 /**
@@ -408,8 +428,6 @@ function toggleNextTurnButton(btn){
 
 }
 
-
-
 /**
  *toggle the the empty card container to fill it with a new card
  *@param {container} the container to be filled with the card
@@ -447,11 +465,16 @@ function toggleDescription(container){
 
 function addCards(){
 	for (let i = 0; i < 3; i++) {
+		const cardDiv = document.createElement("div");
+		cardDiv.style.position="relative";
 		const card = document.createElement("button");
 		card.className = "card";
 		const image = document.createElement("img");
 		image.className= "card-icon";
 		image.style.display = "none";
+		const tooltip = document.createElement("p");
+		tooltip.className= "tooltiptext";
+		tooltip.innerText="no card available";
 
 
 		card.addEventListener("click", () => {
@@ -471,9 +494,12 @@ function addCards(){
 
 		uiCardContainers.push(card);
 		uiCardImages.push(image);
+		uiCardTooltips.push(tooltip);
 
 		card.appendChild(image);
-		cardContainer.appendChild(card);
+		cardDiv.appendChild(card);
+		cardDiv.appendChild(tooltip);
+		cardContainer.append(cardDiv);
 	}
 }
 
@@ -481,6 +507,7 @@ function updateCardVisuals(playerId){
 	for (let i = 0; i < 3; i++) {
 		const card = uiCardContainers[i];
 		const image = uiCardImages[i];
+		const tooltip = uiCardTooltips[i];
 		console.log("-----------");
 		game.players.forEach((player)=>{
 			console.log(player.playerId);
@@ -489,12 +516,15 @@ function updateCardVisuals(playerId){
 		if (game.players.get(playerId).cards.length>i){
 			toggleFillCard(card,true);
 			//TODO: add mapping from card name to image url
-			// image.src = imgMap(game.players.get(playerId).cards[i].name);
+			const cardName = game.players.get(playerId).cards[i].name;
+			const cardIndex = nameToCardIndex(cardName);
+			image.src = allCards[cardIndex][2];//2 refers to icon for now
 			image.style.display = "flex";
-			image.src= "../assets/images/dice-5.png";
+			tooltip.textContent=allCards[cardIndex][3];//3 refers to description;
 		} else {
 			toggleFillCard(card,false);
 			image.style.display = "none";
+			tooltip.textContent="No available card data";
 		}
 	}
 }
@@ -586,7 +616,7 @@ rollButton.addEventListener("click", ()=>{
 					rollButton.disabled = false;
 					if (challengeCards){
 						toggleNextTurnButton(rollButton);
-						toggleDescription(outcomeSection);
+						// toggleDescription(outcomeSection);
 					} else {
 						activePlayerLeaderboardHighlight();
 					}
@@ -598,7 +628,7 @@ rollButton.addEventListener("click", ()=>{
 		} else {
 			activePlayerLeaderboardHighlight();
 			toggleNextTurnButton(rollButton);
-			toggleDescription(outcomeSection);
+			// toggleDescription(outcomeSection);
 		}
 
 
