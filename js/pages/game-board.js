@@ -3,7 +3,7 @@ import { delay, diceRoll } from "../utils/utils.js";
 import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
 import Grid from "../game-logic/grid.js";
 import PortalTile from "../game-logic/tiles/portalTile.js";
-import CardTile from "../game-logic/tiles/cardtile.js";
+import CardTile from "../game-logic/tiles/cardTile.js";
 import PlayerAccountData from "../utils/PlayerAccountData.js";
 import Point from "../utils/point.js";
 /**
@@ -137,7 +137,7 @@ const uiCardContainers = [];
 const uiPlayerMarkers = [];
 
 //current number of cards avialabe
-const NumberofCards = 3; 									
+const NumberofCards = 3;
 
 
 
@@ -285,9 +285,10 @@ async function updatePositionsUI(result) {
 
 	await updateMarkerPosition(game.current);
 
+	// depricated:
 	// Update the game log text using our array reference
-	const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
-	let distance = pos.y*GRID_W+pos.x+1;
+	// const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
+	// let distance = pos.y*GRID_W+pos.x+1;
 	// uiLogs[game.current].textContent = `${players[game.current]} rolled a ${result} and moved to Square ${distance}`;
 
 }
@@ -357,36 +358,42 @@ rollButton.addEventListener("click", ()=>{
 	// Check win condition
 	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
 
-	
-	if(!rollButton.classList.contains("active")){
+
+	if (!rollButton.classList.contains("active")){
+		if (!rollButton.classList.contains("end-turn")){
 			rollButton.disabled = true;
 			diceImage.src = "../assets/images/dice-animation.gif";
-			
+
 			let result = diceRoll(ROLL_SIZE);
 			setTimeout(() => {
-			diceImage.src = `../assets/images/dice-${result}.png`;
-		
-			updatePositionsUI(result).then(()=>{
-				//Note: button becomes enabled after update updatePositionUI is called
+				diceImage.src = `../assets/images/dice-${result}.png`;
 
-				activePlayerLeaderboardHighlight();
+				updatePositionsUI(result).then(()=>{
 
-				// Saving
-				saveGameState(game);
+					// Saving
+					saveGameState(game);
 
-				// Note: button becomes enabled after all visual effects and animations are done
-				rollButton.disabled = false;
-				toggleNextTurnButton(rollButton);
-				toggleDescription(outcomeSection);
-			});
+					// Note: button becomes enabled after all visual effects and animations are done
+					rollButton.disabled = false;
+					toggleNextTurnButton(rollButton);
+					toggleDescription(outcomeSection);
+				});
 
 
-		}, 1000);
-	}else{
-				toggleNextTurnButton(rollButton);
-				toggleDescription(outcomeSection);
+			}, 1000);
+
+		} else {
+			activePlayerLeaderboardHighlight();
+			toggleNextTurnButton(rollButton);
+			toggleDescription(outcomeSection);
+		}
+
+
+	} else {
+		toggleNextTurnButton(rollButton);
+		toggleDescription(outcomeSection);
 	}
-	
+
 });
 
 
@@ -400,10 +407,10 @@ rollButton.addEventListener("click", ()=>{
 
 /**
  * Card UI Changes
- * 
+ *
  */
 function activePlayerPowerUps(){
-	
+
 }
 
 
@@ -413,7 +420,7 @@ function activePlayerPowerUps(){
 
 /**
  * UI-Toggles
- * 
+ *
  */
 
 /**
@@ -423,15 +430,15 @@ function activePlayerPowerUps(){
 
 function toggleNextTurnButton(btn){
 	btn.classList.toggle("end-turn");
-			//you will find that the class .end turn is the one changing the button
+	//you will find that the class .end turn is the one changing the button
 
 
 	if (btn.classList.contains("end-turn")) {
-    btn.textContent = "End Turn";
-  } else {
-    btn.textContent = "\u2682"+" Roll Dice";
-  }
-	
+		btn.textContent = "End Turn";
+	} else {
+		btn.textContent = "\u2682"+" Roll Dice";
+	}
+
 }
 
 /**
@@ -451,31 +458,31 @@ function toggleFillCard(container){
 
 
 function toggleDescription(container){
-		container.classList.toggle("active");
+	container.classList.toggle("active");
 
-		//you will find that the class .active is the one displaying the description card 
+	//you will find that the class .active is the one displaying the description card
 
-		if(container.classList.contains("active")){
-			container.textContent = cardDesc;
-		}else{
-			container.innerHTML = "";
+	if (container.classList.contains("active")){
+		container.textContent = "card description missing"; //cardDesc;
+	} else {
+		container.innerHTML = "";
 
-			container.appendChild(diceImage)
-		}
+		container.appendChild(diceImage);
+	}
 }
 
 
 function addCards(){
-		for (let i = 0; i < 3; i++) {
-			const card = document.createElement("button");
-			card.className = "card";
-			
-			
-			card.addEventListener("click", () => {
-					//TODO: process the card effects when clikcked if there was a card
-		
-			});
-			
-			cardContainer.appendChild(card);
-}
+	for (let i = 0; i < 3; i++) {
+		const card = document.createElement("button");
+		card.className = "card";
+
+
+		card.addEventListener("click", () => {
+			//TODO: process the card effects when clikcked if there was a card
+
+		});
+
+		cardContainer.appendChild(card);
+	}
 }
