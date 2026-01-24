@@ -1,4 +1,5 @@
 import Point from "../utils/point.js";
+import { nameToCard } from "./all-cards.js";
 import Card from "./cards.js";
 /**
  * Includes the data for a player's instance during gameplay
@@ -45,7 +46,6 @@ export default class PlayerGameData {
 		playerData.cards = [];
 		this.cards.forEach((card)=>{
 			// save card names instead of card object
-			// TODO: move this to cards instead of being nested here
 			playerData.cards.push(card.name);
 		});
 		return playerData;
@@ -61,14 +61,12 @@ export default class PlayerGameData {
 		let pos = playerData.position;
 		player.position = new Point(Number(pos.x), Number(pos.y));
 
-		// // load cards
-		// player.cards.clear;
-		// playerData.cards.forEach((_card_name)=>{
-		// 	// TODO, load correct card type based on card name
-		// 	// card names are saved instead of card object
-		// 	// TODO: move this to cards instead of being nested here
-		// 	// code to implement that (it's almost 8, I need to be done)
-		// });
+		// load cards
+		player.cards.length=0;
+		playerData.cards.forEach((cardName)=>{
+			let card = nameToCard(cardName);
+			player.cards.push(card);
+		});
 		return player;
 	}
 

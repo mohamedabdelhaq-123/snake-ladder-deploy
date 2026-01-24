@@ -151,6 +151,8 @@ if (challengeElimination){
 
 if (!challengeCards){
 	cardContainer.style.display="none";
+} else {
+	updateCardVisuals(game.current);
 }
 
 
@@ -200,9 +202,6 @@ window.weightedRoll = function(n) {
 			//Note: button becomes enabled after update updatePositionUI is called
 
 			activePlayerLeaderboardHighlight();
-
-			// Saving
-			saveGameState(game);
 
 			// Note: button becomes enabled after all visual effects and animations are done
 			rollButton.disabled = false;
@@ -532,6 +531,8 @@ function activePlayerLeaderboardHighlight() {
 
 	refreshActiveLeaderBoard();
 	updateCardVisuals(game.current);
+	// Saving
+	saveGameState(game);
 
 
 	// 3.check if game ended
@@ -580,9 +581,6 @@ rollButton.addEventListener("click", ()=>{
 				diceImage.src = `../assets/images/dice-${result}.png`;
 
 				updatePositionsUI(result).then(()=>{
-
-					// Saving
-					saveGameState(game);
 
 					// Note: button becomes enabled after all visual effects and animations are done
 					rollButton.disabled = false;

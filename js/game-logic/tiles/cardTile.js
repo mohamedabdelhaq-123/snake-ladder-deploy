@@ -1,4 +1,4 @@
-import {getCard} from "../../utils/fetchRandomCard.js";
+import {getRandomCard} from "../../utils/fetchRandomCard.js";
 import Tile from "../tiles.js";
 /**
  * Parent class for any tile that sends the player somewhere
@@ -33,7 +33,7 @@ export default class CardTile extends Tile {
 		// otherwise we should copy data firs
 		// TODO: confirm if this is fine
 		console.log("i have been pushed");
-		let card = getCard();
+		let card = getRandomCard();
 		player.pushCard(card);
 	}
 }
