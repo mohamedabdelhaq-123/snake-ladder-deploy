@@ -540,6 +540,8 @@ rollButton.addEventListener("click", ()=>{
 					if (challengeCards){
 						toggleNextTurnButton(rollButton);
 						toggleDescription(outcomeSection);
+					} else {
+						activePlayerLeaderboardHighlight();
 					}
 				});
 
