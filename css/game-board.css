@@ -160,7 +160,7 @@ body {
   font-weight: bolder;
   width: 20rem;
   height: 10rem;
-  border-radius: 10%;
+  border-radius: 15px;
 }
 /* Roll dice button:
    - global.css already gives 3D + animation

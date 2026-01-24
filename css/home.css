@@ -220,7 +220,7 @@ a {
 .tooltiptext {
   visibility: hidden;
   width: 200px;
-  background-color: rgb(179, 10, 10);
+  background-color: #cc3333;
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -228,9 +228,8 @@ a {
 
   /* Position the tooltip */
   position: absolute;
-  z-index: 1;
-  top: 183%; /* place bottom the button */
-
+  z-index: 10;
+  top: -100px;
 
 
   /* Smooth fade-in */
