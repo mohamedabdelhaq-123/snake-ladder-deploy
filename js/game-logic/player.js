@@ -85,7 +85,10 @@ export default class PlayerGameData {
 		this.#position = val;
 	}
 	pushCard(card){
-		this.#cards.push(card);
+		//validation TODO: avoid using hard coded number
+		if (this.#cards.length<3){
+			this.#cards.push(card);
+		}
 	}
 
 	get playerId(){

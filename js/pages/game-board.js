@@ -26,6 +26,7 @@ const diceImage = document.getElementById("diceIcon");
 const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
 const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
 const outcomeSection = document.getElementById("outcome");
+const uiShuffleMarker = document.getElementById("shuffleMarker");
 
 // Containers
 const leaderboardContainer = document.getElementById("playersLeaderboard");
@@ -36,7 +37,6 @@ const cardContainer = document.getElementById("card-container");
 const playerTemplate = document.getElementById("playerInfo");
 const playerMarkerTemplate = document.getElementById("playerMarker");
 const uiFlagMarker = document.getElementById("flagMarker");
-
 /**
  * UI REFERENCES (Dynamic Elements)
  * stored in arrays so we never have to use querySelector again
@@ -156,10 +156,6 @@ if (!startNew){
 window.localStorage.setItem("startNewGame",JSON.stringify(false));
 saveGameState(game);
 
-
-/**
- * Run Setup Script
- */
 setUpPlayers();
 addCards(); //add empty card buttons
 refreshActiveLeaderBoard();
@@ -169,14 +165,19 @@ if (challengeElimination){
 	uiFlagMarker.hidden=false;
 }
 
+if (!challengeShuffle){
+	uiShuffleMarker.style.display="none";
+}
+
 if (!challengeCards){
 	cardContainer.style.display="none";
 } else {
 	updateCardVisuals(game.current);
 }
 
-
-
+/**
+ * End of Setup Script
+ */
 
 
 
@@ -263,6 +264,9 @@ function setUpPlayers() {
 		// 2. Create Player Markers
 		const clonedMarkerTemplate = playerMarkerTemplate.content.cloneNode(true);
 		let clonedPlayerMarker = clonedMarkerTemplate.firstElementChild;
+		if (challengeNoOverlap){
+			clonedPlayerMarker.classList.add("dangerous");
+		}
 		clonedPlayerMarker.src=`../assets/images/Player${playerIcons[index]}-Icon.jpg`;
 
 
@@ -369,6 +373,7 @@ function goToLeaderBoard() {
 
 	// 3. Save the UPDATED data back to the browser's memory
 	window.localStorage.setItem("playerAccountData", JSON.stringify(playerAccountData));
+	window.localStorage.setItem("challengesUnlocked", JSON.stringify(true));
 	window.localStorage.setItem("startNewGame", JSON.stringify(true));
 
 	// 4. Redirect to the Leaderboard Page

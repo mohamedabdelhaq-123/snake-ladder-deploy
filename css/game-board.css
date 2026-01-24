@@ -37,7 +37,9 @@ body {
   transition: transform 0.3s ease-in-out;
 }
 
-
+.gameBoard .player-marker.dangerous {
+  border: solid 3px #aa3333;
+}
 
 .game-board-image{
   position: absolute;
@@ -369,3 +371,13 @@ button:hover~.tooltiptext {
   color: #50958f;
   white-space: nowrap;
 } */
+
+#shuffleMarker {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  top: -35px;
+  border-radius: 50%;
+  background-color: #aa3333;
+}
