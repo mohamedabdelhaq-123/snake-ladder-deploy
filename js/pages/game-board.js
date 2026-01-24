@@ -74,14 +74,14 @@ let grid = new Grid(GRID_W,GRID_H);
 	));
 });
 
-//adding card giving tiles
 
-// [1,2,3,4,5,6].forEach((target) => {
-// 	// add tiles after transforming 1d to 2d space
-// 	grid.addTile(new CardTile(
-// 		grid.distToPoint(target-1),
-// 	));
-// });
+
+[1,2,3,6,7,8,10].forEach((target) => {
+	// add tiles after transforming 1d to 2d space
+	grid.addTile(new CardTile(
+		grid.distToPoint(target-1),
+	));
+});
 
 
 
@@ -123,6 +123,10 @@ const playerTemplate = document.getElementById("playerInfo");
 // const logTemplate = document.getElementById("gameLogPlayers");
 const playerMarkerTemplate = document.getElementById("playerMarker");
 
+
+//card contianer refernce
+let cardContainer = document.getElementById("card-container");
+
 /**
  * UI REFERENCES (Dynamic Elements)
  * stored in arrays so we never have to use querySelector again
@@ -132,7 +136,8 @@ const uiCardContainers = [];
 // const uiLogs = [];
 const uiPlayerMarkers = [];
 
-
+//current number of cards avialabe
+const NumberofCards = 3; 									
 
 
 
@@ -255,7 +260,8 @@ function updateTurnDisplay() {
 setUpPlayers();
 
 
-
+//add empty card buttons
+addCards();
 
 
 
@@ -342,6 +348,8 @@ function activePlayerLeaderboardHighlight() {
 
 
 
+
+
 /**
  * EVENT LISTENERS
  */
@@ -381,19 +389,43 @@ rollButton.addEventListener("click", ()=>{
 	
 });
 
+
+
+
 /*
-*card data
+*card data for testing purposes
 *
 */
-let cardDesc = "jump 3 steps"
+//let cardDesc = "jump 3 steps"
 
 /**
  * Card UI Changes
  * 
  */
+function activePlayerPowerUps(){
+	
+}
+
+
+
+
+
+
+/**
+ * UI-Toggles
+ * 
+ */
+
+/**
+ *toggle the roll dice button to be end turn and vice versa
+ *@param {btn} the roll dice button
+ */
 
 function toggleNextTurnButton(btn){
 	btn.classList.toggle("end-turn");
+			//you will find that the class .end turn is the one changing the button
+
+
 	if (btn.classList.contains("end-turn")) {
     btn.textContent = "End Turn";
   } else {
@@ -401,12 +433,28 @@ function toggleNextTurnButton(btn){
   }
 	
 }
-function toggleFillCard(btn){
-	btn.classList.toggle("fill");
+
+/**
+ *toggle the the empty card container to fill it with a new card
+ *@param {container} the container to be filled with the card
+ */
+
+function toggleFillCard(container){
+	container.classList.toggle("fill");
 
 }
+
+/**
+ *toggle the dice container to replace it with the card description
+ *@param {container} the container to be replaced
+ */
+
+
 function toggleDescription(container){
 		container.classList.toggle("active");
+
+		//you will find that the class .active is the one displaying the description card 
+
 		if(container.classList.contains("active")){
 			container.textContent = cardDesc;
 		}else{
@@ -414,4 +462,20 @@ function toggleDescription(container){
 
 			container.appendChild(diceImage)
 		}
+}
+
+
+function addCards(){
+		for (let i = 0; i < 3; i++) {
+			const card = document.createElement("button");
+			card.className = "card";
+			
+			
+			card.addEventListener("click", () => {
+					//TODO: process the card effects when clikcked if there was a card
+		
+			});
+			
+			cardContainer.appendChild(card);
+}
 }

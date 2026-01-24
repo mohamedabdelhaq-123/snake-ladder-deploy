@@ -14,10 +14,10 @@ export function delay(ms) {
 let numberOfCardTypes = 1;
 
 export function getCard() {
-  randomCard = diceRoll(numberOfCardTypes);
+  let randomCard = diceRoll(numberOfCardTypes);
   switch (randomCard) {
     case 1:
-      return jumpCard(5);
+      return new jumpCard(5);
 
     case 2:
       //

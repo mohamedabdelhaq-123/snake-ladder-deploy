@@ -33,6 +33,7 @@ export default class CardTile extends Tile {
     // otherwise we should copy data firs
     // TODO: confirm if this is fine
     console.log("i have been pushed");
+    let card = getCard();
     player.pushCard(card)
   }
 }

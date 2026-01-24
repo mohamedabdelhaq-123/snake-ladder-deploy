@@ -12,6 +12,7 @@ export default class JumpCard extends Card {
 	 */
 	constructor(amount) {
 		//TODO: validate
+		super()
 		this.#amount= amount;
 	}
 

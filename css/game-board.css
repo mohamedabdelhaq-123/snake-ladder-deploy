@@ -256,7 +256,7 @@ body {
 
 /* card- block */
 
-.card-container{
+#card-container{
   display: flex;
   justify-content: space-between;
   background-color: white;
