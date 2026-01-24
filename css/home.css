@@ -7,6 +7,8 @@
 
 /* The home layout blocks */
 main {
+  display: flex;
+  flex-direction: column;
   
   justify-content: center;
   align-content: center;
@@ -14,20 +16,20 @@ main {
   text-align: center;
   border-radius: 2rem;
   padding: 5px;
-  margin-bottom: 18rem;
+  margin-bottom: 13rem;
   margin-left:auto;
   margin-right:auto;
 
-  max-width: 500px;
+  max-width: 1000px;
 }
 
 .font-small {
-  font-size: small;
+  font-size: bold;
   color: var(--primary-dark);
 }
 
 .note {
-  font-size: small;
+  font-size: medium;
   background-color: var(--primary-soft);
   color: var(--primary);
   border-radius: 10px;
@@ -41,7 +43,9 @@ main {
 }
 
 .named-bar span:first-child {
+  margin-top: 9px;
   font-weight: bold;
+  font-size: large;
   flex-grow: 1;
   text-align: start;
 }
@@ -54,18 +58,22 @@ input[type="text"] {
   min-height: 30px;
   border: solid 1px #73bea1d9;
   border-radius: 10px;
+  font-size: large;
 }
+
+
 input[type="text"]:focus {
   outline: none;
   border: solid 2px var(--primary);
 }
+
 select {
   width: 35%;
   padding: 10px 10px;
   padding-left: 40px;
   background-color: var(--primary-soft);
   color: #646f6e;
-  min-height: 30px;
+  min-height: 45px;
   border: solid 1px #73bea1d9;
   border-radius: 10px;
  
@@ -85,8 +93,8 @@ select:focus {
   align-items: center;
   justify-content: center;
 
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   top: 10px;
   left: 10px;
 
@@ -126,10 +134,10 @@ a {
 }
 
 .user-entry img {
-  width: 30px;
-  height: 30px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  border: 2px solid #73bea1d9;
+  border: 3px solid #73bea1d9;
 }
 
 #setup {
@@ -137,6 +145,7 @@ a {
   background-color: var(--surface);
   box-shadow: 0px 0px 10px 0px rgba(113, 167, 163, 0.4);
   border-radius: 2rem;
+  width: 100%;
 }
 
 #challenge-panel {
@@ -220,7 +229,7 @@ a {
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
-  top: 300%; /* place bottom the button */
+  top: 183%; /* place bottom the button */
 
 
 
