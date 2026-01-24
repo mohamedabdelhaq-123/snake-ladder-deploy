@@ -3,6 +3,7 @@ import { delay, diceRoll } from "../utils/utils.js";
 import { loadGameState, saveGameState } from "../utils/saving-and-loading.js";
 import Grid from "../game-logic/grid.js";
 import PortalTile from "../game-logic/tiles/portalTile.js";
+import CardTile from "../game-logic/tiles/cardtile.js";
 import PlayerAccountData from "../utils/PlayerAccountData.js";
 import Point from "../utils/point.js";
 /**
@@ -72,6 +73,18 @@ let grid = new Grid(GRID_W,GRID_H);
 		grid.distToPoint(end-1)
 	));
 });
+
+//adding card giving tiles
+
+// [1,2,3,4,5,6].forEach((target) => {
+// 	// add tiles after transforming 1d to 2d space
+// 	grid.addTile(new CardTile(
+// 		grid.distToPoint(target-1),
+// 	));
+// });
+
+
+
 let game = new Game(playerIds,grid);
 // check if starting a new game
 let startNew = JSON.parse(window.localStorage.getItem("startNewGame"));
@@ -98,6 +111,7 @@ const rollButton = document.getElementById("rollDiceButton");
 const diceImage = document.getElementById("diceIcon");
 const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
 const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
+const outcomeSection = document.getElementById("outcome");
 
 // Containers
 const leaderboardContainer = document.getElementById("playersLeaderboard");
@@ -115,7 +129,7 @@ const playerMarkerTemplate = document.getElementById("playerMarker");
  */
 const uiSquareValues = [];
 const uiCardContainers = [];
-const uiLogs = [];
+// const uiLogs = [];
 const uiPlayerMarkers = [];
 
 
@@ -268,7 +282,7 @@ async function updatePositionsUI(result) {
 	// Update the game log text using our array reference
 	const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
 	let distance = pos.y*GRID_W+pos.x+1;
-	uiLogs[game.current].textContent = `${players[game.current]} rolled a ${result} and moved to Square ${distance}`;
+	// uiLogs[game.current].textContent = `${players[game.current]} rolled a ${result} and moved to Square ${distance}`;
 
 }
 
@@ -331,31 +345,73 @@ function activePlayerLeaderboardHighlight() {
 /**
  * EVENT LISTENERS
  */
-rollButton.addEventListener("click", () => {
+rollButton.addEventListener("click", ()=>{
 	// Check win condition
 	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
 
-	rollButton.disabled = true;
-	diceImage.src = "../assets/images/dice-animation.gif";
+	
+	if(!rollButton.classList.contains("active")){
+			rollButton.disabled = true;
+			diceImage.src = "../assets/images/dice-animation.gif";
+			
+			let result = diceRoll(ROLL_SIZE);
+			setTimeout(() => {
+			diceImage.src = `../assets/images/dice-${result}.png`;
+		
+			updatePositionsUI(result).then(()=>{
+				//Note: button becomes enabled after update updatePositionUI is called
+
+				activePlayerLeaderboardHighlight();
+
+				// Saving
+				saveGameState(game);
+
+				// Note: button becomes enabled after all visual effects and animations are done
+				rollButton.disabled = false;
+				toggleNextTurnButton(rollButton);
+				toggleDescription(outcomeSection);
+			});
 
 
-	let result = diceRoll(ROLL_SIZE);
-
-	setTimeout(() => {
-		diceImage.src = `../assets/images/dice-${result}.png`;
-
-		updatePositionsUI(result).then(()=>{
-			//Note: button becomes enabled after update updatePositionUI is called
-
-			activePlayerLeaderboardHighlight();
-
-			// Saving
-			saveGameState(game);
-
-			// Note: button becomes enabled after all visual effects and animations are done
-			rollButton.disabled = false;
-		});
-
-
-	}, 1000);
+		}, 1000);
+	}else{
+				toggleNextTurnButton(rollButton);
+				toggleDescription(outcomeSection);
+	}
+	
 });
+
+/*
+*card data
+*
+*/
+let cardDesc = "jump 3 steps"
+
+/**
+ * Card UI Changes
+ * 
+ */
+
+function toggleNextTurnButton(btn){
+	btn.classList.toggle("end-turn");
+	if (btn.classList.contains("end-turn")) {
+    btn.textContent = "End Turn";
+  } else {
+    btn.textContent = "\u2682"+" Roll Dice";
+  }
+	
+}
+function toggleFillCard(btn){
+	btn.classList.toggle("fill");
+
+}
+function toggleDescription(container){
+		container.classList.toggle("active");
+		if(container.classList.contains("active")){
+			container.textContent = cardDesc;
+		}else{
+			container.innerHTML = "";
+
+			container.appendChild(diceImage)
+		}
+}
