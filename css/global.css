@@ -71,6 +71,7 @@ nav,
   border-bottom: 1px solid var(--border);
 }
 
+
 /* Left logo block: supports leaderboard (.logo-section) + instruction (.logo) */
 nav .logo-section,
 .topnav .logo-section,
