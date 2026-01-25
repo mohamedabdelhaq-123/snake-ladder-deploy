@@ -671,7 +671,7 @@ function mainButtonPress(){
 					// Note: button becomes enabled after all visual effects and animations are done
 					rollButton.disabled = false;
 
-					let currentPlayer = game.players.get(game.activeQueue[game.current]);  // case: to go to leaderboard after winning immedeatly
+					let currentPlayer = game.players.get(game.current);  // case: to go to leaderboard after winning immedeatly
 					let hasWon = game.checkWinCondition(currentPlayer);
 
 					if (hasWon) {
