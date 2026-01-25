@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>instructions</title>
- <link rel="stylesheet" href="../css/global.css">
+  <title>Instructions</title>
+  <link rel="icon" type="image/x-icon" href="../assets/images/game-icon-gameBoardScreen-alt.jpg">
+
+  <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/instruction.css" />
-  <script type="module" src="../js/pages/instructions.js"></script>
 </head>
 
 <body>
-<!-- Navigation Bar -->
-    <nav>
-      <div class="logo-section">
-        <img  src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
-        <h2> Snake <span class="highlight">&</span> Ladders</h2>
-      </div>
-      <div class="nav-buttons">
-        <button id="go-back-button">Go back</button>
-        
-      </div>
-    </nav>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo-section">
+      <img src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
+      <h2> Snake <span class="highlight">&</span> Ladders</h2>
+    </div>
+    <div class="nav-buttons">
+      <button id="go-back-button">Go back</button>
+
+    </div>
+  </nav>
 
   <!-- Page Content -->
   <main class="page">
@@ -129,11 +131,61 @@
           <div class="rule-card">
             <div class="rule-icon" aria-hidden="true">⚠️</div>
             <div class="rule-content">
-              <h3 class="rule-title">Exact Finish (Optional)</h3>
-              <p class="rule-text">If enabled, you must land exactly on 100. Extra steps do not move you.</p>
+              <h3 class="rule-title">Exact Finish</h3>
+              <p class="rule-text">You must land exactly on 100. No Extra steps.</p>
             </div>
           </div>
         </div>
+      </section>
+
+      <hr class="divider" />
+
+
+
+
+
+      <section class="block">
+        <div class="block-header">
+          <div class="block-icon" aria-hidden="true">🔥</div>
+          <h2 class="block-title">New Challenges</h2>
+        </div>
+
+        <div class="rules">
+          <div class="rule-card">
+            <div class="rule-icon" aria-hidden="true">🚫</div>
+            <div class="rule-content">
+              <h3 class="rule-title">No Stack Mode</h3>
+              <p class="rule-text">Crowded squares are forbidden! <br>You cannot land on a square occupied by another
+                player.<br> If you do, you must stop behind them or bounce back.</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon" aria-hidden="true">🔀</div>
+            <div class="rule-content">
+              <h3 class="rule-title">Chaos Shuffle</h3>
+              <p class="rule-text">Expect the unexpected.<br> At the end of every round, positions are randomized.<br>
+                The leader could become last in an instant!</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon is-danger" aria-hidden="true">🃏</div>
+            <div class="rule-content">
+              <h3 class="rule-title">No Power-Up Cards</h3>
+              <p class="rule-text">lock the abilities that defy the rules of the game.<br>  you will not find the power
+                to control fate,<br> and  you will let it control you.</p>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-icon" aria-hidden="true">🚩</div>
+            <div class="rule-content">
+              <h3 class="rule-title">Elimination Mode</h3>
+              <p class="rule-text">Don't get left behind!<br> A 'Danger Line' moves up the board every turn.<br> Any
+                player caught below the line is instantly eliminated.</p>
+            </div>
+          </div>
       </section>
 
       <hr class="divider" />
@@ -144,6 +196,8 @@
           <div class="block-icon" aria-hidden="true">🖱️</div>
           <h2 class="block-title">Controls</h2>
         </div>
+
+
 
         <div class="controls">
           <div class="controls-row">
@@ -156,16 +210,22 @@
             <div class="controls-desc">Start a new game anytime (resets positions).</div>
           </div>
 
-          <div class="controls-row">
-            <div class="controls-key">Leaderboard</div>
-            <div class="controls-desc">View top winners and best scores.</div>
-          </div>
+          <div class="controls">
+            <div class="controls-row">
+              <div class="controls-key">Play Again</div>
+              <div class="controls-desc">Go back to Home Page to Start a new Game with Challenges.</div>
+            </div>
 
-          <div class="controls-row">
-            <div class="controls-key">How to Play</div>
-            <div class="controls-desc">Open this guide for help during gameplay.</div>
+            <div class="controls-row">
+              <div class="controls-key">Leaderboard</div>
+              <div class="controls-desc">View top winners and best scores.</div>
+            </div>
+
+            <div class="controls-row">
+              <div class="controls-key">How to Play</div>
+              <div class="controls-desc">Open this guide for help during gameplay.</div>
+            </div>
           </div>
-        </div>
       </section>
 
       <hr class="divider" />
@@ -189,31 +249,35 @@
       <!-- Optional Add-ons -->
       <section class="block">
         <div class="block-header">
-          <div class="block-icon" aria-hidden="true">✨</div>
-          <h2 class="block-title">Optional Add-ons</h2>
+          <div class="block-icon" aria-hidden="true">⚙️</div>
+          <h2 class="block-title">Advanced Add-ons</h2>
         </div>
 
         <div class="addons">
+
           <div class="addon-card">
-            <h3 class="addon-title">Sound Effects</h3>
-            <p class="addon-text">Dice roll, ladder climb, snake bite sounds.</p>
+            <h3 class="addon-title">🤖 AI Opponent</h3>
+            <p class="addon-text">Play solo against a smart computer opponent that takes its turns automatically.</p>
           </div>
 
           <div class="addon-card">
-            <h3 class="addon-title">2–4 Players</h3>
-            <p class="addon-text">Multiple players with turn indicator and colors.</p>
+            <h3 class="addon-title">🐍 Moving Traps</h3>
+            <p class="addon-text">The board is alive! Snakes and ladders shift positions after every few turns,
+              constantly changing the path.</p>
           </div>
 
           <div class="addon-card">
-            <h3 class="addon-title">Animations</h3>
-            <p class="addon-text">Smooth movement and dice animation.</p>
+            <h3 class="addon-title">🧩 Board Altering</h3>
+            <p class="addon-text">Reshape the battlefield. Randomly add or remove traps and shortcuts to create a unique
+              map every game.</p>
           </div>
+
         </div>
       </section>
 
       <div class="panel-footer">
         <!--i commented it because insturction should be a page that you always go back from , it doesnt lead to anywhere but back-->
-      <!-- <a class="btn btn-primary" href="../html/game.html">Got it, Let’s Play!</a>--> 
+        <!-- <a class="btn btn-primary" href="../html/game.html">Got it, Let’s Play!</a>-->
         <a class="btn btn-ghost" href="#top">Back to Top</a>
       </div>
     </section>
@@ -225,5 +289,7 @@
         , Andrew Emad, and Hashim Abdelaziz
       </p>
     </footer>
+    <script type="module" src="../js/pages/instructions.js"></script>
 </body>
+
 </html>

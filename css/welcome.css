@@ -1,0 +1,264 @@
+/* ================================
+   Welcome Page (welcome.css)
+   Game-vibes: Parallax BG + Strong Title + Animated Buttons
+   Uses BG image: ../assets/images/BG.png
+   ================================ */
+
+/* Page wrapper */
+.welcome {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 16px;
+  position: relative;
+  overflow: hidden;
+
+  /* Background layers */
+  background:
+    /* soft overlay so text stays readable but BG still visible */
+    radial-gradient(1200px 700px at 50% 35%, rgba(255,255,255,0.18), rgba(242,247,247,0.45)),
+    url("../assets/images/BG.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Parallax-ish motion */
+  animation: bgParallax 14s ease-in-out infinite alternate;
+}
+
+/* Parallax animation */
+@keyframes bgParallax {
+  0%   { background-position: 50% 50%; transform: translateZ(0); }
+  100% { background-position: 54% 44%; transform: translateZ(0); }
+}
+
+/* Card container (lighter so BG shows more) */
+.welcome-card {
+  width: min(860px, 92vw);
+  text-align: center;
+
+  /* lighter glass */
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(226, 232, 240, 0.55);
+  border-radius: 22px;
+
+  padding: 40px 26px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0px 18px 45px rgba(0, 0, 0, 0.10);
+
+  /* Entrance */
+  opacity: 0;
+  transform: translateY(18px) scale(0.98);
+  animation: cardIn 750ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Small badge */
+.welcome-badge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  background: rgba(220, 241, 240, 0.75);
+  color: #1cc8b9;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+
+  /* Stagger entrance */
+  opacity: 0;
+  transform: translateY(10px);
+  animation: riseIn 650ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay: 120ms;
+}
+
+/* Title */
+.welcome-title {
+  color: #2c3e3a;
+  margin: 14px 0 10px;
+  line-height: 1.05;
+
+  font-size: clamp(36px, 4.6vw, 62px);
+  font-weight: 900;
+
+  /* Stagger entrance */
+  opacity: 0;
+  transform: translateY(12px);
+  animation: riseIn 650ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay: 220ms;
+}
+
+/* Subtitle */
+.welcome-subtitle {
+  color: #4f7f7a;
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0 auto 24px;
+  max-width: 640px;
+
+  /* Stagger entrance */
+  opacity: 0;
+  transform: translateY(12px);
+  animation: riseIn 650ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay: 340ms;
+}
+
+@keyframes riseIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   Strong GAME VIBE on the title highlight:
+   "Snake & Ladders" looks animated
+   ================================ */
+.welcome-title .highlight {
+  color: #1cc8b9;
+
+  /* Glow + 3D feel */
+  text-shadow:
+    0 2px 0 rgba(20, 140, 130, 0.35),
+    0 10px 26px rgba(28, 200, 185, 0.35);
+
+  /* Continuous small bounce */
+  display: inline-block;
+  animation: titleFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
+}
+
+/* Optional: little "shine" sweep across the highlight */
+.welcome-title .highlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.welcome-title .highlight::after {
+  content: "";
+  position: absolute;
+  inset: -6px -10px;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.35) 35%,
+    transparent 70%
+  );
+
+  transform: translateX(-120%) skewX(-10deg);
+  animation: shine 2.8s ease-in-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0%   { transform: translateX(-120%) skewX(-10deg); opacity: 0; }
+  25%  { opacity: 1; }
+  60%  { transform: translateX(120%) skewX(-10deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ================================
+   Buttons row
+   ================================ */
+.welcome-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+
+  /* Stagger entrance */
+  opacity: 0;
+  transform: translateY(12px);
+  animation: riseIn 650ms cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay: 460ms;
+}
+
+/* Button size (keeps your global btn styles) */
+.btn-lg {
+  padding: 0.9rem 1.6rem;
+  font-size: 1.05rem;
+}
+
+/* Game-vibe button animation:
+   - subtle "idle bounce"
+   - hover: bigger pop
+   - active: your global press still works */
+.welcome-actions .btn {
+  position: relative;
+  will-change: transform;
+  transform: translateZ(0);
+
+  /* idle motion */
+  animation: btnIdle 2.2s ease-in-out infinite;
+}
+
+.welcome-actions .btn:nth-child(2) {
+  animation-delay: 280ms; /* offset the second button */
+}
+
+@keyframes btnIdle {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+
+/* Extra hover “game pop” */
+.welcome-actions .btn:hover {
+  transform: translateY(-10px) scale(1.03);
+}
+
+/* Add a soft pulse ring behind primary button */
+.welcome-actions .btn.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  background: rgba(28, 200, 185, 0.18);
+  filter: blur(2px);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: 180ms ease;
+  z-index: -1;
+}
+
+.welcome-actions .btn.btn-primary:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ================================
+   Responsive tweaks
+   ================================ */
+@media (max-width: 520px) {
+  .welcome-card {
+    padding: 28px 16px;
+  }
+
+  .welcome-title .highlight::after {
+    inset: -4px -8px;
+  }
+}
+
+/* ================================
+   Accessibility: reduced motion
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+  .welcome,
+  .welcome-card,
+  .welcome-badge,
+  .welcome-title,
+  .welcome-subtitle,
+  .welcome-actions,
+  .welcome-actions .btn,
+  .welcome-title .highlight,
+  .welcome-title .highlight::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

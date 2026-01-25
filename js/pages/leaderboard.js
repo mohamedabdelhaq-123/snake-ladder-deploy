@@ -1,3 +1,19 @@
+import { enableGlobalButtonSfx } from "../utils/button-sfx.js";
+import { play } from "../utils/sound.js";
+import { initBgm } from "../utils/bgm.js";
+document.addEventListener("DOMContentLoaded", () => {
+	enableGlobalButtonSfx(); // enable button sound effects globally
+	initBgm(); // initialize background music
+});
+
+window.addEventListener("DOMContentLoaded", ()=>{ // Show win sound if not coming from home page (player won only)
+
+	if (!window.localStorage.getItem("homeButton"))
+	{
+		play("win", { volume: 0.8, restart: true });
+	}
+	window.localStorage.removeItem("homeButton"); // Clean up to avoid repeated alerts
+});
 
 import PlayerAccountData from "../utils/PlayerAccountData.js";
 const gameData = window.localStorage.getItem("playerAccountData");
@@ -5,11 +21,16 @@ const tableBody = document.querySelector("tbody");
 const playerAccountData = JSON.parse(gameData);
 const playerRowTemplate = document.getElementById("player-row");
 const playAgainButton = document.getElementById("play-button");
+
+
+
 console.log(playerAccountData);
 playerAccountData.sort((a,b)=>b.score-a.score);
 
 
 function addPlayerToTable(player,index){
+
+
 	console.log(player.name,player.imgNumber);
 	const clonedPlayerTemplate = playerRowTemplate.content.cloneNode(true);
 
@@ -42,6 +63,6 @@ playerAccountData.forEach((element,index) => {
 
 
 playAgainButton.addEventListener("click",()=>{
-	window.location.href = "../html/game-board.html";
+	window.location.href = "../html/home.html";
 }
 );
