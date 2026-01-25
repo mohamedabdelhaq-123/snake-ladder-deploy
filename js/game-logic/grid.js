@@ -31,24 +31,14 @@ export default class Grid {
 	 */
 	advance(player, amount){
 		// This uses modular arithmetics to treat the board as a single row
-		// we could have defined the board that way, but this make it more flexible
-		// TODO: check if that was a reasonable assumption
-		let x = player.position.x;
-		let y = player.position.y;
-		let distance = x+y*this.#width;
+		let distance = this.pointToDist(player.position);
 		let newDistance = distance+amount;
-		// TODO: confirm how win logic applies
-		// for now assuming as long as the distance is passed in general
-
 		if (newDistance>99) // testcase TODO
 		{
 			newDistance=distance;
 		}
 		newDistance = Math.max(0,Math.min(newDistance,this.#width*this.#height-1));
-
-		let newX = newDistance%this.#width;
-		let newY = Math.floor(newDistance/this.#width);
-		player.position = new Point(newX,newY);
+		player.position = this.distToPoint(newDistance);
 
 		// TODO: we could make it so effects are triggered on advancement
 		// for now, the effects are sent after everything is calculated

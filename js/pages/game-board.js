@@ -5,23 +5,58 @@ import Grid from "../game-logic/grid.js";
 import PortalTile from "../game-logic/tiles/portalTile.js";
 import PlayerAccountData from "../utils/PlayerAccountData.js";
 import Point from "../utils/point.js";
+import CardTile from "../game-logic/tiles/cardTile.js";
+import { allCards, nameToCardIndex } from "../game-logic/all-cards.js";
+
 /**
  * Constants
  */
 const ROLL_SIZE = 6;
 const GRID_W = 10;
 const GRID_H = 10;
-const markerOffset=10;   // 10 comes from: (80px Square - 60px Icon) / 2 to center it
-const cellSize = 80;     // 80 comes from: 800px Board Width / 10 Columns
+const MARKER_OFFSET =10;   // 10 comes from: (80px Square - 60px Icon) / 2 to center it
+const CELL_SIZE = 80;     // 80 comes from: 800px Board Width / 10 Columns
+
+
+/**
+ * DOM REFERENCES (Static Elements)
+ */
+const rollButton = document.getElementById("rollDiceButton");
+const diceImage = document.getElementById("diceIcon");
+const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
+const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
+const outcomeSection = document.getElementById("outcome");
+const uiShuffleMarker = document.getElementById("shuffleMarker");
+
+// Containers
+const leaderboardContainer = document.getElementById("playersLeaderboard");
+const playerMarkerContainer = document.getElementById("playerMarkerContainer");
+const cardContainer = document.getElementById("card-container");
+
+// Templates
+const playerTemplate = document.getElementById("playerInfo");
+const playerMarkerTemplate = document.getElementById("playerMarker");
+const uiFlagMarker = document.getElementById("flagMarker");
+/**
+ * UI REFERENCES (Dynamic Elements)
+ * stored in arrays so we never have to use querySelector again
+ */
+const uiSquareValues = [];
+const uiQueueContainers = [];
+const uiPlayerMarkers = [];
+const uiCardContainers = [];
+const uiCardImages = [];
+const uiCardTooltips = [];
 
 /**
  * Received Data HomePage
  */
-const gameData = window.localStorage.getItem("playerAccountData");
-console.log(gameData);
-const playerAccountData = JSON.parse(gameData);
+const challengesToggled = JSON.parse(window.localStorage.getItem("challengesToggled"));
+const playerAccountData = JSON.parse(window.localStorage.getItem("playerAccountData"));
+
 const players = [];
 const playerIcons = [];
+
 playerAccountData.forEach((player)=>{
 	players.push(player.name);
 	playerIcons.push(parseInt(player.imgNumber));
@@ -29,16 +64,16 @@ playerAccountData.forEach((player)=>{
 });
 
 
-
-// Build game
+/**
+ * Build Game
+ */
 const playerIds = [];
 for (let i in players){ // NOTE!!!: js for ... in returns index only i.e [0,1,2,3]
 	playerIds.push(Number(i));
 }
 let grid = new Grid(GRID_W,GRID_H);
 
-// TODO create a function to intialize position from distance
-
+// Add Snakes and Ladders
 [
 	// Snakes
 	[40,2],
@@ -49,9 +84,8 @@ let grid = new Grid(GRID_W,GRID_H);
 	[66,45],
 	[89,53],
 
-	// for faster winning
-	// [99,41],
-	// [95,76],
+	[99,41],
+	[95,76],
 
 	// Ladders
 	[4,23],
@@ -70,18 +104,100 @@ let grid = new Grid(GRID_W,GRID_H);
 		grid.distToPoint(end-1)
 	));
 });
-let game = new Game(playerIds,grid);
-// check if starting a new game
+
+// initialize challenges
+const challengeNoOverlap = challengesToggled[0];
+const challengeShuffle = challengesToggled[1];
+const challengeCards = challengesToggled[2];
+const challengeElimination = challengesToggled[3];
+let currentEliminationRow = 0;
+
+if (challengeCards){
+	[
+		3,7,10,
+		11,12,
+		25,29,30,
+		36,37,
+		44,
+		57,
+		64,67,
+		75,
+		91,92,97,
+	].forEach((target) => {
+		// add tiles after transforming 1d to 2d space
+		let pos = grid.distToPoint(target-1);
+		grid.addTile(new CardTile(
+			pos,
+		));
+
+		let marker = document.createElement("div");
+		marker.className="card-tile-marker";
+		//TODO add general function to translatefrom logicspace to boardspace
+		marker.style.top= `${80*(GRID_H-pos.y-1)}px`;
+		let xIndex = pos.x;
+		if (pos.y%2===1) {xIndex = (GRID_W-pos.x-1);}
+		marker.style.left= `${80*xIndex}px`;
+		playerMarkerContainer.prepend(marker);
+
+	});
+}
+
+let game = new Game(playerIds,grid,challengeShuffle,challengeNoOverlap);
+
+// load if not starting a new game
 let startNew = JSON.parse(window.localStorage.getItem("startNewGame"));
 if (!startNew){
+	//TODO: remove alert if possible
 	let shouldLoad = window.confirm("valid save data found, load game?");
 	if (shouldLoad){
 		loadGameState(game);
 	}
 }
 window.localStorage.setItem("startNewGame",JSON.stringify(false));
+saveGameState(game);
 
-// SKIP cheat
+setUpPlayers();
+addCards(); //add empty card buttons
+refreshActiveLeaderBoard();
+
+if (challengeElimination){
+	updateEliminationFlagPosition();
+	uiFlagMarker.hidden=false;
+}
+
+if (!challengeShuffle){
+	uiShuffleMarker.style.display="none";
+}
+
+if (!challengeCards){
+	cardContainer.style.display="none";
+} else {
+	updateCardVisuals(game.current);
+}
+
+/**
+ * End of Setup Script
+ */
+
+
+
+
+
+
+
+
+
+
+
+/** ---------------------------------------------------------------------------------------------------------
+ * FUNCTIONs
+ */
+
+
+/**
+ * Cheats
+ */
+// skip cheat
 window.skip = function(n){
 	game.players.forEach((player,index)=>{
 		game.advancePlayer(player.playerId,n);
@@ -89,35 +205,30 @@ window.skip = function(n){
 	});
 };
 
-/**
- * DOM REFERENCES (Static Elements)
- */
-const rollButton = document.getElementById("rollDiceButton");
-const diceImage = document.getElementById("diceIcon");
-const activeTurnDisplay = document.getElementById("activeTurnPlayerName");
-const activeTurnPlayerImg= document.getElementById("activeTurnPlayerImg");
+// weightedRoll cheat
+window.weightedRoll = function(n) {
+	// Check win condition
+	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
 
-// Containers
-const leaderboardContainer = document.getElementById("playersLeaderboard");
-const logContainer = document.getElementById("gameLogPlayersList");
-const playerMarkerContainer = document.getElementById("playerMarkerContainer");
-
-// Templates
-const playerTemplate = document.getElementById("playerInfo");
-const logTemplate = document.getElementById("gameLogPlayers");
-const playerMarkerTemplate = document.getElementById("playerMarker");
-
-/**
- * UI REFERENCES (Dynamic Elements)
- * stored in arrays so we never have to use querySelector again
- */
-const uiSquareValues = [];
-const uiCardContainers = [];
-const uiLogs = [];
-const uiPlayerMarkers = [];
+	rollButton.disabled = true;
+	diceImage.src = "../assets/images/dice-animation.gif";
 
 
+	let result = n;
 
+	setTimeout(() => {
+		diceImage.src = "../assets/images/cheat.jpeg";
+
+		updatePositionsUI(result).then(()=>{
+			//Note: button becomes enabled after update updatePositionUI is called
+
+			activePlayerLeaderboardHighlight();
+
+			// Note: button becomes enabled after all visual effects and animations are done
+			rollButton.disabled = false;
+		});
+	});
+};
 
 
 /**
@@ -126,7 +237,7 @@ const uiPlayerMarkers = [];
 function setUpPlayers() {
 	// Clear containers in case of a game reset TODO: Reset Button
 	leaderboardContainer.innerHTML = "";
-	logContainer.innerHTML = "";
+	// logContainer.innerHTML = "";
 
 	players.forEach((name, index) => {
 		// 1. Create Leaderboard Card
@@ -146,13 +257,16 @@ function setUpPlayers() {
 		}
 
 		// Store reference so we can update it later by index
-		uiCardContainers.push(clonedPlayerContainer);
+		uiQueueContainers.push(clonedPlayerContainer);
 		uiSquareValues.push(clonedPlayerPosition);
 		leaderboardContainer.appendChild(clonedPlayerContainer);
 
 		// 2. Create Player Markers
 		const clonedMarkerTemplate = playerMarkerTemplate.content.cloneNode(true);
 		let clonedPlayerMarker = clonedMarkerTemplate.firstElementChild;
+		if (challengeNoOverlap){
+			clonedPlayerMarker.classList.add("dangerous");
+		}
 		clonedPlayerMarker.src=`../assets/images/Player${playerIcons[index]}-Icon.jpg`;
 
 
@@ -161,16 +275,6 @@ function setUpPlayers() {
 		// Store reference to the log item
 		uiPlayerMarkers.push(clonedPlayerMarker);
 		playerMarkerContainer.appendChild(clonedPlayerMarker);
-
-		// 3. Create Game Log Entry
-		const clonedLogTempalte = logTemplate.content.cloneNode(true);
-		const clonedPlayerLog = clonedLogTempalte.firstElementChild;
-
-		clonedPlayerLog.textContent = `${name} rolled a 0 and moved to Square 1`;
-
-		// Store reference to the log item
-		uiLogs.push(clonedPlayerLog);
-		logContainer.appendChild(clonedPlayerLog);
 	});
 
 	players.forEach((_,index)=>{
@@ -184,13 +288,11 @@ function setUpPlayers() {
 
 
 
-
-
-
-
-
+/**
+ * UI update functions
+ * TODO: split logic and UI from each other
+ */
 async function updateMarkerPosition(index,instant=false){
-
 	// currently alternating left position visually
 	// and flipping y direction (advance up)
 	const pos = game.players.get(index).position;  /* (x,y) ==> in css (x,y) but from up*/
@@ -201,48 +303,30 @@ async function updateMarkerPosition(index,instant=false){
 		xIndex = (GRID_W-pos.x-1);   /*  flip the x also if row is odd (our board is zigzag)*/
 	}
 
-	const xPx = xIndex*cellSize+markerOffset;
-	const yPx = yIndex*cellSize+markerOffset;
+	const xPx = xIndex*CELL_SIZE+MARKER_OFFSET;
+	const yPx = yIndex*CELL_SIZE+MARKER_OFFSET;
 
 	//TODO: replace with animations
 	if (!instant){
-		// let i = 0;
-		// let interval = setInterval(() => {
-		// 	i+=1/10;
-		// 	// find intermidiate values and update them
-		// }, 200/10);
 		await delay(200);
-		// clearInterval(interval);
 	}
 
-	uiPlayerMarkers[index].style.left = `${xPx}px`;
-	uiPlayerMarkers[index].style.top = `${yPx}px`;
+	uiPlayerMarkers[index].style.transform = `
+	translateX(${xPx}px)
+	translateY(${yPx}px)
+	`;
+	// uiPlayerMarkers[index].style.left = `${xPx}px`;
+	// uiPlayerMarkers[index].style.top = `${yPx}px`;
 
 	// Update visual square number using our array reference
 	let distance = pos.y*GRID_W+pos.x+1;
 	uiSquareValues[index].textContent = `Square ${distance}`;
 }
 
-
-
-
-
 function updateTurnDisplay() {
 	activeTurnDisplay.textContent = `${players[game.current]}'s Turn`;
 	activeTurnPlayerImg.src=`../assets/images/Player${playerIcons[game.current]}-Icon.jpg`;
 }
-
-
-
-
-// Execute setup on script load
-setUpPlayers();
-
-
-
-
-
-
 
 
 /**
@@ -260,13 +344,14 @@ async function updatePositionsUI(result) {
 
 	// process roll result
 	game.processEffects(game.current,effects);
+	updateCardVisuals(game.current);
+
+	// updates other players, no need to await? not sure
+	players.forEach((_,index)=>{
+		updateMarkerPosition(index,false);
+	});
 
 	await updateMarkerPosition(game.current);
-
-	// Update the game log text using our array reference
-	const pos = game.players.get(game.current).position;  /* (x,y) ==> in css (x,y) but from up*/
-	let distance = pos.y*GRID_W+pos.x+1;
-	uiLogs[game.current].textContent = `${players[game.current]} rolled a ${result} and moved to Square ${distance}`;
 
 }
 
@@ -288,6 +373,7 @@ function goToLeaderBoard() {
 
 	// 3. Save the UPDATED data back to the browser's memory
 	window.localStorage.setItem("playerAccountData", JSON.stringify(playerAccountData));
+	window.localStorage.setItem("challengesUnlocked", JSON.stringify(true));
 	window.localStorage.setItem("startNewGame", JSON.stringify(true));
 
 	// 4. Redirect to the Leaderboard Page
@@ -295,6 +381,158 @@ function goToLeaderBoard() {
 	window.location.href = "../html/leaderboard.html";
 }
 
+function refreshActiveLeaderBoard(){
+	// clear out old children
+	game.players.forEach(player => {
+		let playerId = player.playerId;
+		uiQueueContainers[playerId].classList.add("disabled");
+	});
+
+	// add children that are in the active queue
+	game.activeQueue.forEach(playerId => {
+		leaderboardContainer.append(uiQueueContainers[playerId]);
+		uiQueueContainers[playerId].classList.remove("disabled");
+	});
+}
+
+function updateEliminationFlagPosition(){
+	uiFlagMarker.style.transform= `translateY(${80*(GRID_H-currentEliminationRow-1)}px)`;
+	// uiFlagMarker.style.top=`${80*(GRID_H-currentEliminationRow-1)}px`;
+}
+
+
+/**
+ * Card UI Changes
+ *
+ */
+function activePlayerPowerUps(){
+
+}
+
+
+/**
+ * UI-Toggles
+ *
+ */
+
+/**
+ *toggle the roll dice button to be end turn and vice versa
+ *@param {btn} the roll dice button
+ */
+
+function toggleNextTurnButton(btn){
+	btn.classList.toggle("end-turn");
+	//you will find that the class .end turn is the one changing the button
+
+
+	if (btn.classList.contains("end-turn")) {
+		btn.textContent = "End Turn";
+	} else {
+		btn.textContent = "\u2682"+" Roll Dice";
+	}
+
+}
+
+/**
+ *toggle the the empty card container to fill it with a new card
+ *@param {container} the container to be filled with the card
+ */
+
+function toggleFillCard(container,on){
+	if (on){
+		container.classList.add("fill");
+	} else {
+		container.classList.remove("fill");
+	}
+
+}
+
+/**
+ *toggle the dice container to replace it with the card description
+ *@param {container} the container to be replaced
+ */
+
+
+function toggleDescription(container){
+	container.classList.toggle("active");
+
+	//you will find that the class .active is the one displaying the description card
+
+	if (container.classList.contains("active")){
+		container.textContent = "card description missing"; //cardDesc;
+	} else {
+		container.innerHTML = "";
+
+		container.appendChild(diceImage);
+	}
+}
+
+
+function addCards(){
+	for (let i = 0; i < 3; i++) {
+		const cardDiv = document.createElement("div");
+		cardDiv.style.position="relative";
+		const card = document.createElement("button");
+		card.className = "card";
+		const image = document.createElement("img");
+		image.className= "card-icon";
+		image.style.display = "none";
+		const tooltip = document.createElement("p");
+		tooltip.className= "tooltiptext";
+		tooltip.innerText="no card available";
+
+
+		card.addEventListener("click", () => {
+			if (game.players.get(game.current).cards[i]) {
+				game.playCard(game.current,i);
+
+				updateCardVisuals(game.current); // this one is for reseting your card after it was used
+
+				// TODO: hacky way to update other players, maybe come up with something better
+				game.activeQueue.forEach((playerId)=>{
+					updateMarkerPosition(playerId);
+				});
+
+				updateCardVisuals(game.current); //this one is in case you get a new one afterwards
+			}
+		});
+
+		uiCardContainers.push(card);
+		uiCardImages.push(image);
+		uiCardTooltips.push(tooltip);
+
+		card.appendChild(image);
+		cardDiv.appendChild(card);
+		cardDiv.appendChild(tooltip);
+		cardContainer.append(cardDiv);
+	}
+}
+
+function updateCardVisuals(playerId){
+	for (let i = 0; i < 3; i++) {
+		const card = uiCardContainers[i];
+		const image = uiCardImages[i];
+		const tooltip = uiCardTooltips[i];
+		console.log("-----------");
+		game.players.forEach((player)=>{
+			console.log(player.playerId);
+			console.log(player.cards);
+		});
+		if (game.players.get(playerId).cards.length>i){
+			toggleFillCard(card,true);
+			//TODO: add mapping from card name to image url
+			const cardName = game.players.get(playerId).cards[i].name;
+			const cardIndex = nameToCardIndex(cardName);
+			image.src = allCards[cardIndex][2];//2 refers to icon for now
+			image.style.display = "flex";
+			tooltip.textContent=allCards[cardIndex][3];//3 refers to description;
+		} else {
+			toggleFillCard(card,false);
+			image.style.display = "none";
+			tooltip.textContent="No available card data";
+		}
+	}
+}
 
 /**
  * TURN MANAGEMENT: activePlayerLeaderboardHighlight
@@ -302,21 +540,45 @@ function goToLeaderBoard() {
  */
 function activePlayerLeaderboardHighlight() {
 	// 1. Target the .playerInfo container of the player who just moved
-	uiCardContainers[game.current].classList.remove("PickedPlayerTurn");
-
+	uiQueueContainers[game.current].classList.remove("PickedPlayerTurn");
 	// 2. Increment index
 	game.updateQueues();
 
+	if (challengeElimination){
+
+		// eliminate bad players
+		game.activeQueue.forEach(playerId => {
+			let player = game.players.get(playerId);
+
+			if (player.position.y<currentEliminationRow){
+				game.removePlayerFromActiveQueue(playerId);
+			}
+		});
+
+		// add player from above
+		let activeRows = game.activeQueue.map((id)=>game.players.get(id).position.y);
+		let worstRow = Math.min(...activeRows);
+		currentEliminationRow = worstRow;
+
+		// TODO update visual indicator
+		updateEliminationFlagPosition();
+	}
+
+	refreshActiveLeaderBoard();
+	updateCardVisuals(game.current);
+	// Saving
+	saveGameState(game);
+
 
 	// 3.check if game ended
-	if (game.winQueue.length > 0)
+	if (game.winQueue.length > 0 || game.activeQueue.length===1)
 	{
 		goToLeaderBoard(); // player won
 		return; // Stop the function here so we don't switch turns
 	}
 
 	// 4. Highlight the new player
-	uiCardContainers[game.current].classList.add("PickedPlayerTurn");
+	uiQueueContainers[game.current].classList.add("PickedPlayerTurn");
 	updateTurnDisplay();
 
 
@@ -326,34 +588,58 @@ function activePlayerLeaderboardHighlight() {
 
 
 
-/**
+
+
+
+
+
+
+
+
+
+
+/** ----------------------------------------------------------------------------------------------
  * EVENT LISTENERS
  */
-rollButton.addEventListener("click", () => {
+rollButton.addEventListener("click", ()=>{
 	// Check win condition
 	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
 
-	rollButton.disabled = true;
-	diceImage.src = "../assets/images/dice-animation.gif";
+
+	if (!rollButton.classList.contains("active")){
+		if (!rollButton.classList.contains("end-turn")||!challengeCards){
+			rollButton.disabled = true;
+			diceImage.src = "../assets/images/dice-animation.gif";
+
+			let result = diceRoll(ROLL_SIZE);
+			setTimeout(() => {
+				diceImage.src = `../assets/images/dice-${result}.png`;
+
+				updatePositionsUI(result).then(()=>{
+
+					// Note: button becomes enabled after all visual effects and animations are done
+					rollButton.disabled = false;
+					if (challengeCards){
+						toggleNextTurnButton(rollButton);
+						// toggleDescription(outcomeSection);
+					} else {
+						activePlayerLeaderboardHighlight();
+					}
+				});
 
 
-	let result = diceRoll(ROLL_SIZE);
+			}, 1000);
 
-	setTimeout(() => {
-		diceImage.src = `../assets/images/dice-${result}.png`;
-
-		updatePositionsUI(result).then(()=>{
-			//Note: button becomes enabled after update updatePositionUI is called
-
+		} else {
 			activePlayerLeaderboardHighlight();
-
-			// Saving
-			saveGameState(game);
-
-			// Note: button becomes enabled after all visual effects and animations are done
-			rollButton.disabled = false;
-		});
+			toggleNextTurnButton(rollButton);
+			// toggleDescription(outcomeSection);
+		}
 
 
-	}, 1000);
+	} else {
+		toggleNextTurnButton(rollButton);
+		toggleDescription(outcomeSection);
+	}
+
 });
