@@ -122,7 +122,7 @@ if (challengeCards){
 		57,
 		64,67,
 		75,
-		91,92,97,
+		91,92,
 	].forEach((target) => {
 		// add tiles after transforming 1d to 2d space
 		let pos = grid.distToPoint(target-1);
@@ -205,29 +205,48 @@ window.skip = function(n){
 	});
 };
 
-// weightedRoll cheat
+// weightedRoll cheat , not that you will have to press end turn to go to the next one
+// an obviously there is a way to automate that but i am tired T-T
 window.weightedRoll = function(n) {
 	// Check win condition
 	//if (game.winQueue.length > 0) {return;}  // go to leaderboard
 
-	rollButton.disabled = true;
-	diceImage.src = "../assets/images/dice-animation.gif";
+
+	if (!rollButton.classList.contains("active")){
+		if (!rollButton.classList.contains("end-turn")||!challengeCards){
+			rollButton.disabled = true;
+			diceImage.src = "../assets/images/dice-animation.gif";
+
+			let result = n;
+			setTimeout(() => {
+				diceImage.src = `../assets/images/dice-${result}.png`;
+
+				updatePositionsUI(result).then(()=>{
+
+					// Note: button becomes enabled after all visual effects and animations are done
+					rollButton.disabled = false;
+					if (challengeCards){
+						toggleNextTurnButton(rollButton);
+						// toggleDescription(outcomeSection);
+					} else {
+						activePlayerLeaderboardHighlight();
+					}
+				});
 
 
-	let result = n;
+			}, 1000);
 
-	setTimeout(() => {
-		diceImage.src = "../assets/images/cheat.jpeg";
-
-		updatePositionsUI(result).then(()=>{
-			//Note: button becomes enabled after update updatePositionUI is called
-
+		} else {
 			activePlayerLeaderboardHighlight();
+			toggleNextTurnButton(rollButton);
+			// toggleDescription(outcomeSection);
+		}
 
-			// Note: button becomes enabled after all visual effects and animations are done
-			rollButton.disabled = false;
-		});
-	});
+
+	} else {
+		toggleNextTurnButton(rollButton);
+		toggleDescription(outcomeSection);
+	}
 };
 
 

@@ -1,5 +1,7 @@
 
 import JumpCard from "../game-logic/cards/jumpCard.js";
+import SwapCard from "./cards/swapCard.js";
+
 
 // saves cards as a pair [className,parameters] as well as some extra info
 export const allCards = [
@@ -9,6 +11,11 @@ export const allCards = [
 	[JumpCard,[4],"../assets/images/dice-4.png","Jumps 4 steps forward"],
 	[JumpCard,[5],"../assets/images/dice-5.png","Jumps 5 steps forward"],
 	[JumpCard,[6],"../assets/images/dice-6.png","Jumps 6 steps forward"],
+	[JumpCard,[50],"../assets/images/cards/2.png","Jumps 50 steps forward"],
+	[JumpCard,[-5],"../assets/images/cards/5.png","Jumps 5 steps backward"],
+	[JumpCard,[-5],"../assets/images/cards/5.png","Jumps 5 steps backward"],
+	[JumpCard,[-5],"../assets/images/cards/5.png","Jumps 5 steps backward"],
+	[SwapCard,[],"../assets/images/cards/1.png","swap with next player"]
 ];
 
 // picks a card from allCards
