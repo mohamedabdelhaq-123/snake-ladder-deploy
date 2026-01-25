@@ -668,6 +668,7 @@ function mainButtonPress(){
 
 	if (!rollButton.classList.contains("active")){
 		if (!rollButton.classList.contains("end-turn")||!challengeCards){
+
 			rollButton.disabled = true;
 			diceImage.src = "../assets/images/dice-animation.gif";
 
@@ -680,13 +681,25 @@ function mainButtonPress(){
 				diceImage.src = `../assets/images/dice-${result}.png`;
 
 				updatePositionsUI(result).then(()=>{
-
 					// Note: button becomes enabled after all visual effects and animations are done
 					rollButton.disabled = false;
+
+					let currentPlayer = game.players.get(game.activeQueue[game.current]);  // case: to go to leaderboard after winning immedeatly
+					let hasWon = game.checkWinCondition(currentPlayer);
+
+					if (hasWon) {
+						game.updateQueues();
+						saveGameState(game);
+						goToLeaderBoard();
+						return;
+					}
+
 					if (challengeCards){
 						toggleNextTurnButton(rollButton);
 						// toggleDescription(outcomeSection);
-					} else {
+					}
+					 else {
+						//goToLeaderBoard();
 						activePlayerLeaderboardHighlight();
 					}
 				});
