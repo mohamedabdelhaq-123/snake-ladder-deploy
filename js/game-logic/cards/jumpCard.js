@@ -40,7 +40,11 @@ export default class JumpCard extends Card {
 		if (!other){
 			other = player.playerId;
 		}
+		let oldPlayerPosition=game.players.get(other).position;
 		const effects = game.advancePlayer(other,this.#amount);
-		game.processEffects(other,effects);
+		let newPlayerPosition=game.players.get(other).position;
+		if (oldPlayerPosition.key()!==newPlayerPosition.key()){
+			game.processEffects(other,effects);
+		}
 	}
 }

@@ -53,7 +53,7 @@ main {
 input[type="text"] {
   width: 50%;
   padding: 10px 10px;
-  padding-left: 40px;
+  padding-left: 20px;
   background-color: var(--primary-soft);
   min-height: 30px;
   border: solid 1px #73bea1d9;
@@ -70,7 +70,7 @@ input[type="text"]:focus {
 select {
   width: 35%;
   padding: 10px 10px;
-  padding-left: 40px;
+  padding-left: 20px;
   background-color: var(--primary-soft);
   color: #646f6e;
   min-height: 45px;
@@ -250,7 +250,7 @@ opacity: 1;
   input[type="text"] {
     width: 40%;
     font-size: medium;
-    padding-left: 20px;
+    padding-left: 10px;
   }
 
   select{
