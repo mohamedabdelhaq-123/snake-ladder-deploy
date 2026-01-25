@@ -12,6 +12,7 @@ export default class JumpCard extends Card {
 	 */
 	constructor(amount) {
 		//TODO: validate
+		super();
 		this.#amount= amount;
 	}
 
@@ -30,10 +31,20 @@ export default class JumpCard extends Card {
 	 * @param {PlayerGameData} _player the player who activated the card
 	 * @param {number} other other player id
 	 */
-	effect(game,_player,other) {
+	effect(game,player,other) {
 		// Note: this relies on Points being immutable
-		// otherwise we should copy data firs
+		// otherwise we should copy data first
 		// TODO: confirm if this is fine
-		game.advancePlayer(other,this.#amount);
+
+		// if no other, assume this means it's me
+		if (!other){
+			other = player.playerId;
+		}
+		let oldPlayerPosition=game.players.get(other).position;
+		const effects = game.advancePlayer(other,this.#amount);
+		let newPlayerPosition=game.players.get(other).position;
+		if (oldPlayerPosition.key()!==newPlayerPosition.key()){
+			game.processEffects(other,effects);
+		}
 	}
 }

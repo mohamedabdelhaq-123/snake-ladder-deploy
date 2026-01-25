@@ -3,10 +3,26 @@
   box-sizing: border-box;
 }
 
+body {
 
+
+  /* Background layers */
+  background:
+    /* soft overlay so text stays readable but BG still visible */
+    radial-gradient(1200px 700px at 50% 35%, rgba(255,255,255,0.18), rgba(242,247,247,0.45)),
+    url("../assets/images/BG.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Parallax-ish motion */
+  animation: bgParallax 14s ease-in-out infinite alternate;
+}
 
 /* The home layout blocks */
 main {
+  display: flex;
+  flex-direction: column;
   
   justify-content: center;
   align-content: center;
@@ -14,24 +30,24 @@ main {
   text-align: center;
   border-radius: 2rem;
   padding: 5px;
-  margin-bottom: 18rem;
+  margin-bottom: 13rem;
   margin-left:auto;
   margin-right:auto;
 
-  max-width: 500px;
+  max-width: 1000px;
 }
 
 .font-small {
-  font-size: small;
-  color: var(--primary-dark);
+  font-size: bold;
+  color:  #0f665f;;
 }
 
 .note {
-  font-size: small;
+  font-size: medium;
   background-color: var(--primary-soft);
   color: var(--primary);
   border-radius: 10px;
-  padding: 2px 10px;
+  padding: 5px 10px;
 }
 
 .named-bar {
@@ -41,7 +57,9 @@ main {
 }
 
 .named-bar span:first-child {
+  margin-top: 9px;
   font-weight: bold;
+  font-size: large;
   flex-grow: 1;
   text-align: start;
 }
@@ -49,35 +67,41 @@ main {
 input[type="text"] {
   width: 50%;
   padding: 10px 10px;
-  padding-left: 40px;
+  padding-left: 20px;
   background-color: var(--primary-soft);
   min-height: 30px;
   border: solid 1px #73bea1d9;
   border-radius: 10px;
+  font-size: large;
 }
+
+
 input[type="text"]:focus {
   outline: none;
   border: solid 2px var(--primary);
 }
+
 select {
   width: 35%;
   padding: 10px 10px;
-  padding-left: 40px;
+  padding-left: 20px;
   background-color: var(--primary-soft);
   color: #646f6e;
-  min-height: 30px;
+  min-height: 45px;
   border: solid 1px #73bea1d9;
   border-radius: 10px;
  
 }
+
+
 select:hover {
   cursor: pointer;
 }
 select:focus {
   outline: none;
   border: solid 2px var(--primary);
+  
 }
-
 /* Color picker */
 .color-picker-container {
   position: absolute;
@@ -85,8 +109,8 @@ select:focus {
   align-items: center;
   justify-content: center;
 
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   top: 10px;
   left: 10px;
 
@@ -126,10 +150,10 @@ a {
 }
 
 .user-entry img {
-  width: 30px;
-  height: 30px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  border: 2px solid #73bea1d9;
+  border: 3px solid #73bea1d9;
 }
 
 #setup {
@@ -137,4 +161,113 @@ a {
   background-color: var(--surface);
   box-shadow: 0px 0px 10px 0px rgba(113, 167, 163, 0.4);
   border-radius: 2rem;
+  width: 100%;
+}
+
+#challenge-panel {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content:center;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  border-width: 2px;
+  border-bottom: 5px ;
+  border-color: var(--primary);
+  border-style: solid;
+  border-radius: 10px;
+}
+
+#challenges {
+  display: flex;
+  margin-top: 10px;
+  gap: 5px;
+
+
+}
+
+#challenge-panel summary {
+  text-align: start;
+  font-weight: bold;
+}
+
+#challenge-panel hr {
+  color: var(--primary);
+}
+
+#challenges button {
+  flex-grow: 1;
+  border-radius: 0;
+  margin-bottom: 5px;
+  background-color: #c33;
+  box-shadow: 0 5px 0px rgb(168, 7, 7); 
+}
+
+#challenges button:hover {
+  filter: brightness(1.02);
+  box-shadow: 0 4px 10px rgba(236, 8, 8, 0.767);
+}
+
+#challenges button:first-child {
+  border-radius: 20px 0 0 20px;
+}
+
+#challenges button:last-child {
+  border-radius: 0 20px 20px 0;
+}
+
+#challenges button.active {
+  transform: translateY(5px);
+  box-shadow: none;
+  background-color: #f33;
+}
+
+#challenges button img{
+  width: 80%;
+  filter: invert();
+}
+
+#challenges button.active img{
+  width: 80%;
+  filter: none;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #cc3333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 15px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 10;
+  bottom: 100px;
+
+
+  /* Smooth fade-in */
+  opacity: 0;
+  transition: opacity 1.5s;
+}
+
+#challenges button:hover .tooltiptext {
+  visibility: visible;
+opacity: 1;
+  
+}
+
+
+@media (max-width: 600px) {
+  input[type="text"] {
+    width: 40%;
+    font-size: medium;
+    padding-left: 10px;
+  }
+
+  select{
+    padding-left: 8px;
+  }
 }

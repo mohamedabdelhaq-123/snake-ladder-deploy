@@ -7,10 +7,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>main-game</title>
+    <title>Game Board</title>
+      <link rel="icon" type="image/x-icon" href="../assets/images/game-icon-gameBoardScreen-alt.jpg">
     <link rel="stylesheet" href="../css/game-board.css">
     <link rel="stylesheet" href="../css/global.css">
-    <script type="module" src="../js/pages/game-board.js"></script>
 
     <!-- add templates -->
     <template id="playerMarker">
@@ -34,9 +34,7 @@
 </head>
 
 
-
 <body>
-
 
 
     <nav>
@@ -58,10 +56,17 @@
 
 
         <div class="left-side-bar">
-            <div class="gameBoard">
-                <div id="playerMarkerContainer"></div>
-                <img src="../assets/images/preset-snake-board.jpg" alt="Game Board Image">
-            </div>      
+            <div id="boardPadding">
+                <div class="gameBoard">
+                    <div id="playerMarkerContainer"> 
+                        <div  id="flagMarker" hidden="true">
+                            <img src="../assets/images/flag-icon.svg" alt="">
+                        </div>    
+                    </div>
+                    
+                    <img src="../assets/images/preset-snake-board.jpg" alt="Game Board Image">
+                </div>      
+            </div>
         </div>
 
  
@@ -81,44 +86,57 @@
 
 
                 <div class="diceRollSection">
-                        <img id="diceIcon" src="../assets/images/dice-1.png" alt="dice">
+                        <div id="outcome"><img id="diceIcon" src="../assets/images/dice-1.png" alt="dice"></div>
+                         
                      <button id="rollDiceButton">&#9858; Roll Dice</button>
                 </div>
+                
             </div>
 
-
-            <div id = "playersLeaderboard" class="playersLeaderboard overall-right-side-bar-styling">
-                <h5>Players Leaderboard</h5>
-
-
-                <div class="playerInfo PickedPlayerTurn" id="player1Info">
-                    <h5 id="player1Name">Player 1</h5>
-                    <span class="playerPostionSquareNumber">
-                        <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
-                    </span>
+            <div id="card-container">
+                
+            </div>
+            <div style="display: flex;flex-direction: column;align-content: stretch; width: 100%;">
+                <div id = "playersLeaderboard" class="playersLeaderboard overall-right-side-bar-styling">
+                    <h5>Players Leaderboard</h5>
+    
+    
+                    <div class="playerInfo PickedPlayerTurn" id="player1Info">
+                        <h5 id="player1Name">Player 1</h5>
+                        <span class="playerPostionSquareNumber">
+                            <p> <span class="currentPlayerSquareNumber">Square 0 </span></p>
+                        </span>
+                    </div>
+    
+    
+    
                 </div>
-
-
-
+                <img id="shuffleMarker" src="../assets/images/shuffle-icon.svg" alt="">
             </div>
+            <button id="restart-game"><img src="../assets/images/arrow_clockwise.png" alt="">Restart</button>
 
 
-
-
-            <div class="gameLog  overall-right-side-bar-styling">
+            <!-- <div class="gameLog  overall-right-side-bar-styling">
                 <h5>Game Log</h5>
                 <ul id="gameLogPlayersList" class="gameLogPlayersList">
                 </ul>
                 
-            </div>
+            </div> -->
         </div>
+        
     </div>
+    
      <footer>
       <p>
-        made with ❤️ by Mohamed abdel el haq , Haneen Ahmed, Zeiad Hesham
-        ,Andrew Emad,hashim abdelaziz
+        Made with ❤️ by Mohamed Abdel-haq, Haneen Elasawy, Zeyad Hesham, Andrew Emad and Hashim Abdelaziz
       </p>
     </footer>
+
+
+
+    <dialog id="customDialog"></dialog>
+
+     <script type="module" src="../js/pages/game-board.js"></script>
 </body>
 
 </html>

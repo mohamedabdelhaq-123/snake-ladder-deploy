@@ -1,102 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>home</title>
-	 <link rel="stylesheet" href="../css/global.css">
+	<title>Home</title>
+	<link rel="icon" type="image/x-icon" href="../assets/images/game-icon-gameBoardScreen-alt.jpg">
+	<link rel="stylesheet" href="../css/global.css">
 	<link rel="stylesheet" href="../css/home.css">
-	<script type="module" src="../js/pages/home.js"></script>
-</head>
-<body>
-<!-- Navigation Bar -->
-    <nav>
-      <div class="logo-section">
-        <img  src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
-        <h2> Snake <span class="highlight">&</span> Ladders</h2>
-        </a>
-      </div>
-      <div class="nav-buttons">
-        <a id="leaderboard-link" href="leaderboard.html">Leaderboard</a>
-        <a id="instruction-link" href="instructions.html">Instructions</a>
-      </div>
-    </nav>
-	<main>
-		<div id="header">
-			<img src="assets/logo.png" alt="Snakes& Ladders Logo">
-			<h1>Let's Roll!</h1>
-			<p class="font-small">The classic race to the top. Dodge the snakes, climb the ladders and be the first to score 100</p>
+
+	<template id="templateSelect">
+		<div class="user-entry">
+
+			<input type="text" name="player1" id="player1" placeholder="Player1 Name">
+			<select name="profile-picture" id="player1-picture">
+				<option value="" disabled selected>Pick an image</option>
+				<option value="1">Zoro</option>
+				<option value="2">Gojo</option>
+				<option value="3">Fushiguro</option>
+				<option value="4">Zenitsu</option>
+				<option value="5">Mikasa Ackerman</option>
+			</select>
+			<img id="player1Img" src="../assets/images/Player0-Icon.png" alt="">
 		</div>
+	</template>
+
+
+</head>
+
+<body>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo-section">
+			<img src="../assets/images/game-icon-gameBoardScreen-alt.jpg" alt="game logo" />
+			<h2> Snake <span class="highlight">&</span> Ladders</h2>
+			</a>
+		</div>
+		<div class="nav-buttons">
+			<a id="leaderboard-link" href="leaderboard.html">Leaderboard</a>
+			<a id="instruction-link" href="instructions.html">Instructions</a>
+		</div>
+	</nav>
+	<main>
+
+		<div id="header">
+			<h1>Let's Roll!</h1>
+			<p class="font-small">The classic race to the top. Dodge the snakes, climb the ladders and be the first to
+				score 100</p>
+		</div>
+
 		<div id="setup">
 			<div class="named-bar">
 				<span>Who's Playing?</span>
 				<span class="note"> 2 to 4 players</span>
 			</div>
+
+
+
 			<div id="players">
-				<div class="user-entry">
-					
-					<input type="text" name="player1" id="player1" placeholder="Player1 Name">
-					<select name="profile-picture" id="player1-picture">
-						<option value="">Pick an image</option>
-						<option value="1">option1</option>
-						<option value="2">option2</option>
-						<option value="3">option3</option>
-						<option value="4">option4</option>
-					</select>
-					<img src="../assets/images/Player0-icon.png" alt="">
-				</div>
-				<div class="user-entry">
-					
-					<input type="text" name="player2" id="player2" placeholder="Player2 Name">
-					<select name="profile-picture" id="player2-picture">
-						<option value="">Pick an image</option>
-						<option value="1">option1</option>
-						<option value="2">option2</option>
-						<option value="3">option3</option>
-						<option value="4">option4</option>
-					</select>
-						<img src="../assets/images/Player0-icon.png" alt="">
-				</div>
-				<div class="user-entry">
-					
-					<input type="text" name="player3" id="player3" placeholder="Player3 Name (Optional)">
-					<select name="profile-picture" id="player3-picture">
-						<option value="">Pick an image</option>
-						<option value="1">option1</option>
-						<option value="2">option2</option>
-						<option value="3">option3</option>
-						<option value="4">option4</option>
-					</select>
-						<img src="../assets/images/Player0-icon.png" alt="">
-				</div>
-				<div class="user-entry">
-					
-					<input type="text" name="player4" id="player4" placeholder="Player4 Name (Optional)">
-					<select name="profile-picture" id="player4-picture">
-						<option value="">Pick an image</option>
-						<option value="1">option1</option>
-						<option value="2">option2</option>
-						<option value="3">option3</option>
-						<option value="4">option4</option>
-					</select>
-						<img src="../assets/images/Player0-icon.png" alt="">
+				<!-- Player entries will be added here dynamically -->
+			</div>
+
+			<div>
+				<div id="challenge-panel">
+
+					<details>
+						<summary> Challenges : </summary>
+						<hr>
+						<div id="challenges">
+							<button type="button" id="no-stack-button" class="toggle-button">
+								<img src="../assets/images/no-stack-icon.svg" alt="">
+								<span class="tooltiptext">No Stack<br> Players cannot stack on the same square</span>
+							</button>
+							<button type="button" id="shuffle-button" class="toggle-button"> <img
+									src="../assets/images/shuffle-icon.svg" alt="">
+								<span class="tooltiptext">Shuffle<br> Players are shuffled at the end of each
+									round</span>
+							</button>
+							<button type="button" id="cards-button" class="toggle-button"> <img
+									src="../assets/images/cards-icon.svg" alt="">
+								<span class="tooltiptext">No Power ups<br> Players cannot use power ups anymore</span>
+							</button>
+							<button type="button" id="flag-button" class="toggle-button"> <img
+									src="../assets/images/flag-icon.svg" alt="">
+								<span class="tooltiptext">Elimination<br> Players get eliminated if they fall below the
+									line</span>
+							</button>
+						</div>
+					</details>
 				</div>
 			</div>
-			
+
 			<a href="game-board.html" id="play-button">PLAY NOW</a>
 			<!-- don't know how to make it that small -->
 			<p class="font-small">By clicking play you agree to the game rules</p>
-			
+
 		</div>
 
-	</div>
-	 </main>
-    <footer>
-      <p>
-        made with ❤️ by Mohamed abdel el haq , Haneen Ahmed, Zeiad Hesham
-        ,Andrew Emad,hashim abdelaziz
-      </p>
-    </footer>
-
+		</div>
+	</main>
+	<footer>
+		<p>
+			Made with ❤️ by Mohamed Abdel-haq, Haneen Elasawy, Zeyad Hesham, Andrew Emad and Hashim Abdelaziz
+		</p>
+	</footer>
+	<dialog id="customDialog"></dialog>
+ <script type="module" src="../js/pages/home.js"></script>
 </body>
+
 </html>
