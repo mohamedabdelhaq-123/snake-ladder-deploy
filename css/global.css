@@ -1,12 +1,13 @@
+
 :root {
   --bg: #f0f9f8;
   --surface: #ffffff;
   --text: #0e1b19;
   --muted: #71a7a3;
 
-  --primary: #1cc8b9; /* leaderboard primary */
-  --primary-dark: #148c82; /* for 3D shadow like roll dice */
-  --primary-soft: #dcf1f0;
+  --primary: #1cc8b9;        /* leaderboard primary */
+  --primary-dark: #148c82;   /* for 3D shadow like roll dice */
+  --primary-soft: #dcf1f0;   
   --border: #e2e8f0;
 
   --radius-lg: 16px;
@@ -25,8 +26,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
 }
@@ -70,6 +70,7 @@ nav,
 
   border-bottom: 1px solid var(--border);
 }
+
 
 /* Left logo block: supports leaderboard (.logo-section) + instruction (.logo) */
 nav .logo-section,
@@ -132,8 +133,7 @@ button,
 .nav-links a,
 #backToHomeLink,
 #exitGameLink,
-.btn,
-a {
+.btn ,a{
   appearance: none;
   border: none;
   cursor: pointer;
@@ -160,8 +160,7 @@ button:hover,
 .nav-links a:hover,
 #backToHomeLink:hover,
 #exitGameLink:hover,
-.btn:hover,
-a:hover {
+.btn:hover,a:hover {
   filter: brightness(1.02);
   box-shadow: 0px 4px 10px 2px #84f9ef;
 }
@@ -172,15 +171,14 @@ button:active,
 .nav-links a:active,
 #backToHomeLink:active,
 #exitGameLink:active,
-.btn:active,
-a:active {
+.btn:active,a:active {
   transform: translateY(5px);
   box-shadow: none;
 }
-button img {
-  width: 2rem;
+button img{
+  width:2rem;
   height: 2rem;
-  margin: 0.5rem;
+  margin: .5rem;
 }
 /* Secondary / ghost buttons (Back to Home style) */
 #backToHomeLink,
@@ -225,61 +223,44 @@ footer {
   background-color: white;
   margin-top: auto;
 }
-/* BGM Toggle Button */
-.bgm-toggle {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  border: 0;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  z-index: 9999; /* make sure it's above everything */
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-}
-.bgm-toggle:hover {
-  transform: translateY(-1px);
-}
 
-dialog {
+dialog{
   border-radius: 2rem;
   min-height: 10rem;
   min-width: 30rem;
-  width: fit-content;
+  width:fit-content;
   color: black;
   border: none;
   padding: 1rem;
+
 }
 
-dialog p {
-  background-color: #dcf1f0;
-  border-radius: 1rem;
 
-  text-align: center;
-  padding: 2rem;
-  font-size: x-large;
+dialog p{
+    background-color: #dcf1f0;
+    border-radius: 1rem;
+   
+    text-align: center;
+    padding: 2rem;
+    font-size:x-large
 }
-dialog div {
+dialog div{
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-}
-dialog.alert {
-  background-color: var(--surface);
 
+}
+dialog.alert{
+  background-color: var(--surface);
+  
   box-shadow: 0 5px 0px var(--bg);
 }
-dialog button.confirm-style {
-  background: #4fc3f7;
-  box-shadow: 0 5px 0 #499ae7;
+dialog button.confirm-style{
+  background: #4FC3F7;
+  box-shadow:  0 5px 0 #499ae7;
   color: #fff;
 }
-dialog button.cancel-style {
+dialog button.cancel-style{
   background-color: #c33;
   box-shadow: 0 5px 0px rgb(168, 7, 7);
 }

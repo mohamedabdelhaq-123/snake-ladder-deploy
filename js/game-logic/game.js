@@ -32,6 +32,7 @@ export default class Game {
 		// TODO: add validation for parameters
 		this.#shufflOnRoundEnd = shufflOnRoundEnd;
 		this.#noOverlap= noOverlap;
+	
 		let queueData = this.#activeQueue.data;  /* take direct access to turn order (to add player simply)*/
 
 		playerIds.forEach((playerId)=>{

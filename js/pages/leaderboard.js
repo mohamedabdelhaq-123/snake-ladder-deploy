@@ -1,8 +1,9 @@
 import { enableGlobalButtonSfx } from "../utils/button-sfx.js";
-import { initBgm } from "../utils/bgm.js";
-document.addEventListener("DOMContentLoaded", () => {
-	enableGlobalButtonSfx(); // enable button sound effects globally
-	initBgm(); // initialize background music
+import { play } from "../utils/sound.js";
+
+document.addEventListener("DOMContentLoaded", () => { /* Wait until the HTML page is fully loaded*/
+	enableGlobalButtonSfx();
+
 });
 
 window.addEventListener("DOMContentLoaded", ()=>{ // Show win sound if not coming from home page (player won only)
