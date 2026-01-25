@@ -379,6 +379,7 @@ button:hover~.tooltiptext {
 
 @media (max-width: 600px) {
 
+
   /*layout vertical */
   .container {
     flex-direction: column;
@@ -391,10 +392,16 @@ button:hover~.tooltiptext {
   .right-side-bar {
     margin: 0;
     width: 100%;
+    
+  }
+
+  .gameBoard {
+    max-width: 400px; /* get 400 px (mobile avg & half of real width) of game board at each scroll */
   }
 
   /* game board modifications*/
   .left-side-bar {
+    overflow-x: scroll;
     display: flex;
     justify-content: center;
   }
@@ -403,6 +410,7 @@ button:hover~.tooltiptext {
   /* turn & leaderboard below board */
   .right-side-bar {
     margin-top: 20px;
+
   }
 
   /* buttons adapt to small screens */

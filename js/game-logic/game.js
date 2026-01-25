@@ -242,8 +242,8 @@ export default class Game {
 	}
 
 	get nextPlayer(){
-	
-		let nextIndex = this.#activeQueue.id+1%this.#activeQueue.data.length;
+
+		let nextIndex = (this.#activeQueue.id+1)%this.#activeQueue.data.length;
 		return this.#activeQueue.data[nextIndex];
 	}
 

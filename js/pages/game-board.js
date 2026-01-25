@@ -248,7 +248,7 @@ window.weightedRoll = function(n) {
 
 			let result = n;
 			setTimeout(() => {
-				diceImage.src = `../assets/images/dice-${result}.png`;
+				diceImage.src = "../assets/images/cheat.jpeg";
 
 				updatePositionsUI(result).then(()=>{
 
