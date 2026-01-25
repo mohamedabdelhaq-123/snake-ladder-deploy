@@ -12,28 +12,29 @@ import { enableGlobalButtonSfx } from "../utils/button-sfx.js";
 /* ADDED: Sound player (SFX) */
 import { play } from "../utils/sound.js";
 
+
 /* ADDED: Background music (BGM) */
 const bgMusic = (() => {
-  // Background music for the game-board page
-  const url = new URL("../../assets/audio/gameBG.wav", import.meta.url);
-  const a = new Audio(url);
-  a.preload = "auto";
-  a.loop = true;
-  a.volume = 0.18; // Background sound volume
-  return a;
+	// Background music for the game-board page
+	const url = new URL("../../assets/audio/gameBG.wav", import.meta.url);
+	const a = new Audio(url);
+	a.preload = "auto";
+	a.loop = true;
+	a.volume = 0.18; // Background sound volume
+	return a;
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  enableGlobalButtonSfx();
+	enableGlobalButtonSfx();
 
-  // 🔊 ADDED: Start background music on first user interaction (browser autoplay policy)
-  const startBGMOnce = () => {
-    bgMusic.play().catch(() => {});
-    window.removeEventListener("pointerdown", startBGMOnce, true);
-    window.removeEventListener("keydown", startBGMOnce, true);
-  };
-  window.addEventListener("pointerdown", startBGMOnce, true);
-  window.addEventListener("keydown", startBGMOnce, true);
+	// 🔊 ADDED: Start background music on first user interaction (browser autoplay policy)
+	const startBGMOnce = () => {
+		bgMusic.play().catch(() => {});
+		window.removeEventListener("pointerdown", startBGMOnce, true);
+		window.removeEventListener("keydown", startBGMOnce, true);
+	};
+	window.addEventListener("pointerdown", startBGMOnce, true);
+	window.addEventListener("keydown", startBGMOnce, true);
 });
 
 
@@ -430,9 +431,6 @@ async function updatePositionsUI(result) {
 
 
 function goToLeaderBoard() {
-	// ADDED: Win sound before redirecting
-	// Sound for winning the game
-	play("win", { volume: 0.95, restart: true });
 
 	// 1. Loop through all players in the Game Logic to get their actual positions
 	game.players.forEach((playerData, id) => {

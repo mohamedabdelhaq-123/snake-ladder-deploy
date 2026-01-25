@@ -137,3 +137,28 @@ main .play-again-button button {
   overflow: auto;
   height: 35rem;
 }
+
+.tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #cc3333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 15px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 10;
+  bottom: 100px;
+
+
+  /* Smooth fade-in */
+  opacity: 0;
+  transition: opacity 1.5s;
+}
+#play-button:hover .tooltiptext {
+  visibility: visible;
+opacity: 1;
+  
+}

@@ -2,13 +2,13 @@ import PlayerAccountData from "../utils/PlayerAccountData.js";
 import { enableGlobalButtonSfx } from "../utils/button-sfx.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  enableGlobalButtonSfx();
+	enableGlobalButtonSfx();
 });
 
 import { initBgm } from "../utils/bgm.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  initBgm({ volume: 0.25 });
+	initBgm({ volume: 0.25 });
 });
 
 const templateSelect = document.getElementById("templateSelect").content;
@@ -17,11 +17,13 @@ for (let i=1;i<=4;i++) /* generate the players in home page dynamically */
 {
 	const clone = templateSelect.cloneNode(true);
 	const selectElement = clone.querySelector("select");
-	selectElement.id = `player${i}-select`;
+	selectElement.id = `player${i}-picture`;
 	const inputElement = clone.querySelector("input");
-	inputElement.id = `player${i}-name`;
-	inputElement.name = `player${i}-name`;
+	inputElement.id = `player${i}`;
+	inputElement.name = `player${i}`;
 	inputElement.placeholder = `Player${i} Name`;
+	const imgElement = clone.querySelector("img");
+	imgElement.id = `player${i}Img`;
 
 	document.getElementById("players").appendChild(clone);
 }
@@ -44,10 +46,12 @@ function clearSelectFields(allSelects) {
 function updateAllSelectsDisabled(allSelects, disabledValues) {
 	allSelects.forEach(select => {
 		const options = select.querySelectorAll("option");
-		options.forEach(option => {
-			const value = parseInt(option.value);
-			// Disable if this value is selected elsewhere AND it's not the current select's own value
-			option.disabled = disabledValues.has(value) && value !== parseInt(select.value);
+		options.forEach((option,index) => {
+			if (index!==0){    // can't access the first option (Pick an image) again
+				const value = parseInt(option.value);
+				// Disable if this value is selected elsewhere AND it's not the current select's own value
+				option.disabled = disabledValues.has(value) && value !== parseInt(select.value);
+			}
 		});
 	});
 }
@@ -108,6 +112,11 @@ playButton.addEventListener("click", (event) => {
 		}
 
 		if (playerName) {
+			if (!/^[a-z]+$/i.test(playerName)) // Check if name is letters only
+			{
+				window.alert("Player name must contain only letters: " + playerName);
+				return;
+			}
 			if (selectedImg.value === "") {
 				window.alert("Please select an image for " + playerName);
 				return;
@@ -168,10 +177,48 @@ toggleButtons.forEach((toggleButton, index) => {
 	});
 });
 
+let leaderboardButton= document.getElementById("leaderboard-link");
+leaderboardButton.addEventListener("click",()=>{
+	window.localStorage.setItem("homeButton",1); // Indicate navigation from home to leaderboard (to )
+	window.location.href = "leaderboard.html";
+});
+
+
+
 
 updateChallengeButtons();
 clearInputFields();
 clearSelectFields(allSelects);
 
 
+console.log(window.localStorage.getItem("playerAccountData"));
+
+console.log(document.getElementById("players"));
+
+window.addEventListener("DOMContentLoaded", () => { // containers is dynammically generated
+	const userEntries = window.localStorage.getItem("playerAccountData");
+	if (userEntries) {
+		const parsedEntries = JSON.parse(userEntries); // Parse the stored player data
+		console.log(parsedEntries.length);
+
+		for (let i = 0; i < parsedEntries.length; i++) {
+
+			const inputElement = document.getElementById(`player${i+1}`);  // get input field
+			const selectElement = document.getElementById(`player${i+1}-picture`);
+			const imgElement = document.getElementById(`player${i+1}Img`);
+
+
+			inputElement.value = parsedEntries[i].name;
+			selectElement.value = parsedEntries[i].imgNumber; // set values with loaded
+			if (inputElement.value) // case : select img without name when loading remove img
+			{
+				imgElement.src = `../assets/images/Player${parsedEntries[i].imgNumber}-Icon.jpg`;
+			}
+
+			prevChoices.set(selectElement.id, parseInt(parsedEntries[i].imgNumber));
+			disabledOptions.add(parseInt(parsedEntries[i].imgNumber));
+			updateAllSelectsDisabled(allSelects, disabledOptions);
+		}
+	}
+});
 
