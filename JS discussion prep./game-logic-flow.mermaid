@@ -1,0 +1,58 @@
+flowchart TD
+    Start([User Clicks 'Roll Dice']) --> ValidateTurn{Is it Player's Turn?}
+    ValidateTurn -->|No| BlockAction[Prevent Action]
+    ValidateTurn -->|Yes| RollDice[Generate Random Number 1-6]
+    
+    RollDice --> UpdateUI1[Display Dice Animation]
+    UpdateUI1 --> CalculateMove[Calculate New Position<br/>currentPos + diceRoll]
+    
+    CalculateMove --> BoundaryCheck{Position > 99?}
+    BoundaryCheck -->|Yes| StayInPlace[Keep Current Position]
+    BoundaryCheck -->|No| MovePlayer[Update Player Position]
+    
+    MovePlayer --> AnimateMovement[Animate Token Movement<br/>DOM Update]
+    AnimateMovement --> CheckTile{Tile at Position?}
+    
+    CheckTile -->|Portal Tile| TeleportPlayer[Change Position to End Point<br/>Snake/Ladder Effect]
+    CheckTile -->|Card Tile| GiveCard[Add Random Card to Inventory<br/>Max 3 Cards]
+    CheckTile -->|Normal Tile| NoEffect[Continue]
+    
+    TeleportPlayer --> UpdatePosition1[Update DOM Position]
+    GiveCard --> UpdatePosition1
+    NoEffect --> UpdatePosition1
+    
+    UpdatePosition1 --> NoStackCheck{No Stack Mode Active?}
+    NoStackCheck -->|Yes| CheckCollision{Same Position<br/>as Another Player?}
+    NoStackCheck -->|No| CheckWin
+    
+    CheckCollision -->|Yes| SendToCheckpoint[Send Other Player to 0,0]
+    CheckCollision -->|No| CheckWin{Position === Goal?}
+    SendToCheckpoint --> CheckWin
+    
+    CheckWin -->|Yes| PlayerWins[Remove from Active Queue<br/>Add to Win Queue]
+    CheckWin -->|No| NextTurn
+    
+    PlayerWins --> UpdateLeaderboard[Update UI Leaderboard]
+    UpdateLeaderboard --> CheckGameEnd{All Players<br/>Finished?}
+    
+    CheckGameEnd -->|Yes| EndGame[Navigate to<br/>Leaderboard Page]
+    CheckGameEnd -->|No| NextTurn[Switch to Next Player<br/>in Active Queue]
+    
+    NextTurn --> ShuffleCheck{Shuffle Mode<br/>& New Round?}
+    ShuffleCheck -->|Yes| ShuffleQueue[Randomize Player Order]
+    ShuffleCheck -->|No| SaveState
+    
+    ShuffleQueue --> SaveState[Serialize Game State<br/>Save to LocalStorage]
+    SaveState --> UpdateActiveUI[Highlight Active Player<br/>Update Turn Indicator]
+    UpdateActiveUI --> WaitForInput[Wait for Next<br/>Dice Roll]
+    
+    WaitForInput --> Start
+    
+    BlockAction --> End([End])
+    EndGame --> End
+    
+    style Start fill:#4CAF50
+    style End fill:#f44336
+    style CheckWin fill:#FF9800
+    style SaveState fill:#2196F3
+    style PlayerWins fill:#9C27B0
